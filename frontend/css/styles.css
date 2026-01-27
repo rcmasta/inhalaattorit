@@ -1,0 +1,66 @@
+body
+{
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: auto auto auto;
+}
+
+header
+{
+    grid-column: 1 / -1;
+    grid-row: 1;
+
+    background-color: lightgray;
+}
+
+main
+{
+    grid-column: 2;
+    grid-row: 2;
+
+    background-color: aqua;
+
+    display: grid;
+    grid-template-columns: 250px auto;
+    grid-template-rows: 100px auto;
+}
+
+footer
+{
+    grid-column: 1 / -1;
+    grid-row: 3;
+
+    background-color: lightgray;
+}
+
+
+section.search-name
+{
+    grid-column: 1 / -1;
+    grid-row: 1;
+
+    background-color: lightpink;
+
+}
+
+section.search-filter
+{
+    grid-column: 1;
+    grid-row: 2;
+
+    background-color: lightblue;
+}
+
+section.results
+{
+    grid-column: 2;
+    grid-row: 2;
+    
+    background-color: lightgreen;
+}
+
+select
+{
+    width: 100%;
+    margin-bottom: 1em;
+}
