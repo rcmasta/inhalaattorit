@@ -1,0 +1,24 @@
+@startuml
+component "User frontend" as fe_user
+
+component "Admin frontend" as fe_admin
+
+component "Backend" as be
+
+interface "User API endpoint" as be_user
+
+interface "Admin API endpoint" as be_admin
+
+database "Database" as db
+
+'Layout arrows
+fe_user -[hidden]d- fe_admin
+
+'UML relations
+fe_user -r- be_user
+fe_admin -r- be_admin
+be_user -d- be
+be_admin -u- be
+be .r.> db
+
+@enduml
