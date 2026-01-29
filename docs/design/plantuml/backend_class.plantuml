@@ -1,0 +1,87 @@
+@startuml
+package "Backend" as be
+{
+    interface "User API endpoint" as be_userapi
+    {
+        GET /inhalers(query: InhalerQuery) : Inhalers
+    }
+
+    interface "Admin API endpoint" as be_adminapi
+    {
+        POST /admin (query: AdminQuery) : Admin
+        PUT /admin (query: AdminQuery) : Admin
+        DELETE /admin (query: AdminQuery) : Admin
+    }
+
+    class "Server" as be_server
+    {
+
+    }
+
+    class "InhalerQuery" as be_query_inhalers
+    {
+
+    }
+
+    class "AdminQuery" as be_query_admin
+    {
+
+    }
+
+    class "HTTP Response" as be_response
+    {
+        header : HTTP header
+        data : JSON
+    }
+
+    class "JSON builder" as be_json
+    {
+        getJSON()
+    }
+
+    class "Admin handler" as be_admin_handler
+    {
+        addItem()
+        editItem()
+        removeItem()
+    }
+
+    class "Database handler" as be_db_handler
+    {
+        connection
+    }
+
+    class "Database connection" as be_db_connection
+    {
+        dbHost
+        dbUser
+        dbPassword
+    }
+}
+
+'Layout arrows
+be_response -[hidden]r- be_admin_handler
+
+be_db_handler -[hidden]r- be_db_connection
+
+'UML relations
+
+be_userapi <|.r. be_server
+be_server .r.|> be_adminapi
+
+be_userapi .d.> be_query_inhalers : <<use>>
+
+be_adminapi .d.> be_query_admin : <<use>>
+
+be_server -d- be_response
+be_server -d- be_admin_handler
+
+be_response .d.> be_json : <<use>>
+
+be_json .d.> be_db_handler : <<use>>
+
+be_admin_handler .d.> be_db_handler : <<use>>
+
+be_db_handler "*" *-d- "1" be_db_connection
+
+@enduml
