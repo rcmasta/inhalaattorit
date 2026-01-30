@@ -9,76 +9,111 @@
 
     <body>
         <header>
-            <h1>Inhalaattorit.fi</h1>
-            <nav>
-                <ul>
-                    <li><a href="#">Inhalaattorit</a></li>
-                    <li><a href="#">Tietoa sivustosta</a></li>
-                    <li><a href="#">Palaute</a></li>
-                </ul>
-            </nav>
+            <div class="header-content">
+                <h1>Inhalaattorit.fi</h1>
+                <nav>
+                    <ul>
+                        <li><a href="#">Inhalaattorit</a></li>
+                        <li><a href="#">Tietoa Sivustosta</a></li>
+                        <li><a href="#">Palaute</a></li>
+                    </ul>
+                </nav>
+            </div>
         </header>
 
         <main>
             <section class="search-name">
-                <search title="Hae inhalaattoria nimellä">
-                    <label for="inhaler-name">Hae nimellä</label>
-                    <input type="search" id="inhaler-name" name="a"/>
-                    <button>Hae</button>
-                </search>
+                <h3>Hae lääke / inhalaattori nimellä</h3>
+                <div class="search-bar">
+                    <input type="search" id="inhaler-name" name="a" placeholder="Esim. Turbuhaler"/>
+                    <button class="btn-clear">Tyhjennä</button>
+                </div>
+                <p class="result-count">Näytetään 3 / 3 (kaikki)</p>
             </section>
-            
+
             <section class="search-filter">
-                <search title="Suodattimet">
-                    <label for="inhaler-form-select">Lääkemuoto</label>
-                    <select name="inhaler-form" id="inhaler-form-select">
-                        <option value="">Valitse lääkemuoto</option>
-                    </select>
+                <h3>Suodattimet</h3>
 
-                    <label for="inhaler-age-select">Ikä</label>
-                    <select name="inhaler-age" id="inhaler-age-select">
-                        <option value="">Valitse ikä</option>
-                    </select>
+                <label for="inhaler-form-select">Lääkemuoto</label>
+                <select name="inhaler-form" id="inhaler-form-select">
+                    <option value="">Valitse lääkemuoto</option>
+                </select>
 
-                    <label for="inhaler-velocity-select">Sisäänhengitysnopeus</label>
-                    <select name="inhaler-velocity" id="inhaler-velocity-select">
-                        <option value="">Valitse sisäänhengitysnopeus</option>
-                    </select>
+                <label for="inhaler-age-select">Ikä</label>
+                <select name="inhaler-age" id="inhaler-age-select">
+                    <option value="">Valitse ikä</option>
+                </select>
 
-                    <label for="inhaler-coordination-select">Koordinaatio</label>
-                    <select name="inhaler-coordination" id="inhaler-coordination-select">
-                        <option value="">Valitse koordinaatiokyky</option>
-                    </select>
+                <label for="inhaler-velocity-select">Sisäänhengitysnopeus</label>
+                <select name="inhaler-velocity" id="inhaler-velocity-select">
+                    <option value="">Valitse sisäänhengitysnopeus</option>
+                </select>
 
-                    <label for="inhaler-type-select">Inhalaattori</label>
-                    <select name="inhaler-type" id="inhaler-type-select">
-                        <option value="">Valitse inhalaattori</option>
-                    </select>
+                <label for="inhaler-coordination-select">Koordinaatio</label>
+                <select name="inhaler-coordination" id="inhaler-coordination-select">
+                    <option value="">Valitse koordinaatiokyky</option>
+                </select>
 
-                    <label for="inhaler-purpose-select">Käyttötarkoitus</label>
-                    <select name="inhaler-purpose" id="inhaler-purpose-select">
-                        <option value="">Valitse käyttötarkoitus</option>
-                    </select>
+                <label for="inhaler-type-select">Inhalaattori</label>
+                <select name="inhaler-type" id="inhaler-type-select">
+                    <option value="">Valitse inhalaattori</option>
+                </select>
 
-                    <label for="inhaler-active-substance-select">Vaikuttava lääkeaine</label>
-                    <select name="inhaler-active-substance" id="inhaler-active-substance-select">
-                        <option value="">Valitse vaikuttava lääkeaine</option>
-                    </select>
+                <label for="inhaler-purpose-select">Käyttötarkoitus</label>
+                <select name="inhaler-purpose" id="inhaler-purpose-select">
+                    <option value="">Valitse käyttötarkoitus</option>
+                </select>
 
-                    <label for="inhaler-color-select">Väri</label>
-                    <select name="inhaler-color" id="inhaler-color-select">
-                        <option value="">Valitse väri</option>
-                    </select>
-                </search>
+                <label for="inhaler-active-substance-select">Vaikuttava lääkeaine</label>
+                <select name="inhaler-active-substance" id="inhaler-active-substance-select">
+                    <option value="">Valitse vaikuttava lääkeaine</option>
+                </select>
+
+                <label for="inhaler-color-select">Väri</label>
+                <select name="inhaler-color" id="inhaler-color-select">
+                    <option value="">Valitse väri</option>
+                </select>
             </section>
 
             <section class="results">
-                <h2>Tulokset</h2>
+                <h2>Inhalaattorit</h2>
+                <div class="results-grid">
+                    <div class="card">
+                        <div class="card-img">Kuva</div>
+                        <div class="card-info">
+                            <h4>Turbuhaler</h4>
+                            <span class="card-type">Kuivajauhe</span>
+                            <p>Väri: Sininen</p>
+                            <p>Ikä: Aikuinen</p>
+                            <p>Koordinaatio: Matala</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-img">Kuva</div>
+                        <div class="card-info">
+                            <h4>Diskus</h4>
+                            <span class="card-type">Kuivajauhe</span>
+                            <p>Väri: Violetti</p>
+                            <p>Ikä: Aikuinen</p>
+                            <p>Koordinaatio: Matala</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-img">Kuva</div>
+                        <div class="card-info">
+                            <h4>Ellipta</h4>
+                            <span class="card-type">Kuivajauhe</span>
+                            <p>Väri: Valkoinen</p>
+                            <p>Ikä: Aikuinen</p>
+                            <p>Koordinaatio: Matala</p>
+                        </div>
+                    </div>
+                </div>
             </section>
         </main>
 
         <footer>
-            <p>Stuff</p>
+            <p>&copy; 2026 Inhalaattorit.fi</p>
         </footer>
     </body>
 </html>
