@@ -2,9 +2,9 @@ const Inhalers = require('../models/inhalers.model');
 
 class InhalersService {
 
-    getAllInhalers() {
+    static getAllInhalers() {
         return Inhalers.all();
     }
 }
 
-module.exports = new InhalersService();
+module.exports = InhalersService;
