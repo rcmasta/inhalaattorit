@@ -9,13 +9,13 @@ CREATE TABLE medicine (
     age_group_id INTEGER,
     dosage_id INTEGER,
     inhalation_requirement_id INTEGER,
-    drug_purpose_id INTEGER,
+    inhaler_id INTEGER,
     color_id INTEGER,
 
     FOREIGN KEY (age_group_id) REFERENCES age_group(id),
     FOREIGN KEY (dosage_id) REFERENCES dosage(id),
     FOREIGN KEY (inhalation_requirement_id) REFERENCES inhalation_requirement(id),
-    FOREIGN KEY (drug_purpose_id) REFERENCES drug_purpose(id),
+    FOREIGN KEY (inhaler_id) REFERENCES inhaler(id),
     FOREIGN KEY (color_id) REFERENCES color(id)
 
 );
@@ -36,10 +36,11 @@ CREATE TABLE inhalation_requirement (
     name TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE drug_purpose (
+-- Inhalaattorit
+CREATE TABLE inhaler (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
-); 
+    name TEXT NOT NULL
+);
 
 CREATE TABLE color (
     id INTEGER PRIMARY KEY,
@@ -65,26 +66,27 @@ CREATE TABLE medicine_drug_form (
     FOREIGN KEY (drug_form_id) REFERENCES drug_form(id) ON DELETE RESTRICT
 );
 
--- Inhalaattorit
-CREATE TABLE inhaler (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
-);
-
-CREATE TABLE medicine_inhaler (
-    medicine_id INTEGER NOT NULL,
-    inhaler_id INTEGER NOT NULL,
-
-    PRIMARY KEY (medicine_id, inhaler_id),
-    FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
-    FOREIGN KEY (inhaler_id) REFERENCES inhaler(id) ON DELETE RESTRICT
-);
-
 
 --Lääkeaineryhmä 
 CREATE TABLE drug_class ( -- yhdistyy vaikuttavaan aineeseen
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL
+);
+
+-- Lääke käyttötarkoitus
+CREATE TABLE drug_purpose (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+); 
+
+CREATE TABLE medicine_drug_purpose (
+    medicine_id INTEGER NOT NULL,
+    drug_purpose_id INTEGER NOT NULL,
+
+    PRIMARY KEY (medicine_id, drug_purpose_id),
+    FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
+    FOREIGN KEY (drug_purpose_id) REFERENCES drug_purpose(id) ON DELETE RESTRICT  
+
 );
 
 
@@ -148,7 +150,7 @@ Inhalaattori*
     Autohaler
     Genuair
     Aerosphere
-Lääkken käyttötarkoitus
+Lääkken käyttötarkoitus*
     Hoitava lääke
     Oirelääke
 Lääkeaineryhmä*
