@@ -1,9 +1,14 @@
-const data = require("../config/stub");
+const db = require('../config/db');
 
-class Inhalers {
-    static all() {
-        return data;
+const getAllInhalers = () => {
+    try {
+        const query = 'SELECT * FROM medicine';
+        const results = db.prepare(query).all();
+        return results;
+
+    } catch (err) {
+        throw err;
     }
-}
+};
 
-module.exports = Inhalers;
+module.exports = { getAllInhalers };
