@@ -3,7 +3,7 @@ const path = require("path");
 const fs = require("fs");
 
 
-const dbPath = path.join(__dirname, "test_inhalers.db");
+const dbPath = path.join(__dirname, "inhalers.db");
 const db = new Database(dbPath, {
     busyTimeout: 5000
 });
