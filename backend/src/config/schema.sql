@@ -42,6 +42,7 @@ CREATE TABLE inhaler (
     name TEXT NOT NULL
 );
 
+-- PITÄISI OLLA MANY TO MANY muista korjata
 CREATE TABLE color (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL UNIQUE

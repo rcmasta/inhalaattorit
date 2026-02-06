@@ -18,4 +18,4 @@ if (tables.length === 0) {
     console.log("Database schema initialized!")
 }
 
-module.exports = db;
+//module.exports = db;
