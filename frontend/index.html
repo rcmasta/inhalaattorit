@@ -9,76 +9,161 @@
 
     <body>
         <header>
-            <h1>Inhalaattorit.fi</h1>
-            <nav>
-                <ul>
-                    <li><a href="#">Inhalaattorit</a></li>
-                    <li><a href="#">Tietoa sivustosta</a></li>
-                    <li><a href="#">Palaute</a></li>
-                </ul>
-            </nav>
+            <div class="header-content">
+                <h1><a href="index.html">Inhalaattorit.fi</a></h1>
+                <button class="nav-toggle" aria-label="Avaa valikko">&#9776;</button>
+                <nav>
+                    <ul>
+                        <li><a href="tietoa.html">Tietoa sivustosta</a></li>
+                        <li><a href="palaute.html">Palaute</a></li>
+                        <li><a href="admin.html">Admin</a></li>
+                    </ul>
+                </nav>
+            </div>
         </header>
 
-        <main>
+        <main class="search-main">
             <section class="search-name">
-                <search title="Hae inhalaattoria nimellä">
-                    <label for="inhaler-name">Hae nimellä</label>
-                    <input type="search" id="inhaler-name" name="a"/>
-                    <button>Hae</button>
-                </search>
+                <h3>Hae lääke / inhalaattori nimellä</h3>
+                <div class="search-bar">
+                    <input type="search" id="inhaler-name" name="search" placeholder="Hae nimellä..."/>
+                    <button class="btn-clear">Tyhjennä</button>
+                </div>
+                <p class="result-count">Näytetään 3 / 3 (kaikki)</p>
             </section>
-            
+
             <section class="search-filter">
-                <search title="Suodattimet">
-                    <label for="inhaler-form-select">Lääkemuoto</label>
-                    <select name="inhaler-form" id="inhaler-form-select">
-                        <option value="">Valitse lääkemuoto</option>
-                    </select>
+                <h3 class="filter-toggle">Suodattimet</h3>
 
-                    <label for="inhaler-age-select">Ikä</label>
-                    <select name="inhaler-age" id="inhaler-age-select">
-                        <option value="">Valitse ikä</option>
-                    </select>
+                <label for="inhaler-form-select">Lääkemuoto</label>
+                <select name="inhaler-form" id="inhaler-form-select">
+                    <option value="">Valitse lääkemuoto</option>
+                    <option value="1">Lääkemuoto 1</option>
+                    <option value="2">Lääkemuoto 2</option>
+                    <option value="3">Lääkemuoto erittäin pitkä vaihtoehto esimerkki</option>
+                </select>
 
-                    <label for="inhaler-velocity-select">Sisäänhengitysnopeus</label>
-                    <select name="inhaler-velocity" id="inhaler-velocity-select">
-                        <option value="">Valitse sisäänhengitysnopeus</option>
-                    </select>
+                <label for="inhaler-age-select">Ikä</label>
+                <select name="inhaler-age" id="inhaler-age-select">
+                    <option value="">Valitse ikä</option>
+                    <option value="1">Ikä 1</option>
+                    <option value="2">Ikä 2</option>
+                    <option value="3">Ikä 3</option>
+                </select>
 
-                    <label for="inhaler-coordination-select">Koordinaatio</label>
-                    <select name="inhaler-coordination" id="inhaler-coordination-select">
-                        <option value="">Valitse koordinaatiokyky</option>
-                    </select>
+                <label for="inhaler-dosage-select">Annostelu</label>
+                <select name="inhaler-dosage" id="inhaler-dosage-select">
+                    <option value="">Valitse annostelu</option>
+                    <option value="1">Annostelu 1</option>
+                    <option value="2">Annostelu 2</option>
+                    <option value="3">Annostelu kolme kertaa päivässä aamulla ja illalla</option>
+                </select>
 
-                    <label for="inhaler-type-select">Inhalaattori</label>
-                    <select name="inhaler-type" id="inhaler-type-select">
-                        <option value="">Valitse inhalaattori</option>
-                    </select>
+                <label for="inhaler-velocity-select">Sisäänhengitysnopeus</label>
+                <select name="inhaler-velocity" id="inhaler-velocity-select">
+                    <option value="">Valitse sisäänhengitysnopeus</option>
+                    <option value="1">Nopeus 1</option>
+                    <option value="2">Nopeus 2</option>
+                </select>
 
-                    <label for="inhaler-purpose-select">Käyttötarkoitus</label>
-                    <select name="inhaler-purpose" id="inhaler-purpose-select">
-                        <option value="">Valitse käyttötarkoitus</option>
-                    </select>
+                <label for="inhaler-coordination-select">Koordinaatio</label>
+                <select name="inhaler-coordination" id="inhaler-coordination-select">
+                    <option value="">Valitse koordinaatiokyky</option>
+                    <option value="1">Koordinaatio 1</option>
+                    <option value="2">Koordinaatio 2</option>
+                </select>
 
-                    <label for="inhaler-active-substance-select">Vaikuttava lääkeaine</label>
-                    <select name="inhaler-active-substance" id="inhaler-active-substance-select">
-                        <option value="">Valitse vaikuttava lääkeaine</option>
-                    </select>
+                <label for="inhaler-type-select">Inhalaattori</label>
+                <select name="inhaler-type" id="inhaler-type-select">
+                    <option value="">Valitse inhalaattori</option>
+                    <option value="1">Inhalaattori 1</option>
+                    <option value="2">Inhalaattori 2</option>
+                    <option value="3">Inhalaattori 3</option>
+                </select>
 
-                    <label for="inhaler-color-select">Väri</label>
-                    <select name="inhaler-color" id="inhaler-color-select">
-                        <option value="">Valitse väri</option>
-                    </select>
-                </search>
+                <label for="inhaler-purpose-select">Käyttötarkoitus</label>
+                <select name="inhaler-purpose" id="inhaler-purpose-select">
+                    <option value="">Valitse käyttötarkoitus</option>
+                    <option value="1">Tarkoitus 1</option>
+                    <option value="2">Tarkoitus 2</option>
+                </select>
+
+                <label for="inhaler-drug-group-select">Lääkeaineryhmä</label>
+                <select name="inhaler-drug-group" id="inhaler-drug-group-select">
+                    <option value="">Valitse lääkeaineryhmä</option>
+                    <option value="1">Ryhmä 1</option>
+                    <option value="2">Ryhmä 2</option>
+                    <option value="3">Ryhmä 3</option>
+                </select>
+
+                <label for="inhaler-active-substance-select">Vaikuttava lääkeaine</label>
+                <select name="inhaler-active-substance" id="inhaler-active-substance-select">
+                    <option value="">Valitse vaikuttava lääkeaine</option>
+                    <option value="1">Lääkeaine 1</option>
+                    <option value="2">Lääkeaine 2</option>
+                    <option value="3">Vaikuttava lääkeaine erittäin pitkä nimi esimerkki testaamista varten</option>
+                </select>
+
+                <label for="inhaler-color-select">Väri</label>
+                <select name="inhaler-color" id="inhaler-color-select">
+                    <option value="">Valitse väri</option>
+                    <option value="1">Väri 1</option>
+                    <option value="2">Väri 2</option>
+                    <option value="3">Väri 3</option>
+                </select>
+
+                <button class="btn-clear-filters">Tyhjennä suodattimet</button>
             </section>
 
             <section class="results">
-                <h2>Tulokset</h2>
+                <h2>Inhalaattorit</h2>
+                <div class="results-grid">
+                    <div class="card">
+                        <div class="card-img">Kuva</div>
+                        <div class="card-info">
+                            <h4>Inhalaattori 1</h4>
+                            <span class="card-type">Lääkemuoto 1</span>
+                            <p>Väri: Väri 1</p>
+                            <p>Ikä: Ikä 1</p>
+                            <p>Sisäänhengitysnopeus: Nopeus 1</p>
+                            <p>Koordinaatio: Koordinaatio 1</p>
+                            <p>Käyttötarkoitus: Tarkoitus 1</p>
+                            <p>Lääkeaine: Lääkeaine 1</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-img">Kuva</div>
+                        <div class="card-info">
+                            <h4>Inhalaattori 2</h4>
+                            <span class="card-type">Lääkemuoto 2</span>
+                            <p>Väri: Väri 2</p>
+                            <p>Ikä: Ikä 2</p>
+                            <p>Sisäänhengitysnopeus: Nopeus 2</p>
+                            <p>Koordinaatio: Koordinaatio 2</p>
+                            <p>Käyttötarkoitus: Tarkoitus 2</p>
+                            <p>Lääkeaine: Lääkeaine 2</p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-img">Kuva</div>
+                        <div class="card-info">
+                            <h4>Inhalaattori erittäin pitkä nimi esimerkki testaamista varten</h4>
+                            <span class="card-type">Lääkemuoto erittäin pitkä vaihtoehto esimerkki</span>
+                            <p>Väri: Väri 3</p>
+                            <p>Ikä: Ikä 3</p>
+                            <p>Sisäänhengitysnopeus: Nopeus 1</p>
+                            <p>Koordinaatio: Koordinaatio 1</p>
+                            <p>Käyttötarkoitus: Tarkoitus erittäin pitkä vaihtoehto esimerkki</p>
+                            <p>Lääkeaine: Vaikuttava lääkeaine erittäin pitkä nimi esimerkki testaamista varten</p>
+                        </div>
+                    </div>
+                </div>
             </section>
         </main>
 
         <footer>
-            <p>Stuff</p>
+            <p>&copy; 2026 Inhalaattorit.fi</p>
         </footer>
+        <script src="./js/main.js"></script>
     </body>
 </html>
