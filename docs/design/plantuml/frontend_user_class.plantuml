@@ -1,0 +1,46 @@
+@startuml
+package "User frontend" as fe
+{
+    package "Web pages" as pages
+    {
+        class "Inhaler page" as fe_page_inhalers
+        {
+
+        }
+
+        class "Info page" as fe_page_info
+        {
+
+        }
+
+        class "Feedback page" as fe_page_feedback
+        {
+
+        }
+    }
+    
+
+    class "API client" as fe_apiclient
+    {
+
+    }
+}
+
+package "Backend" as be
+{
+    interface "User API endpoint" as be_userapi
+    {
+        GET /inhalers(query: InhalerQuery) : Inhalers
+    }
+}
+
+'Layout arrows
+fe_page_inhalers -[hidden]d- fe_page_info
+fe_page_info -[hidden]d- fe_page_feedback
+
+
+'UML relations
+fe_page_inhalers .r.> fe_apiclient : <<use>>
+fe_apiclient .r.> be_userapi : <<use>>
+
+@enduml
