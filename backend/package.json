@@ -4,8 +4,9 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "mocha src/tests/**/*.test.js"
+    "start": "nodemon app.js",
+    "test": "mocha src/tests/**/*.test.js",
+    "dev": "node --watch server"
   },
   "keywords": [],
   "author": "",

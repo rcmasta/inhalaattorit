@@ -10,7 +10,7 @@ app.use(express.json());
 //Routes
 app.use('/api/inhalers', require('./src/routes/inhalersRoutes'));
 //app.use('/api/admin', require('./src/routes/authAdminRoutes'));
-//app.use('/api/admin/inhalers', require('./src/routes/adminRoutes'));
+app.use('/api/admin/inhalers', require('./src/routes/adminRoutes'));
 
 // Error handling middleware
 //app.use(require('middleware/errorMiddleware'));
