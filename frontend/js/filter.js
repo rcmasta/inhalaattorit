@@ -12,12 +12,12 @@ export function applyFilter(data, filters) {
 
 /**
  * Filtering function for use with JavaScripts own filter function
- * @param {*} categories Object containing category-value pairs
+ * @param {*} filters Object containing category-value pairs
  * @returns Function for JavaScripts filter function
  */
-function filterByCategory(categories) {
+function filterByCategory(filters) {
     return function(item) {
-        for (const [key, value] of Object.entries(categories)) {
+        for (const [key, value] of Object.entries(filters)) {
             // Skip empty categories
             if (value === "" || value === null) {
                 continue;
