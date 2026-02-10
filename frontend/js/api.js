@@ -13,27 +13,27 @@ function getAuthHeaders() {
 // TODO: replace mock calls with real fetch when backend is ready
 
 // POST /api/admin/login - returns token or null
-async function adminLogin(username, password) {
+export async function adminLogin(username, password) {
     return mockLogin(username, password);
 }
 
 // GET /api/user/ - returns array of inhalers
-async function getInhalers() {
+export async function getInhalers() {
     return mockGetInhalers();
 }
 
 // POST /api/admin/inhalers/ - returns created inhaler or null
-async function createInhaler(data) {
+export async function createInhaler(data) {
     return mockCreateInhaler(data);
 }
 
 // PUT /api/admin/inhalers/:id - returns updated inhaler or null
-async function updateInhaler(id, data) {
+export async function updateInhaler(id, data) {
     return mockUpdateInhaler(id, data);
 }
 
 // DELETE /api/admin/inhalers/:id - returns true/false
-async function deleteInhaler(id) {
+export async function deleteInhaler(id) {
     return mockDeleteInhaler(id);
 }
 

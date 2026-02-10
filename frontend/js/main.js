@@ -1,4 +1,5 @@
 import { applyFilter } from './filter.js';
+import { getInhalers, adminLogin, createInhaler, updateInhaler, deleteInhaler } from './api.js';
 
 /**
  * Gathers all selected filters in an object
@@ -19,14 +20,25 @@ function getFilterObject() {
 }
 
 /**
- * Filter 
+ * Filter fetched inhalers
  */
 function filterData() {
     const filters = getFilterObject();
 
-    // TODO: filterData(data, filters);
+    const filtered = applyFilter(inhalers, filters);
+
+    // DEBUG
+    console.log("Filters:");
     console.log(filters);
+    console.log("Results:");
+    console.log(filtered);
 }
+
+const inhalers = await getInhalers();
+
+// DEBUG
+console.log("All inhalers:");
+console.log(inhalers);
 
 document
     .querySelectorAll(".inhaler-filter")
