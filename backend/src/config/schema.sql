@@ -42,11 +42,6 @@ CREATE TABLE inhaler (
     name TEXT NOT NULL
 );
 
--- PITÄISI OLLA MANY TO MANY muista korjata
-CREATE TABLE color (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
-);
 -- ---------------------------------------------------------------------
 
 -- MANY TO MANY vvvv----------------------------------------------------
@@ -107,6 +102,23 @@ CREATE TABLE medicine_active_ingredient (
     PRIMARY KEY (medicine_id, active_ingredient_id),
     FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
     FOREIGN KEY (active_ingredient_id) REFERENCES active_ingredient(id) ON DELETE RESTRICT
+);
+
+
+-- Väri
+CREATE TABLE color (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE medicine_color (
+    medicine_id INTEGER NOT NULL,
+    color_id INTEGER NOT NULL,
+    
+    PRIMARY KEY (medicine_id, color_id),
+    FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
+    FOREIGN KEY (color_id) REFERENCES color(id) ON DELETE RESTRICT
+
 );
 -- ---------------------------------------------------------------------
 

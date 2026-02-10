@@ -9,15 +9,19 @@ const insert_med = db.prepare(`
 `);
 
 const insert_join_drug_form = db.prepare(`
-    INSERT OR IGNORE INTO medicine_drug_form (medicine_id, drug_form_id) VALUE (?, ?)
+    INSERT OR IGNORE INTO medicine_drug_form (medicine_id, drug_form_id) VALUES (?, ?)
 `);
 
-const insert_join_drug_purpose = db.preprare(`
-    INSERT OR IGNORE INTO medicine_drug_purpose (medicine_id, drug_purpose_id) VALUE (?, ?)
+const insert_join_drug_purpose = db.prepare(`
+    INSERT OR IGNORE INTO medicine_drug_purpose (medicine_id, drug_purpose_id) VALUES (?, ?)
 `);
 
 const insert_join_active_ingredient = db.prepare(`
-    INSERT OR IGNORE INTO medicine_active_ingredient (medicine_id, active_ingredient_id) 
+    INSERT OR IGNORE INTO medicine_active_ingredient (medicine_id, active_ingredient_id) VALUES (?, ?)
+`);
+
+const insert_join_medicine_color = db.prepare(`
+    INSERT OR IGNORE INTO medicine_color (medicine_id, color_id) VALUES (?, ?)    
 `);
 
 // Few test medicines to be inserted
