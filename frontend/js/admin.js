@@ -1,20 +1,105 @@
 import { getInhalers, adminLogin, createInhaler, updateInhaler, deleteInhaler } from './api.js';
 
+/**
+ * Shows panel view instead of login
+ */
+function showPanel() {
+    loginView.style.display = "none";
+    panelView.style.display = "";
+}
+/**
+ * Shows login view instead of panel
+ */
+function showLogin() {
+    panelView.style.display = "none";
+    loginView.style.display = "";
+}
+
+/**
+ * 
+ * @param {*} id 
+ * @param {*} text 
+ * @returns 
+ */
+function setSelectByText(id, text) {
+    const select = document.getElementById(id);
+    for (let i = 0; i < select.options.length; i++) {
+        if (select.options[i].textContent === text) {
+            select.selectedIndex = i;
+            return;
+        }
+    }
+    select.selectedIndex = 0;
+}
+
+/**
+ * 
+ * @param {*} id 
+ * @returns 
+ */
+function getSelectText(id) {
+    const el = document.getElementById(id);
+    return el.options[el.selectedIndex].textContent;
+}
+
+/**
+ * Form fields to object
+ * @returns 
+ */
+function getFormData() {
+    return {
+        name: document.getElementById("add-name").value,
+        form: getSelectText("add-form-select"),
+        age: getSelectText("add-age"),
+        dosage: getSelectText("add-dosage"),
+        velocity: getSelectText("add-velocity"),
+        coordination: getSelectText("add-coordination"),
+        device: getSelectText("add-device"),
+        purpose: getSelectText("add-purpose"),
+        drugGroup: getSelectText("add-drug-group"),
+        substance: document.getElementById("add-substance").value,
+        color: getSelectText("add-color")
+    };
+}
+
+/**
+ * Inhaler to table row
+ * @param {*} inhaler 
+ * @returns 
+ */
+function buildRow(inhaler) {
+    const row = document.createElement("tr");
+    row.dataset.id = inhaler.id;
+
+    const fields = [inhaler.name, inhaler.form, inhaler.age, inhaler.color, inhaler.purpose, inhaler.substance];
+    fields.forEach(text => {
+        const td = document.createElement("td");
+        td.textContent = text;
+        row.appendChild(td);
+    });
+
+    const tdActions = document.createElement("td");
+    tdActions.className = "panel-actions";
+    const editBtn = document.createElement("button");
+    editBtn.className = "btn-edit";
+    editBtn.textContent = "Muokkaa";
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "btn-delete";
+    deleteBtn.textContent = "Poista";
+    tdActions.append(editBtn, deleteBtn);
+    row.appendChild(tdActions);
+
+    return row;
+}
+
+// Admin page
 document.addEventListener("DOMContentLoaded", () => {
-// admin page: login/panel toggle
+// login/panel toggle
     const loginView = document.getElementById("login-view");
     const panelView = document.getElementById("panel-view");
 
     if (loginView && panelView) {
-        function showPanel() {
-            loginView.style.display = "none";
-            panelView.style.display = "";
-        }
 
-        function showLogin() {
-            panelView.style.display = "none";
-            loginView.style.display = "";
-        }
 
         // check if already logged in
         if (localStorage.getItem("admin-token")) {
@@ -78,64 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
             addFormWrap.style.display = "none";
         });
 
-        function setSelectByText(id, text) {
-            const select = document.getElementById(id);
-            for (let i = 0; i < select.options.length; i++) {
-                if (select.options[i].textContent === text) {
-                    select.selectedIndex = i;
-                    return;
-                }
-            }
-            select.selectedIndex = 0;
-        }
 
-        function getSelectText(id) {
-            const el = document.getElementById(id);
-            return el.options[el.selectedIndex].textContent;
-        }
-
-        // form fields to object
-        function getFormData() {
-            return {
-                name: document.getElementById("add-name").value,
-                form: getSelectText("add-form-select"),
-                age: getSelectText("add-age"),
-                dosage: getSelectText("add-dosage"),
-                velocity: getSelectText("add-velocity"),
-                coordination: getSelectText("add-coordination"),
-                device: getSelectText("add-device"),
-                purpose: getSelectText("add-purpose"),
-                drugGroup: getSelectText("add-drug-group"),
-                substance: document.getElementById("add-substance").value,
-                color: getSelectText("add-color")
-            };
-        }
-
-        // inhaler to table row
-        function buildRow(inhaler) {
-            const row = document.createElement("tr");
-            row.dataset.id = inhaler.id;
-
-            const fields = [inhaler.name, inhaler.form, inhaler.age, inhaler.color, inhaler.purpose, inhaler.substance];
-            fields.forEach(text => {
-                const td = document.createElement("td");
-                td.textContent = text;
-                row.appendChild(td);
-            });
-
-            const tdActions = document.createElement("td");
-            tdActions.className = "panel-actions";
-            const editBtn = document.createElement("button");
-            editBtn.className = "btn-edit";
-            editBtn.textContent = "Muokkaa";
-            const deleteBtn = document.createElement("button");
-            deleteBtn.className = "btn-delete";
-            deleteBtn.textContent = "Poista";
-            tdActions.append(editBtn, deleteBtn);
-            row.appendChild(tdActions);
-
-            return row;
-        }
 
         // edit/delete buttons
         tableBody.addEventListener("click", async (e) => {
