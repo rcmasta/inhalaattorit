@@ -8,12 +8,13 @@ const fs = require('file-system');
 const INVALID_CREDENTIALS = 'Invalid credentials.';
 
 class authAdminController {
-    static loginPost = async (req, res) => {
+    static postLogin = async (req, res) => {
         // get email and password from request.
         const {email, password} = req.body;
 
         // check if admin with given email exists
         const admin = admins.find(a => a.email === email);
+        console.log(admin);
         if (!admin) return res.status(400).json({message: INVALID_CREDENTIALS});
 
         // match the hash of the given password to the stored hash
