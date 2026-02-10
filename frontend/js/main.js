@@ -1,3 +1,37 @@
+import { applyFilter } from './filter.js';
+
+/**
+ * Gathers all selected filters in an object
+ * @returns Object containing category-value pairs
+ */
+function getFilterObject() {
+    const selects = document.querySelectorAll(".inhaler-filter");
+    const filters = {};
+
+    selects.forEach(select => {
+        const key = select.name;
+        const value = select.value;
+
+        filters[key] = value;
+    });
+
+    return filters;
+}
+
+/**
+ * Filter 
+ */
+function filterData() {
+    const filters = getFilterObject();
+
+    // TODO: filterData(data, filters);
+    console.log(filters);
+}
+
+document
+    .querySelectorAll(".inhaler-filter")
+    .forEach(dropdown => dropdown.addEventListener("change", filterData));
+
 document.addEventListener("DOMContentLoaded", () => {
     const navToggle = document.querySelector(".nav-toggle");
     const nav = document.querySelector("nav");
@@ -30,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         clearFiltersBtn.addEventListener("click", () => {
             const selects = document.querySelectorAll(".search-filter select");
             selects.forEach(s => s.selectedIndex = 0);
+            filterData();
         });
     }
 
