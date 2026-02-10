@@ -90,8 +90,8 @@ CREATE TABLE medicine_drug_purpose (
 CREATE TABLE active_ingredient (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
-
     drug_class_id INTEGER NOT NULL,
+    
     FOREIGN KEY (drug_class_id) REFERENCES drug_class(id) ON DELETE RESTRICT
 );
 

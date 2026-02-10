@@ -58,7 +58,14 @@ INSERT OR IGNORE INTO drug_purpose (name) VALUES
     ('Oirelääke');
 
 
-INSERT OR IGNORE INTO active_ingredient (name) VALUES
+INSERT OR IGNORE INTO drug_class (name) VALUES
+    ('ICS'),
+    ('LAMA'),
+    ('LABA'),
+    ('SABA'),
+    ('SAMA');
+
+INSERT OR IGNORE INTO active_ingredient (name, drug_class_id) VALUES
     ('Beklometasoni', 1), -- ICS
     ('Budesonidi', 1),
     ('Flutikasonipropionaatti', 1),
@@ -81,9 +88,3 @@ INSERT OR IGNORE INTO active_ingredient (name) VALUES
     ('Terbutaliini', 4);
 
 
-INSERT OR IGNORE INTO drug_class (name) VALUES
-    ('ICS'),
-    ('LAMA'),
-    ('LABA'),
-    ('SABA'),
-    ('SAMA');
