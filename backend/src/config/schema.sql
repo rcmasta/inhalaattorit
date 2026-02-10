@@ -1,6 +1,6 @@
 
 CREATE TABLE medicine (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     image_path TEXT,
     description TEXT,
