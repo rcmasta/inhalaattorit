@@ -4,20 +4,20 @@ const db = require('../config/db');
 const dbAdd = (info) => {
     try {
         const query = "INSERT INTO medicine (name, image_path, description, age_group_id, " + 
-                      "dosage_id, inhalation_requirement_id, inhaler_id, color_id) " +
-                      "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                      "dosage_id, inhalation_requirement_id, inhaler_id) " +
+                      "VALUES (?, ?, ?, ?, ?, ?, ?)";
         const stmt = db.prepare(query);
 
         // get information from info
         const { name, image_path, description, age_group_id, dosage_id, 
-                inhalation_requirement_id, inhaler_id, color_id } = info;
+                inhalation_requirement_id, inhaler_id } = info;
 
         // add info to database
-        const info = stmt.run(name, image_path, description, age_group_id, dosage_id,
-                              inhalation_requirement_id, inhaler_id, color_id);
+        const result = stmt.run(name, image_path, description, age_group_id, dosage_id,
+                              inhalation_requirement_id, inhaler_id);
 
         // print for testing
-        console.log("Added row (id:", info.lastInsertRowid, ")");
+        console.log("Added row (id:", result.lastInsertRowid, ")");
         
     } catch (err) {
         throw err;

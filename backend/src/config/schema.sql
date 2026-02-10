@@ -10,13 +10,11 @@ CREATE TABLE medicine (
     dosage_id INTEGER,
     inhalation_requirement_id INTEGER,
     inhaler_id INTEGER,
-    color_id INTEGER,
 
     FOREIGN KEY (age_group_id) REFERENCES age_group(id),
     FOREIGN KEY (dosage_id) REFERENCES dosage(id),
     FOREIGN KEY (inhalation_requirement_id) REFERENCES inhalation_requirement(id),
-    FOREIGN KEY (inhaler_id) REFERENCES inhaler(id),
-    FOREIGN KEY (color_id) REFERENCES color(id)
+    FOREIGN KEY (inhaler_id) REFERENCES inhaler(id)
 
 );
 -- ONE TO MANY vvvv-----------------------------------------------------

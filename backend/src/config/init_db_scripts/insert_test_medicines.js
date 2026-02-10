@@ -4,8 +4,8 @@ const db = require('db');
 const insert_med = db.prepare(`
     INSERT INTO medicine
         (name, image_path, description, age_group_id, dosage_id, inhalation_requirement_id,
-        inhaler_id, color_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        inhaler_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
 `);
 
 const insert_join_drug_form = db.prepare(`
