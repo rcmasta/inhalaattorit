@@ -98,14 +98,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // login
         const loginForm = document.getElementById("admin-login-form");
-        loginForm.addEventListener("submit", (e) => {
+        loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const username = document.getElementById("admin-username").value;
             const password = document.getElementById("admin-password").value;
 
-            // TODO: real login (POST /api/admin/login)
-            if (username === "admin" && password === "admin") {
-                localStorage.setItem("admin-token", "test-token");
+            const token = await adminLogin(username, password);
+            if (token) {
+                localStorage.setItem("admin-token", token);
                 showPanel();
             } else {
                 alert("Virheellinen käyttäjänimi tai salasana");
@@ -161,8 +161,51 @@ document.addEventListener("DOMContentLoaded", () => {
             return el.options[el.selectedIndex].textContent;
         }
 
+        // form fields to object
+        function getFormData() {
+            return {
+                name: document.getElementById("add-name").value,
+                form: getSelectText("add-form-select"),
+                age: getSelectText("add-age"),
+                dosage: getSelectText("add-dosage"),
+                velocity: getSelectText("add-velocity"),
+                coordination: getSelectText("add-coordination"),
+                device: getSelectText("add-device"),
+                purpose: getSelectText("add-purpose"),
+                drugGroup: getSelectText("add-drug-group"),
+                substance: document.getElementById("add-substance").value,
+                color: getSelectText("add-color")
+            };
+        }
+
+        // inhaler to table row
+        function buildRow(inhaler) {
+            const row = document.createElement("tr");
+            row.dataset.id = inhaler.id;
+
+            const fields = [inhaler.name, inhaler.form, inhaler.age, inhaler.color, inhaler.purpose, inhaler.substance];
+            fields.forEach(text => {
+                const td = document.createElement("td");
+                td.textContent = text;
+                row.appendChild(td);
+            });
+
+            const tdActions = document.createElement("td");
+            tdActions.className = "panel-actions";
+            const editBtn = document.createElement("button");
+            editBtn.className = "btn-edit";
+            editBtn.textContent = "Muokkaa";
+            const deleteBtn = document.createElement("button");
+            deleteBtn.className = "btn-delete";
+            deleteBtn.textContent = "Poista";
+            tdActions.append(editBtn, deleteBtn);
+            row.appendChild(tdActions);
+
+            return row;
+        }
+
         // edit/delete buttons
-        tableBody.addEventListener("click", (e) => {
+        tableBody.addEventListener("click", async (e) => {
             const row = e.target.closest("tr");
             if (!row) return;
 
@@ -182,50 +225,33 @@ document.addEventListener("DOMContentLoaded", () => {
                 addFormWrap.style.display = "";
             }
 
-            // TODO: delete from backend
+            if (e.target.classList.contains("btn-delete")) {
+                const id = Number(row.dataset.id);
+                const ok = await deleteInhaler(id);
+                if (ok) {
+                    row.remove();
+                }
+            }
         });
 
-        // TODO: save to backend
-        addInhalerForm.addEventListener("submit", (e) => {
+        // save (create or update)
+        addInhalerForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-
-            const name = document.getElementById("add-name").value;
-            const formText = getSelectText("add-form-select");
-            const ageText = getSelectText("add-age");
-            const colorText = getSelectText("add-color");
-            const purposeText = getSelectText("add-purpose");
-            const substance = document.getElementById("add-substance").value;
+            const data = getFormData();
 
             if (editingRow) {
-                const cells = editingRow.querySelectorAll("td");
-                cells[0].textContent = name;
-                cells[1].textContent = formText;
-                cells[2].textContent = ageText;
-                cells[3].textContent = colorText;
-                cells[4].textContent = purposeText;
-                cells[5].textContent = substance;
+                const id = Number(editingRow.dataset.id);
+                const updated = await updateInhaler(id, data);
+                if (updated) {
+                    const newRow = buildRow(updated);
+                    editingRow.replaceWith(newRow);
+                }
                 editingRow = null;
             } else {
-                const row = document.createElement("tr");
-                const fields = [name, formText, ageText, colorText, purposeText, substance];
-                fields.forEach(text => {
-                    const td = document.createElement("td");
-                    td.textContent = text;
-                    row.appendChild(td);
-                });
-
-                const tdActions = document.createElement("td");
-                tdActions.className = "panel-actions";
-                const editBtn = document.createElement("button");
-                editBtn.className = "btn-edit";
-                editBtn.textContent = "Muokkaa";
-                const deleteBtn = document.createElement("button");
-                deleteBtn.className = "btn-delete";
-                deleteBtn.textContent = "Poista";
-                tdActions.append(editBtn, deleteBtn);
-                row.appendChild(tdActions);
-
-                tableBody.appendChild(row);
+                const created = await createInhaler(data);
+                if (created) {
+                    tableBody.appendChild(buildRow(created));
+                }
             }
 
             formHeading.textContent = "Lisää uusi inhalaattori";
