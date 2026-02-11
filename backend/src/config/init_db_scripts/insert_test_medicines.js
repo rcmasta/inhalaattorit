@@ -3,17 +3,17 @@ const db = require('db');
 
 const insert_med = db.prepare(`
     INSERT INTO medicine
-        (name, image_path, description, age_group_id, dosage_id, inhalation_requirement_id,
-        inhaler_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        (name, image_path, description, legal_age, medicine_type, age_group_id,
+        inhalation_requirement_id, inhaler_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+`);
+
+const insert_join_medicine_dosage = db.prepare(`
+    INSERT OR IGNORE INTO medicine_dosage (medicine_id, dosage_id) VALUES (?,?)
 `);
 
 const insert_join_drug_form = db.prepare(`
     INSERT OR IGNORE INTO medicine_drug_form (medicine_id, drug_form_id) VALUES (?, ?)
-`);
-
-const insert_join_drug_purpose = db.prepare(`
-    INSERT OR IGNORE INTO medicine_drug_purpose (medicine_id, drug_purpose_id) VALUES (?, ?)
 `);
 
 const insert_join_active_ingredient = db.prepare(`
@@ -30,13 +30,16 @@ const medicines = [
         name: "Aerobec Autohaler",
         image_path: null,
         desciption: "Tämä on lääkettä :)",
-
-        age_group: ["Aikuinen", "Lapsi >12"],
-        dosage: "Kaksi kertaa päivässä",
-        inhalation_requirement: ["Sisäänhengitysnopeus hyvä (> 30l/min), hyvä koordinaatio", "Sisäänhengitysnopeus hyvä (> 30l/min), huono koordinaatio"],
-        inhaler: "Autohaler",
-        color: "Punainen",
         drug_form: ['suihke', "suihke sisäänhengityksen laukaisema"],
+        legal_age: 5,
+        age_group: "Lapsi >12",
+        dosage: ["Kaksi kertaa päivässä"],
+        inhalation_requirement: {
+            need_good_speed: true,
+            need_good_coordination: false
+        },
+        inhaler: "Autohaler",
+        color: ["Punainen"],
         drug_purpose: ['Hoitava lääke'],
         active_ingredients: ['Beklometasoni']
     }

@@ -26,9 +26,9 @@ CREATE TABLE age_group (
 
 CREATE TABLE inhalation_requirement (
     id INTEGER PRIMARY KEY,
-    good_speed INTEGER NOT NULL CHECK (good_speed IN (0,1)), -- 0 = false, 1 = true
-    good_coordination INTEGER NOT NULL CHECK (good_coordination IN (0,1)),
-    UNIQUE(good_speed, good_coordination)
+    need_good_speed INTEGER NOT NULL CHECK (need_good_speed IN (0,1)), -- 0 = false, 1 = true
+    need_good_coordination INTEGER NOT NULL CHECK (need_good_coordination IN (0,1)),
+    UNIQUE(need_good_speed, need_good_coordination)
 );
 
 -- Inhalaattorit
