@@ -6,15 +6,7 @@ INSERT OR IGNORE INTO age_group (name) VALUES
 
 INSERT OR IGNORE INTO dosage (name) VALUES    
     ('Kerran päivässä'),
-    ('Kaksi kertaa päivässä'),
-    ('1x/pv ylläpidossa astma'); 
-
-
-INSERT OR IGNORE INTO inhalation_requirement (name) VALUES    
-    ('Sisäänhengitysnopeus hyvä (> 30l/min), hyvä koordinaatio'),
-    ('Sisäänhengitysnopeus huono (< 30l/min), hyvä koordinaatio'),
-    ('Sisäänhengitysnopeus hyvä (> 30l/min), huono koordinaatio'),
-    ('Sisäänhengitysnopeus huono (< 30 l/min), Huono koordinaatio');
+    ('Kaksi kertaa päivässä'); 
 
 
 INSERT OR IGNORE INTO inhaler (name) VALUES
@@ -51,11 +43,6 @@ INSERT OR IGNORE INTO drug_form (name) VALUES
     ('suihke'),
     ('suihke sisäänhengityksen laukaisema'),
     ('tilanjatkeella');
-
-
-INSERT OR IGNORE INTO drug_purpose (name) VALUES
-    ('Hoitava lääke'),
-    ('Oirelääke');
 
 
 INSERT OR IGNORE INTO drug_class (name) VALUES

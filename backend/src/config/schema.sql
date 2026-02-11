@@ -1,18 +1,18 @@
 
 CREATE TABLE medicine (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     image_path TEXT,
     description TEXT,
+    legal_age INTEGER, -- Not same as age_group
 
+    medicine_type TEXT NOT NULL CHECK (medicine_type IN ('treatment', 'symptomatic', 'both')),
 
-    age_group_id INTEGER,
-    dosage_id INTEGER,
-    inhalation_requirement_id INTEGER,
-    inhaler_id INTEGER,
+    age_group_id INTEGER NOT NULL,
+    inhalation_requirement_id INTEGER NOT NULL,
+    inhaler_id INTEGER, -- some medicine have no inhaler brand
 
     FOREIGN KEY (age_group_id) REFERENCES age_group(id),
-    FOREIGN KEY (dosage_id) REFERENCES dosage(id),
     FOREIGN KEY (inhalation_requirement_id) REFERENCES inhalation_requirement(id),
     FOREIGN KEY (inhaler_id) REFERENCES inhaler(id)
 
@@ -24,25 +24,37 @@ CREATE TABLE age_group (
     name TEXT NOT NULL UNIQUE
 );
 
-CREATE TABLE dosage (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
-);
-
 CREATE TABLE inhalation_requirement (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
+    good_speed INTEGER NOT NULL CHECK (good_speed IN (0,1)), -- 0 = false, 1 = true
+    good_coordination INTEGER NOT NULL CHECK (good_coordination IN (0,1)),
+    UNIQUE(good_speed, good_coordination)
 );
 
 -- Inhalaattorit
 CREATE TABLE inhaler (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
+    name TEXT NOT NULL UNIQUE
 );
 
 -- ---------------------------------------------------------------------
 
 -- MANY TO MANY vvvv----------------------------------------------------
+-- Annostus
+CREATE TABLE dosage (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE medicine_dosage (
+    medicine_id INTEGER NOT NULL,
+    dosage_id INTEGER NOT NULL,
+
+    PRIMARY KEY (medicine_id, dosage_id),
+    FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
+    FOREIGN KEY (dosage_id) REFERENCES dosage(id) ON DELETE RESTRICT
+);
+
 
 -- Lääkemuoto
 CREATE TABLE drug_form (
@@ -64,30 +76,14 @@ CREATE TABLE medicine_drug_form (
 --Lääkeaineryhmä 
 CREATE TABLE drug_class ( -- yhdistyy vaikuttavaan aineeseen
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
-);
-
--- Lääke käyttötarkoitus
-CREATE TABLE drug_purpose (
-    id INTEGER PRIMARY KEY,
     name TEXT NOT NULL UNIQUE
-); 
-
-CREATE TABLE medicine_drug_purpose (
-    medicine_id INTEGER NOT NULL,
-    drug_purpose_id INTEGER NOT NULL,
-
-    PRIMARY KEY (medicine_id, drug_purpose_id),
-    FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
-    FOREIGN KEY (drug_purpose_id) REFERENCES drug_purpose(id) ON DELETE RESTRICT  
-
 );
 
 
 --Vaikuttava aine
 CREATE TABLE active_ingredient (
     id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
     drug_class_id INTEGER NOT NULL,
     
     FOREIGN KEY (drug_class_id) REFERENCES drug_class(id) ON DELETE RESTRICT
