@@ -1,8 +1,8 @@
 INSERT OR IGNORE INTO age_group (name) VALUES
-    ('Aikuinen'),
     ('Lapsi <7'),
     ('Lapsi 7-12'),
-    ('Lapsi >12');
+    ('Lapsi >12'),
+    ('Aikuinen');
 
 INSERT OR IGNORE INTO inhalation_requirement (need_good_speed, need_good_coordination) VALUES
     (1,1),

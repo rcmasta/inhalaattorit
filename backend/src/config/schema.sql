@@ -6,7 +6,7 @@ CREATE TABLE medicine (
     description TEXT,
     legal_age INTEGER, -- Not same as age_group
 
-    medicine_type TEXT NOT NULL CHECK (medicine_type IN ('treatment', 'symptomatic', 'both')),
+    medicine_type TEXT NOT NULL CHECK (medicine_type IN ('Hoitava', 'Oire', 'Molemmat')),
 
     age_group_id INTEGER NOT NULL,
     inhalation_requirement_id INTEGER NOT NULL,
