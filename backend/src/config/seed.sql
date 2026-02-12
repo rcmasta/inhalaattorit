@@ -1,21 +1,5 @@
-INSERT OR IGNORE INTO age_group (name) VALUES
-    ('Lapsi <7'),
-    ('Lapsi 7-12'),
-    ('Lapsi >12'),
-    ('Aikuinen');
-
-INSERT OR IGNORE INTO inhalation_requirement (need_good_speed, need_good_coordination) VALUES
-    (1,1),
-    (1,0),
-    (0,1),
-    (0,0);
-
-INSERT OR IGNORE INTO dosage (name) VALUES    
-    ('Kerran päivässä'),
-    ('Kaksi kertaa päivässä'); 
-
-
-INSERT OR IGNORE INTO inhaler (name) VALUES
+ 
+INSERT OR IGNORE INTO inhaler_brand (name) VALUES
     ('Ellipta'),
     ('Diskus'),
     ('Turbuhaler'),
@@ -43,7 +27,7 @@ INSERT OR IGNORE INTO color (name) VALUES
     ('Vihreä');
 
 
-INSERT OR IGNORE INTO drug_form (name) VALUES
+INSERT OR IGNORE INTO intake_style (name) VALUES
     ('jauhe'),
     ('jauhekapseli'),
     ('suihke'),

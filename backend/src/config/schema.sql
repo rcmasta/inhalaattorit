@@ -1,118 +1,71 @@
+CREATE TABLE intake_style (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE drug_class (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
+
+CREATE TABLE active_ingredient (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE,
+
+    drug_class_id INTEGER NOT NULL,
+    FOREIGN KEY (drug_class_id) REFERENCES drug_class(id)
+);
+
+CREATE TABLE color (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL UNIQUE
+);
 
 CREATE TABLE medicine (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL,
     image_path TEXT,
     description TEXT,
-    legal_age INTEGER, -- Not same as age_group
+    official_min_age INTEGER,
+    recommended_min_age INTEGER,
+    times_a_day INTEGER,
+    good_intake_speed BOOLEAN,
+    good_coordination BOOLEAN,
+    treatment_medicine BOOLEAN,
+    symptomatic_medicine BOOLEAN,
 
-    medicine_type TEXT NOT NULL CHECK (medicine_type IN ('Hoitava', 'Oire', 'Molemmat')),
-
-    age_group_id INTEGER NOT NULL,
-    inhalation_requirement_id INTEGER NOT NULL,
-    inhaler_id INTEGER, -- some medicine have no inhaler brand
-
-    FOREIGN KEY (age_group_id) REFERENCES age_group(id),
-    FOREIGN KEY (inhalation_requirement_id) REFERENCES inhalation_requirement(id),
-    FOREIGN KEY (inhaler_id) REFERENCES inhaler(id)
-
-);
--- ONE TO MANY vvvv-----------------------------------------------------
-
-CREATE TABLE age_group (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
+    inhaler_brand_id INTEGER,
+    FOREIGN KEY (inhaler_brand_id) REFERENCES inhaler_brand(id)
 );
 
-CREATE TABLE inhalation_requirement (
-    id INTEGER PRIMARY KEY,
-    need_good_speed INTEGER NOT NULL CHECK (need_good_speed IN (0,1)), -- 0 = false, 1 = true
-    need_good_coordination INTEGER NOT NULL CHECK (need_good_coordination IN (0,1)),
-    UNIQUE(need_good_speed, need_good_coordination)
-);
-
--- Inhalaattorit
-CREATE TABLE inhaler (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
-);
-
--- ---------------------------------------------------------------------
-
--- MANY TO MANY vvvv----------------------------------------------------
--- Annostus
-CREATE TABLE dosage (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
-);
-
-CREATE TABLE medicine_dosage (
-    medicine_id INTEGER NOT NULL,
-    dosage_id INTEGER NOT NULL,
-
-    PRIMARY KEY (medicine_id, dosage_id),
-    FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
-    FOREIGN KEY (dosage_id) REFERENCES dosage(id) ON DELETE RESTRICT
-);
-
-
--- Lääkemuoto
-CREATE TABLE drug_form (
+CREATE TABLE inhaler_brand (
     id INTEGER PRIMARY KEY,
     name TEXT NOT NULL UNIQUE
 );
 
 
-CREATE TABLE medicine_drug_form (
-    medicine_id INTEGER NOT NULL,
-    drug_form_id INTEGER NOT NULL,
-
-    PRIMARY KEY (medicine_id, drug_form_id),
-    FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
-    FOREIGN KEY (drug_form_id) REFERENCES drug_form(id) ON DELETE RESTRICT
-);
-
-
---Lääkeaineryhmä 
-CREATE TABLE drug_class ( -- yhdistyy vaikuttavaan aineeseen
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
-);
-
-
---Vaikuttava aine
-CREATE TABLE active_ingredient (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE,
-    drug_class_id INTEGER NOT NULL,
-    
-    FOREIGN KEY (drug_class_id) REFERENCES drug_class(id) ON DELETE RESTRICT
+CREATE TABLE medicine_intake_style (
+    medicine_id INTEGER,
+    intake_style_id INTEGER,
+    PRIMARY KEY (medicine_id, intake_style_id),
+    FOREIGN KEY (medicine_id) REFERENCES medicine(id),
+    FOREIGN KEY (intake_style_id) REFERENCES intake_style(id)
 );
 
 CREATE TABLE medicine_active_ingredient (
-    medicine_id INTEGER NOT NULL,
-    active_ingredient_id INTEGER NOT NULL,
-
+    medicine_id INTEGER,
+    active_ingredient_id INTEGER,
     PRIMARY KEY (medicine_id, active_ingredient_id),
-    FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
-    FOREIGN KEY (active_ingredient_id) REFERENCES active_ingredient(id) ON DELETE RESTRICT
-);
-
-
--- Väri
-CREATE TABLE color (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL UNIQUE
+    FOREIGN KEY (medicine_id) REFERENCES medicine(id),
+    FOREIGN KEY (active_ingredient_id) REFERENCES active_ingredient(id)
 );
 
 CREATE TABLE medicine_color (
-    medicine_id INTEGER NOT NULL,
-    color_id INTEGER NOT NULL,
-    
+    medicine_id INTEGER,
+    color_id INTEGER,
     PRIMARY KEY (medicine_id, color_id),
-    FOREIGN KEY (medicine_id) REFERENCES medicine(id) ON DELETE CASCADE,
-    FOREIGN KEY (color_id) REFERENCES color(id) ON DELETE RESTRICT
-
+    FOREIGN KEY (medicine_id) REFERENCES medicine(id),
+    FOREIGN KEY (color_id) REFERENCES color(id)
 );
 -- ---------------------------------------------------------------------
 

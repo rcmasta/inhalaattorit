@@ -1,19 +1,15 @@
-const db = require('db');
+const db = require('../db');
 
 
 const insert_med = db.prepare(`
     INSERT INTO medicine
-        (name, image_path, description, legal_age, medicine_type, age_group_id,
-        inhalation_requirement_id, inhaler_id)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        (name, image_path, description, official_min_age, recommended_min_age, treatment_medicine, symptomatic_medicine,
+        good_intake_speed, good_coordination, times_a_day, inhaler_brand_id)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 `);
 
-const insert_join_medicine_dosage = db.prepare(`
-    INSERT OR IGNORE INTO medicine_dosage (medicine_id, dosage_id) VALUES (?,?)
-`);
-
-const insert_join_drug_form = db.prepare(`
-    INSERT OR IGNORE INTO medicine_drug_form (medicine_id, drug_form_id) VALUES (?, ?)
+const insert_join_medicine_intake_style = db.prepare(`
+    INSERT OR IGNORE INTO medicine_intake_style (medicine_id, intake_style_id) VALUES (?,?)
 `);
 
 const insert_join_active_ingredient = db.prepare(`
@@ -29,45 +25,51 @@ const test_medicines = [
     {
         name: "Aerobec Autohaler",
         image_path: null,
-        desciption: "Tämä on lääkettä :)",
-        legal_age: 5,
-        medicine_type: 'Hoitava',
+        description: "Tämä on lääkettä :)",
+        official_min_age: 5,
+        recommended_min_age: 6,
+        times_a_day: 2,
+        good_intake_speed: 1,
+        good_coordination: 1,
+        treatment_medicine: 1,
+        symptomatic_medicine: 0,
 
-        drug_form_id: [3, 4],
-        age_group_id: 3,
-        dosage_id: [2],
-        inhalation_requirement_id: 2,
-        inhaler_id: 10,
+        inhaler_brand_id: 10,
+        intake_style_id: [3, 4],
         active_ingredients_id: [1],
         color_id: [3]
     },
     {
         name: "Alvesco",
         image_path: null,
-        desciption: "Tällä lääkkellä ei ole merkki inhalaattoria :(",
-        legal_age: 12,
-        medicine_type: 'Hoitava',
+        description: "Tällä lääkkellä ei ole merkki inhalaattoria :(",
+        official_min_age: 12,
+        recommended_min_age: 12,
+        times_a_day: 1,
+        good_intake_speed: 0,
+        good_coordination: 1,
+        treatment_medicine: 1,
+        symptomatic_medicine: 0,
 
-        drug_form_id: [3],
-        age_group_id: 4,
-        dosage_id: [1],
-        inhalation_requirement_id: 3,
-        inhaler_id: null,
+        inhaler_brand_id: null,
+        intake_style_id: [3],
         active_ingredients_id: [6],
         color_id: [3]
     },
     {
         name: "Symbicort Turbuhaler",
         image_path: null,
-        desciption: "Hoitava- ja oirelääke",
-        legal_age: 6,
-        medicine_type: 'Molemmat',
+        description: "Hoitava- ja oirelääke",
+        official_min_age: 6,
+        recommended_min_age: 6,
+        times_a_day: 2,
+        good_intake_speed: 1,
+        good_coordination: 1,
+        treatment_medicine: 1,
+        symptomatic_medicine: 1,
 
-        drug_form_id: [1],
-        age_group_id: 2,
-        dosage_id: [2],
-        inhalation_requirement_id: 2,
-        inhaler_id: 3,
+        inhaler_brand_id: 3,
+        intake_style_id: [1],
         active_ingredients_id: [2, 7],
         color_id: [1, 3]
     }
@@ -75,11 +77,32 @@ const test_medicines = [
 
 const db_add_test = (meds) => {
     meds.forEach(med => {
-        const { name, image_path, desciption, legal_age, medicine_type} = med; // Basic info, straight into medicine
-        const { drug_form_id, age_group_id, dosage_id, inhalation_requirement_id, inhaler_id, active_ingredients_id, color_id } = med; // different tables
+        const { name, image_path, description, official_min_age, recommended_min_age, 
+                treatment_medicine, symptomatic_medicine, good_intake_speed, good_coordination, 
+                times_a_day, inhaler_brand_id } = med; // Basic info, straight into medicine
+
+        const { intake_style_id, active_ingredients_id, color_id } = med; // many to many tables
 
 
         
-        const result = insert_med.run(name, image_path, desciption, legal_age, medicine_type)        
+        const result = insert_med.run(name, image_path, description, official_min_age, 
+            recommended_min_age, treatment_medicine, symptomatic_medicine, good_intake_speed, 
+            good_coordination, times_a_day, inhaler_brand_id);
+        med_id = result.lastInsertRowid;
+
+        // Many to many ids
+        intake_style_id.forEach(style_id => {
+            insert_join_medicine_intake_style.run(med_id, style_id);
+        });
+
+        active_ingredients_id.forEach(ingredient_id => {
+            insert_join_active_ingredient.run(med_id, ingredient_id);
+        });
+
+        color_id.forEach(cid => {
+            insert_join_medicine_color.run(med_id, cid);
+        });
     });
 };
+
+db_add_test(test_medicines);
