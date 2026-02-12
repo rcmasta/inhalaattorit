@@ -13,13 +13,15 @@ db.pragma('journal_mode = WAL');
 
 const tables = db.prepare("SELECT name FROM sqlite_master WHERE type='table'").all();
 if (tables.length === 0) {
+    
     const schema = fs.readFileSync(path.join(__dirname, "schema.sql"), "utf-8");
     db.exec(schema);
     console.log("Database schema initialized!");
-
+    
     const seed = fs.readFileSync(path.join(__dirname, "seed.sql"), "utf-8");
     db.exec(seed);
     console.log("Database seeded!");
+    
 }
 
 module.exports = db;

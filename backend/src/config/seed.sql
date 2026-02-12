@@ -1,23 +1,5 @@
-INSERT OR IGNORE INTO age_group (name) VALUES
-    ('Aikuinen'),
-    ('Lapsi <7'),
-    ('Lapsi 7-12'),
-    ('Lapsi >12');
-
-INSERT OR IGNORE INTO dosage (name) VALUES    
-    ('Kerran päivässä'),
-    ('Kaksi kertaa päivässä'),
-    ('1x/pv ylläpidossa astma'); 
-
-
-INSERT OR IGNORE INTO inhalation_requirement (name) VALUES    
-    ('Sisäänhengitysnopeus hyvä (> 30l/min), hyvä koordinaatio'),
-    ('Sisäänhengitysnopeus huono (< 30l/min), hyvä koordinaatio'),
-    ('Sisäänhengitysnopeus hyvä (> 30l/min), huono koordinaatio'),
-    ('Sisäänhengitysnopeus huono (< 30 l/min), Huono koordinaatio');
-
-
-INSERT OR IGNORE INTO inhaler (name) VALUES
+ 
+INSERT OR IGNORE INTO inhaler_brand (name) VALUES
     ('Ellipta'),
     ('Diskus'),
     ('Turbuhaler'),
@@ -45,17 +27,12 @@ INSERT OR IGNORE INTO color (name) VALUES
     ('Vihreä');
 
 
-INSERT OR IGNORE INTO drug_form (name) VALUES
+INSERT OR IGNORE INTO intake_style (name) VALUES
     ('jauhe'),
     ('jauhekapseli'),
     ('suihke'),
     ('suihke sisäänhengityksen laukaisema'),
     ('tilanjatkeella');
-
-
-INSERT OR IGNORE INTO drug_purpose (name) VALUES
-    ('Hoitava lääke'),
-    ('Oirelääke');
 
 
 INSERT OR IGNORE INTO drug_class (name) VALUES
