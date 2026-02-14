@@ -1,20 +1,27 @@
 const fs = require('file-system')
+const jwt = require('jsonwebtoken');
 
 // check if user is authenticated
-authMiddleware = (req, res, next) => {
+authMiddleware = async (req, res, next) => {
     const token = req.header('Authorization');
     if (!token) return res.status(401).json({message: 'Access denied.'});
 
-    try {
-        // decode token 
-        const privateKey = fs.readFileSync(__dirname + '/../../private.key'); // TODO: consider where the private key should be
-        const decoded = jwt.verify(token, privateKey);
-        req.email = decoded;
-        next();
+    // decode token 
+    await fs.readFile("jwtPrivateKey.pem", "utf-8", async (err, privateKey) => {
+        if (err) {
+            return res.status(500).json({message: 'An error occurred.'});
+        }
 
-    } catch (error) {
-        res.status(400).json({message: 'Invalid token.'});
-    }
+        // verify the token
+        await jwt.verify(token, privateKey, (err, decoded) => {
+            if (err) {
+                return res.status(401).json({message: 'Invalid token.'});
+            }
+
+            req.email = decoded.email;
+            next();
+        });
+    });
 };
 
 module.exports = authMiddleware;
