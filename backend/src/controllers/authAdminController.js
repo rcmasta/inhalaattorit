@@ -30,16 +30,21 @@ class authAdminController {
         }
 
         // sign and send token
-        // TODO: consider where the private key should be
-        await fs.readFile(__dirname + '/../../private.key', 'utf-8', (err, data) => {
-            if (err) {
-                return res.status(500).json({message: ERROR});
-            }
+        try {
+            // TODO: consider where the private key should be
+            await fs.readFile(__dirname + '/../../private.key', 'utf-8', (err, data) => {
+                if (err) {
+                    return res.status(500).json({message: ERROR});
+                }
 
-            const token = jwt.sign({email: admin.email}, data, {algorithm: 'RS256', expiresIn: '1h'});
-            return res.status(200).json({token, message: 'Authenticated successfully.'});
+                const token = jwt.sign({email: admin.email}, data, {algorithm: 'RS256', expiresIn: '1h'});
+                return res.status(200).json({token, message: 'Authenticated successfully.'});
 
-        }); 
+            });
+
+        } catch (err) {
+            return res.status(500).json({message: ERROR});
+        }
 
     };
 }
