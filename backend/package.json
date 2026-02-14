@@ -12,8 +12,13 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "express": "^5.2.1",
-    "mocha": "^11.7.5"
+    "file-system": "^1.2.9",
+    "jsonwebtoken": "^9.0.3",
+    "mocha": "^11.3.0",
+    "node-cron": "^4.2.1",
+    "openssl-nodejs": "^1.0.5"
   },
   "devDependencies": {
     "chai": "^6.2.2",
