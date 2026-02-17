@@ -57,8 +57,8 @@ Optional parameters:
     treatment_medicine      boolean
     symptomatic_medicine    boolean
     inhaler_brand           string      !! not implemented
-    drug_class              string      !! not impelemeted
-    color                   string      !! not implemented
+    drug_class              string[]    !! not impelemeted
+    color                   string[]    !! not implemented
 
 ### Delete Existing Inhaler:
 **Endpoint** DELETE /api/admin/inhalers/{id}
