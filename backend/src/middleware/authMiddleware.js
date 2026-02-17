@@ -18,7 +18,7 @@ authMiddleware = async (req, res, next) => {
                 return res.status(401).json({message: 'Invalid token.'});
             }
 
-            req.email = decoded.email;
+            req.username = decoded.username;
             next();
         });
     });
