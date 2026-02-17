@@ -7,6 +7,14 @@ const cron = require('node-cron');
 const fs = require('fs');
 const genPrivateKey = require('./src/utils/genPrivateKey');
 
+// routes
+const inhalersRoutes = require('./src/routes/inhalersRoutes');
+const authAdminRoutes = require('./src/routes/authAdminRoutes');
+const adminRoutes = require('./src/routes/adminRoutes');
+
+// middleware
+const authMiddleware = require('./src/middleware/authMiddleware');
+
 app.use(express.json());
 
 app.use(bodyParser.json());
@@ -15,9 +23,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 //app.use(express.static(path.join(__dirname, '../../frontend')));
 
 //Routes
-app.use('/api/inhalers', require('./src/routes/inhalersRoutes'));
-app.use('/api/admin', require('./src/routes/authAdminRoutes'));
-app.use('/api/admin/inhalers', require('./src/routes/adminRoutes'));
+app.use('/api/inhalers', inhalersRoutes);
+app.use('/api/admin', authAdminRoutes);
+app.use('/api/admin/inhalers', authMiddleware, adminRoutes);
 
 // Error handling middleware
 //app.use(require('middleware/errorMiddleware'));
