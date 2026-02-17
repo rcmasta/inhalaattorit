@@ -14,6 +14,7 @@ const adminRoutes = require('./src/routes/adminRoutes');
 
 // middleware
 const authMiddleware = require('./src/middleware/authMiddleware');
+const { limiterBasic, limiterAdminLogin} = require('./src/middleware/rateLimitMiddleware')
 
 app.use(express.json());
 
@@ -23,9 +24,9 @@ app.use(bodyParser.urlencoded({extended: true}));
 //app.use(express.static(path.join(__dirname, '../../frontend')));
 
 //Routes
-app.use('/api/inhalers', inhalersRoutes);
-app.use('/api/admin', authAdminRoutes);
-app.use('/api/admin/inhalers', authMiddleware, adminRoutes);
+app.use('/api/inhalers', limiterBasic, inhalersRoutes);
+app.use('/api/admin', limiterAdminLogin, authAdminRoutes);
+app.use('/api/admin/inhalers', limiterBasic, authMiddleware, adminRoutes);
 
 // Error handling middleware
 //app.use(require('middleware/errorMiddleware'));
