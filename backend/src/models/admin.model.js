@@ -24,13 +24,9 @@ const dbAdd = (info) => {
     }
 };
 
-const dbEdit = (info) => {
+const dbEdit = (id, updates) => {
     try {
-        // take id separate from update fields
-        const { id, ...updates} = info;
-
         // add dynamicly all fields needed to update
-
         const fields = Object.keys(updates)
                       .map(key => `${key} = @${key}`)
                       .join(", ");
@@ -38,7 +34,7 @@ const dbEdit = (info) => {
         // update db
         const query = `UPDATE medicine SET ${fields} WHERE id = @id`;
         const stmt = db.prepare(query);
-        const result = stmt.run(info);
+        const result = stmt.run({...updates, id});
 
         // print for testing
         console.log("Updated row");

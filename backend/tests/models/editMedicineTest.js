@@ -10,7 +10,6 @@ rl.question("Give id to update: ", (idInput) => {
     const id = parseInt(idInput);
 
     const updateMedicine = {
-        id,
         name: "vaihdetti nimi",
         image_path: "/uusi/path",
         description: "päivitetyt tiedot",
@@ -23,6 +22,6 @@ rl.question("Give id to update: ", (idInput) => {
         symptomatic_medicine: 1
     };
 
-    dbEdit(updateMedicine);
+    dbEdit(id, updateMedicine);
     rl.close();
 });
