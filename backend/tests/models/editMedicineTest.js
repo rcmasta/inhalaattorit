@@ -11,8 +11,16 @@ rl.question("Give id to update: ", (idInput) => {
 
     const updateMedicine = {
         id,
-        name: "Vaihdettu nimi",
-        dosage_id: 2
+        name: "vaihdetti nimi",
+        image_path: "/uusi/path",
+        description: "päivitetyt tiedot",
+        official_min_age: 4,
+        recommended_min_age: 9,
+        times_a_day: 2,
+        good_intake_speed: 0,
+        good_coordination: 1,
+        treatment_medicine: 0,
+        symptomatic_medicine: 1
     };
 
     dbEdit(updateMedicine);

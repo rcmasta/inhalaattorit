@@ -4,10 +4,14 @@ const testMedicine = {
     name: "Testilääke",
     image_path: "/on",
     description: "Tiedot",
-    age_group_id: 1,
-    dosage_id: 1,
-    inhalation_requirement_id: 1,
-    inhaler_id: 3
+    official_min_age: 5,
+    recommended_min_age: 7,
+    times_a_day: 1,
+    good_intake_speed: 1,
+    good_coordination: 0,
+    treatment_medicine: 1,
+    symptomatic_medicine: 0,
+    inhaler_brand_id: 1
 };
 
 dbAdd(testMedicine);
