@@ -3,14 +3,14 @@ import { getInhalers, adminLogin, createInhaler, updateInhaler, deleteInhaler } 
 /**
  * Shows panel view instead of login
  */
-function showPanel() {
+function showPanel(loginView, panelView) {
     loginView.style.display = "none";
     panelView.style.display = "";
 }
 /**
  * Shows login view instead of panel
  */
-function showLogin() {
+function showLogin(loginView, panelView) {
     panelView.style.display = "none";
     loginView.style.display = "";
 }
@@ -99,11 +99,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const panelView = document.getElementById("panel-view");
 
     if (loginView && panelView) {
-
-
         // check if already logged in
         if (localStorage.getItem("admin-token")) {
-            showPanel();
+            showPanel(loginView, panelView);
         }
 
         // show/hide password
@@ -124,7 +122,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const token = await adminLogin(username, password);
             if (token) {
                 localStorage.setItem("admin-token", token);
-                showPanel();
+                showPanel(loginView, panelView);
             } else {
                 alert("Virheellinen käyttäjänimi tai salasana");
             }
@@ -134,7 +132,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const logoutBtn = document.querySelector(".btn-logout");
         logoutBtn.addEventListener("click", () => {
             localStorage.removeItem("admin-token");
-            showLogin();
+            showLogin(loginView, panelView);
         });
 
         // add/edit inhaler form

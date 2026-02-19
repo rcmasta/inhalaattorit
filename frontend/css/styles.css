@@ -79,7 +79,7 @@ main {
     padding: 1.2rem 1.5rem;
 }
 
-.search-name h3 {
+.search-name h2 {
     font-size: 0.9rem;
     font-weight: 600;
     margin-bottom: 0.6rem;
@@ -134,7 +134,7 @@ main {
     align-self: start;
 }
 
-.search-filter h3 {
+.search-filter h2 {
     font-size: 1rem;
     font-weight: 600;
     margin-bottom: 1rem;
@@ -214,12 +214,16 @@ main {
 
 .card-img {
     background: #e4ecf4;
-    height: 130px;
+    max-height: 245px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #8a9bb5;
     font-size: 0.9rem;
+}
+
+.card-img-thumbnail {
+    max-width: 100%;
 }
 
 .card-info {
