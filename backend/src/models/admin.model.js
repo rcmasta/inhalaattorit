@@ -1,20 +1,17 @@
 const db = require('../config/db');
 
 
-const dbAdd = (info) => {
+const dbAdd = (itemdata) => {
     try {
-        const query = "INSERT INTO medicine (name, image_path, description, age_group_id, " + 
-                      "dosage_id, inhalation_requirement_id, inhaler_id) " +
-                      "VALUES (?, ?, ?, ?, ?, ?, ?)";
+        // dynamically set given values to medicine
+        const columns = Object.keys(itemdata);
+        const placeholders = columns.map(key => `@${key}`)
+                                    .join(", ");
+
+        // build query and append to db
+        const query = `INSERT INTO medicine (${columns.join(", ")}) VALUES (${placeholders})`;
         const stmt = db.prepare(query);
-
-        // get information from info
-        const { name, image_path, description, age_group_id, dosage_id, 
-                inhalation_requirement_id, inhaler_id } = info;
-
-        // add info to database
-        const result = stmt.run(name, image_path, description, age_group_id, dosage_id,
-                              inhalation_requirement_id, inhaler_id);
+        const result = stmt.run(itemdata);
 
         // print for testing
         console.log("Added row (id:", result.lastInsertRowid, ")");
@@ -24,19 +21,17 @@ const dbAdd = (info) => {
     }
 };
 
-const dbEdit = (info) => {
+const dbEdit = (id, updates) => {
     try {
-        // take id separate from update fields
-        const { id, ...updates} = info;
-
         // add dynamicly all fields needed to update
-        const fields = Object.keys(updates).map(key => `${key} = ?`).join(", ");
-        const values = Object.values(updates);
+        const fields = Object.keys(updates)
+                      .map(key => `${key} = @${key}`)
+                      .join(", ");
 
         // update db
-        const query = `UPDATE medicine SET ${fields} WHERE id = ?`;
+        const query = `UPDATE medicine SET ${fields} WHERE id = @id`;
         const stmt = db.prepare(query);
-        const info = stmt.run(...values, id);
+        const result = stmt.run({...updates, id});
 
         // print for testing
         console.log("Updated row");
@@ -49,9 +44,9 @@ const dbEdit = (info) => {
 const dbRemove = (id) => {
     try {
         // remove id from db
-        const query = "DELETE FROM medicine WHERE id = ?";
+        const query = "DELETE FROM medicine WHERE id = @id";
         const stmt = db.prepare(query);
-        const info = stmt.run(id);
+        const result = stmt.run({id});
 
         // print for testing
         console.log("Deleted row");

@@ -4,5 +4,4 @@ const router = express.Router();
 
 router.get('/', inhalersController.getInhalers);
 
-
 module.exports = router;

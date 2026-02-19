@@ -1,30 +1,20 @@
-let testItems = [
-    { id: 1, name: 'lääke', brand: 'merkki' },
-    { id: 2, name: 'lääke2', brand: 'merkki2' },
-    { id: 3, name: 'lääke3', brand: 'merkki3' }
-];
-
-// test function
-const getItem = (req, res, next) => {
-    res.status(200).json(testItems);
-};
+const { dbAdd, dbEdit, dbRemove } = require("../../src/models/admin.model")
 
 const createItem = (req, res, next) => {
     try {
 
-        const { name, brand } = req.body;
-        const id = testItems.length + 1;
-
-        if ( !name || !brand ) {
-            return res.status(400).json({success: false, message: 'Error! Missing parameters'});
+        // when creating medicine it must have a name
+        if ( !req.body.name ) {
+            return res.status(400).json({
+                success: false, 
+                message: 'Error! Missing medicine name'});
         }
 
-        testItems.push({ id, name, brand});
+        dbAdd(req.body);
 
         res.status(201).json({
             success: true,
-            message: 'Item created successfully',
-            data: { id, name, brand }
+            message: 'Item created successfully'
         });
 
     } catch (error) {
@@ -36,29 +26,46 @@ const createItem = (req, res, next) => {
 };
 
 const editItem = (req, res, next) => {
-    res.status(404).json('Not implemented yet')
+    try {
+        if ( !req.body || Object.keys(req.body).length === 0){
+            return res.status(400).json({
+                success: false, 
+                message: 'Error! Nothing to update!'});
+        }
+
+        // if name is given it can't be null/empty
+        if ( "name" in req.body && (!req.body.name || req.body.name.trim() === "") ) {
+            return res.status(400).json({
+                success: false,
+                message: 'Error! Medicine must have a name!'
+            });
+        }
+
+        dbEdit(req.params.id, req.body)
+
+        res.status(201).json({
+            success: true,
+            message: 'Item edited successfully'
+        });
+
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: 'Error!'
+        });
+    }
 };
 
 const deleteItem = (req, res, next) => {
 
     try {
         const id = parseInt(req.params.id);
-        const index = testItems.findIndex(item => item.id === id);
-        
-        if (index === -1) {
-            return res.status(404).json({
-                success: false,
-                message: 'Item not found'
-            });
-        }
-
-        const deletedItem = testItems.splice(index, 1)[0];
+        dbRemove(id);
 
         res.status(200).json({
             success: true,
-            message: 'Item removed successfully',
+            message: 'Item removed successfully'
         });
-
 
     } catch (error) {
         res.status(500).json({
@@ -69,4 +76,4 @@ const deleteItem = (req, res, next) => {
 
 };
 
-module.exports = { createItem, editItem, deleteItem, getItem };
+module.exports = { createItem, editItem, deleteItem };
