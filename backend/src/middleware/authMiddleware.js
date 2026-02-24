@@ -3,8 +3,9 @@ const jwt = require('jsonwebtoken');
 
 // check if user is authenticated
 authMiddleware = async (req, res, next) => {
-    const token = req.header('Authorization');
-    if (!token) return res.status(401).json({message: 'Access denied.'});
+    const authHeader = req.header('Authorization');
+    if (!authHeader) return res.status(401).json({message: 'Access denied.'});
+    const token = authHeader.replace('Bearer ', '');
 
     // decode token 
     await fs.readFile("jwtPrivateKey.pem", "utf-8", async (err, privateKey) => {

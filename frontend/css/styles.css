@@ -251,6 +251,23 @@ main {
     line-height: 1.5;
 }
 
+/* Lang toggle */
+
+.lang-toggle {
+    padding: 0.2rem 0.6rem;
+    border: 1px solid #aab;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #2c3e50;
+}
+
+.lang-toggle:hover {
+    background: #f0f0f0;
+}
+
 /* Nav toggle */
 
 .nav-toggle {
@@ -500,7 +517,8 @@ main {
 }
 
 .add-form-wrap input,
-.add-form-wrap select {
+.add-form-wrap select,
+.add-form-wrap textarea {
     width: 100%;
     padding: 0.5rem 0.8rem;
     border: 1px solid #ccc;
@@ -508,10 +526,16 @@ main {
     font-size: 0.9rem;
     margin-bottom: 0.8rem;
     background: #fff;
+    font-family: inherit;
+}
+
+.add-form-wrap textarea {
+    resize: vertical;
 }
 
 .add-form-wrap input:focus,
-.add-form-wrap select:focus {
+.add-form-wrap select:focus,
+.add-form-wrap textarea:focus {
     outline: none;
     border-color: #7ba0c4;
 }

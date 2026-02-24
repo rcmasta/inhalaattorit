@@ -4,19 +4,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="./css/styles.css">
+        <link rel="icon" href="data:,">
         <title>Inhalaattorit.fi</title>
     </head>
 
     <body>
         <header>
             <div class="header-content">
-                <h1><a href="index.html">Inhalaattorit.fi</a></h1>
+                <h1><a href="index.html" data-i18n="site.title">Inhalaattorit.fi</a></h1>
+                <button class="lang-toggle" aria-label="Vaihda kieli">SV</button>
                 <button class="nav-toggle" aria-label="Avaa valikko">&#9776;</button>
                 <nav>
                     <ul>
-                        <li><a href="tietoa.html">Tietoa sivustosta</a></li>
-                        <li><a href="palaute.html">Palaute</a></li>
-                        <li><a href="admin.html">Admin</a></li>
+                        <li><a href="tietoa.html" data-i18n="nav.about">Tietoa sivustosta</a></li>
+                        <li><a href="palaute.html" data-i18n="nav.feedback">Palaute</a></li>
+                        <li><a href="admin.html" data-i18n="nav.admin">Admin</a></li>
                     </ul>
                 </nav>
             </div>
@@ -24,17 +26,17 @@
 
         <main class="search-main">
             <section class="search-name">
-                <h2>Hae lääke / inhalaattori nimellä</h2>
+                <h2 data-i18n="search.heading">Hae lääke / inhalaattori nimellä</h2>
                 <div class="search-bar">
                     <label for="inhaler-name">Nimi</label>
-                    <input type="search" id="inhaler-name" name="search" placeholder="Hae nimellä..."/>
+                    <input type="search" id="inhaler-name" name="search" placeholder="Hae nimellä..." data-i18n-placeholder="search.placeholder"/>
                     <button class="btn-clear">Tyhjennä</button>
                 </div>
                 <p class="result-count">Näytetään 3 / 3 (kaikki)</p>
             </section>
 
             <section class="search-filter">
-                <h2 class="filter-toggle">Suodattimet</h2>
+                <h2 class="filter-toggle" data-i18n="filters.heading">Suodattimet</h2>
 
                 <label for="inhaler-form-select">Lääkemuoto</label>
                 <select class="inhaler-filter" name="form" id="inhaler-form-select">
@@ -117,7 +119,7 @@
             </section>
 
             <section class="results">
-                <h2>Inhalaattorit</h2>
+                <h2 data-i18n="results.heading">Inhalaattorit</h2>
                 <div class="results-grid">
                     <div class="card">
                         <div class="card-img">
@@ -169,9 +171,10 @@
         </main>
 
         <footer>
-            <p>&copy; 2026 Inhalaattorit.fi</p>
+            <p>&copy; 2026 Inhalaattorit.fi | <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a></p>
         </footer>
         <script src="./js/navigation.js"></script>
+        <script src="./js/lang.js"></script>
         <script type="module" src="./js/main.js"></script>
     </body>
 </html>

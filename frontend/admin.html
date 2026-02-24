@@ -4,19 +4,21 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         <link rel="stylesheet" href="./css/styles.css">
+        <link rel="icon" href="data:,">
         <title>Admin — Inhalaattorit.fi</title>
     </head>
 
     <body>
         <header>
             <div class="header-content">
-                <h1><a href="index.html">Inhalaattorit.fi</a></h1>
+                <h1><a href="index.html" data-i18n="site.title">Inhalaattorit.fi</a></h1>
+                <button class="lang-toggle" aria-label="Vaihda kieli">SV</button>
                 <button class="nav-toggle" aria-label="Avaa valikko">&#9776;</button>
                 <nav>
                     <ul>
-                        <li><a href="tietoa.html">Tietoa sivustosta</a></li>
-                        <li><a href="palaute.html">Palaute</a></li>
-                        <li><a href="admin.html">Admin</a></li>
+                        <li><a href="tietoa.html" data-i18n="nav.about">Tietoa sivustosta</a></li>
+                        <li><a href="palaute.html" data-i18n="nav.feedback">Palaute</a></li>
+                        <li><a href="admin.html" data-i18n="nav.admin">Admin</a></li>
                     </ul>
                 </nav>
             </div>
@@ -55,86 +57,55 @@
                         <label for="add-name">Nimi</label>
                         <input type="text" id="add-name" placeholder="Nimi" required/>
 
-                        <label for="add-form-select">Lääkemuoto</label>
-                        <select id="add-form-select" required>
-                            <option value="">Valitse</option>
-                            <option value="1">Lääkemuoto 1</option>
-                            <option value="2">Lääkemuoto 2</option>
-                            <option value="3">Lääkemuoto 3</option>
-                            <option value="unknown">Ei tiedossa</option>
-                        </select>
+                        <label for="add-description">Kuvaus</label>
+                        <textarea id="add-description" placeholder="Kuvaus" rows="3"></textarea>
 
-                        <label for="add-age">Ikä</label>
-                        <select id="add-age" required>
-                            <option value="">Valitse</option>
-                            <option value="1">Ikä 1</option>
-                            <option value="2">Ikä 2</option>
-                            <option value="3">Ikä 3</option>
-                            <option value="unknown">Ei tiedossa</option>
-                        </select>
+                        <label for="add-image-path">Kuvan polku</label>
+                        <input type="text" id="add-image-path" placeholder="esim. /img/inhaler.jpg"/>
 
-                        <label for="add-dosage">Annostelu</label>
-                        <select id="add-dosage" required>
-                            <option value="">Valitse</option>
-                            <option value="1">Annostelu 1</option>
-                            <option value="2">Annostelu 2</option>
-                            <option value="3">Annostelu 3</option>
-                            <option value="unknown">Ei tiedossa</option>
-                        </select>
+                        <label for="add-min-age">Virallinen ikäraja (vuotta)</label>
+                        <input type="number" id="add-min-age" min="0"/>
 
-                        <label for="add-velocity">Sisäänhengitysnopeus</label>
-                        <select id="add-velocity" required>
-                            <option value="">Valitse</option>
-                            <option value="1">Nopeus 1</option>
-                            <option value="2">Nopeus 2</option>
-                            <option value="unknown">Ei tiedossa</option>
+                        <label for="add-rec-age">Suositeltu ikäraja (vuotta)</label>
+                        <input type="number" id="add-rec-age" min="0"/>
+
+                        <label for="add-times-day">Annostelu (kertaa päivässä)</label>
+                        <input type="number" id="add-times-day" min="1"/>
+
+                        <label for="add-intake-speed">Sisäänhengitysnopeus</label>
+                        <select id="add-intake-speed">
+                            <option value="">Ei tiedossa</option>
+                            <option value="1">Hyvä (&gt; 30 l/min)</option>
+                            <option value="0">Huono (&lt; 30 l/min)</option>
                         </select>
 
                         <label for="add-coordination">Koordinaatio</label>
-                        <select id="add-coordination" required>
-                            <option value="">Valitse</option>
-                            <option value="1">Koordinaatio 1</option>
-                            <option value="2">Koordinaatio 2</option>
-                            <option value="unknown">Ei tiedossa</option>
+                        <select id="add-coordination">
+                            <option value="">Ei tiedossa</option>
+                            <option value="1">Hyvä</option>
+                            <option value="0">Huono</option>
                         </select>
 
-                        <label for="add-device">Inhalaattori</label>
-                        <select id="add-device" required>
-                            <option value="">Valitse</option>
-                            <option value="1">Inhalaattori 1</option>
-                            <option value="2">Inhalaattori 2</option>
-                            <option value="3">Inhalaattori 3</option>
-                            <option value="unknown">Ei tiedossa</option>
+                        <label for="add-treatment">Hoitava lääke</label>
+                        <select id="add-treatment">
+                            <option value="">Ei tiedossa</option>
+                            <option value="1">Kyllä</option>
+                            <option value="0">Ei</option>
                         </select>
 
-                        <label for="add-purpose">Käyttötarkoitus</label>
-                        <select id="add-purpose" required>
-                            <option value="">Valitse</option>
-                            <option value="1">Tarkoitus 1</option>
-                            <option value="2">Tarkoitus 2</option>
-                            <option value="unknown">Ei tiedossa</option>
+                        <label for="add-symptomatic">Oirelääke</label>
+                        <select id="add-symptomatic">
+                            <option value="">Ei tiedossa</option>
+                            <option value="1">Kyllä</option>
+                            <option value="0">Ei</option>
                         </select>
 
-                        <label for="add-drug-group">Lääkeaineryhmä</label>
-                        <select id="add-drug-group" required>
-                            <option value="">Valitse</option>
-                            <option value="1">Ryhmä 1</option>
-                            <option value="2">Ryhmä 2</option>
-                            <option value="3">Ryhmä 3</option>
-                            <option value="unknown">Ei tiedossa</option>
-                        </select>
-
-                        <label for="add-substance">Vaikuttava lääkeaine</label>
-                        <input type="text" id="add-substance" placeholder="Lääkeaine" required/>
-
-                        <label for="add-color">Väri</label>
-                        <select id="add-color" required>
-                            <option value="">Valitse</option>
-                            <option value="1">Väri 1</option>
-                            <option value="2">Väri 2</option>
-                            <option value="3">Väri 3</option>
-                            <option value="unknown">Ei tiedossa</option>
-                        </select>
+                        <!-- TODO: backend many-to-many fields, add when backend supports them:
+                             - Lääkemuoto / intake_style
+                             - Inhalaattori / inhaler_brand
+                             - Väri / color
+                             - Vaikuttava lääkeaine / active_ingredient
+                             - Lääkeaineryhmä / drug_class -->
 
                         <div class="add-form-buttons">
                             <button type="submit" class="btn-add">Tallenna</button>
@@ -148,51 +119,15 @@
                         <thead>
                             <tr>
                                 <th>Nimi</th>
-                                <th>Lääkemuoto</th>
-                                <th>Ikä</th>
-                                <th>Väri</th>
+                                <th>Ikäraja</th>
+                                <th>Krt/pv</th>
+                                <th>Nopeus</th>
+                                <th>Koordinaatio</th>
                                 <th>Käyttötarkoitus</th>
-                                <th>Lääkeaine</th>
                                 <th>Toiminnot</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr data-id="1">
-                                <td>Inhalaattori 1</td>
-                                <td>Lääkemuoto 1</td>
-                                <td>Ikä 1</td>
-                                <td>Väri 1</td>
-                                <td>Tarkoitus 1</td>
-                                <td>Lääkeaine 1</td>
-                                <td class="panel-actions">
-                                    <button class="btn-edit">Muokkaa</button>
-                                    <button class="btn-delete">Poista</button>
-                                </td>
-                            </tr>
-                            <tr data-id="2">
-                                <td>Inhalaattori 2</td>
-                                <td>Lääkemuoto 2</td>
-                                <td>Ikä 2</td>
-                                <td>Väri 2</td>
-                                <td>Tarkoitus 2</td>
-                                <td>Lääkeaine 2</td>
-                                <td class="panel-actions">
-                                    <button class="btn-edit">Muokkaa</button>
-                                    <button class="btn-delete">Poista</button>
-                                </td>
-                            </tr>
-                            <tr data-id="3">
-                                <td>Inhalaattori erittäin pitkä nimi esimerkki testaamista varten</td>
-                                <td>Lääkemuoto erittäin pitkä vaihtoehto esimerkki</td>
-                                <td>Ikä 3</td>
-                                <td>Väri 3</td>
-                                <td>Tarkoitus erittäin pitkä vaihtoehto esimerkki</td>
-                                <td>Vaikuttava lääkeaine erittäin pitkä nimi esimerkki testaamista varten</td>
-                                <td class="panel-actions">
-                                    <button class="btn-edit">Muokkaa</button>
-                                    <button class="btn-delete">Poista</button>
-                                </td>
-                            </tr>
                         </tbody>
                     </table>
                 </div>
@@ -200,9 +135,10 @@
         </main>
 
         <footer>
-            <p>&copy; Inhalaattorit.fi</p>
+            <p>&copy; Inhalaattorit.fi | <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a></p>
         </footer>
         <script src="./js/navigation.js"></script>
+        <script src="./js/lang.js"></script>
         <script type="module" src="./js/admin.js"></script>
     </body>
 </html>
