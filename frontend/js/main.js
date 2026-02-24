@@ -1,5 +1,6 @@
 import { applyFilter } from './filter.js';
 import { getInhalers } from './api.js';
+import { renderInhalerGrid } from './render.js'
 
 /**
  * Gathers all selected filters in an object
@@ -27,6 +28,8 @@ function filterData() {
 
     const filtered = applyFilter(inhalers, filters);
 
+    renderInhalerGrid(filtered);
+
     // DEBUG
     console.log("Filters:");
     console.log(filters);
@@ -40,8 +43,11 @@ const inhalers = await getInhalers();
 console.log("All inhalers:");
 console.log(inhalers);
 
+renderInhalerGrid(inhalers);
+
 // Document event listeners
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded");
     const filterToggle = document.querySelector(".filter-toggle");
     const filterSection = document.querySelector(".search-filter");
     if (filterToggle && filterSection) {

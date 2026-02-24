@@ -190,7 +190,7 @@ main {
     color: #333;
 }
 
-.results-grid {
+#results-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
