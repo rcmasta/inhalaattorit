@@ -9,7 +9,6 @@ const imageTag = "img";
 const nameTag = "h3";
 const lineTag = "p";
 
-
 const detailClass = "detail-view";
 const detailImgClass = "detail-view-img";
 const detailInfoClass = "detail-view-info";
@@ -18,6 +17,9 @@ const cardImgClass = "card-img";
 const cardInfoClass = "card-info";
 const cardTypeClass = "card-type";
 const thumbClass = "card-img-thumbnail";
+const hiddenClass = "hidden";
+
+const ariaHidden = "aria-hidden"
 
 /**
  * Renders given inhalers
@@ -42,6 +44,7 @@ export function renderInhalerGrid(data) {
         }
     }
     
+    disableBackButton();
     renderTarget.replaceChildren(inhalerList);
 }
 
@@ -59,6 +62,8 @@ function renderInhalerDetails(inhaler) {
         inhalerDetails.appendChild(inhalerView);
         renderTarget.replaceChildren(inhalerDetails);
     }
+
+    enableBackButton();
 
     // DEBUG
     console.log("Clicked inhaler card");
@@ -213,4 +218,16 @@ function buildDetailInfoSection(inhaler) {
     detailImageSection.appendChild(infoRecommendedAge);
 
     return detailImageSection;
+}
+
+function enableBackButton() {
+    const backButton = document.getElementById("return-to-gridview");
+    backButton.classList.remove(hiddenClass);
+    backButton.setAttribute(ariaHidden, "false");
+}
+
+function disableBackButton() {
+    const backButton = document.getElementById("return-to-gridview");
+    backButton.classList.add(hiddenClass);
+    backButton.setAttribute(ariaHidden, "true");
 }

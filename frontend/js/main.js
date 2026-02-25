@@ -74,6 +74,12 @@ document.addEventListener("DOMContentLoaded", () => {
             filterData();
         });
     }
+
+    // Back to grid view button
+    const backButton = document.getElementById("return-to-gridview");
+    backButton.addEventListener("click", () => {
+        filterData();
+    });
 });
 
 // Load inhalers
