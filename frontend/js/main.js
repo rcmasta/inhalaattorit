@@ -37,14 +37,6 @@ function filterData() {
     console.log(filtered);
 }
 
-const inhalers = await getInhalers();
-
-// DEBUG
-console.log("All inhalers:");
-console.log(inhalers);
-
-renderInhalerGrid(inhalers);
-
 // Document event listeners
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOMContentLoaded");
@@ -84,3 +76,13 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+
+// Load inhalers
+const inhalers = await getInhalers();
+
+// DEBUG
+console.log("All inhalers:");
+console.log(inhalers);
+
+// Initial rendering
+renderInhalerGrid(inhalers);
