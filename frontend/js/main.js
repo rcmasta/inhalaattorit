@@ -25,7 +25,6 @@ function getFilterObject() {
  */
 function filterData() {
     const filters = getFilterObject();
-
     const filtered = applyFilter(inhalers, filters);
 
     renderInhalerGrid(filtered);
