@@ -1,5 +1,6 @@
 import { applyFilter } from './filter.js';
 import { getInhalers } from './api.js';
+import { renderInhalerGrid } from './render.js'
 
 /**
  * Gathers all selected filters in an object
@@ -24,8 +25,9 @@ function getFilterObject() {
  */
 function filterData() {
     const filters = getFilterObject();
-
     const filtered = applyFilter(inhalers, filters);
+
+    renderInhalerGrid(filtered);
 
     // DEBUG
     console.log("Filters:");
@@ -34,14 +36,9 @@ function filterData() {
     console.log(filtered);
 }
 
-const inhalers = await getInhalers();
-
-// DEBUG
-console.log("All inhalers:");
-console.log(inhalers);
-
 // Document event listeners
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded");
     const filterToggle = document.querySelector(".filter-toggle");
     const filterSection = document.querySelector(".search-filter");
     if (filterToggle && filterSection) {
@@ -77,4 +74,20 @@ document.addEventListener("DOMContentLoaded", () => {
             filterData();
         });
     }
+
+    // Back to grid view button
+    const backButton = document.getElementById("return-to-gridview");
+    backButton.addEventListener("click", () => {
+        filterData();
+    });
 });
+
+// Load inhalers
+const inhalers = await getInhalers();
+
+// DEBUG
+console.log("All inhalers:");
+console.log(inhalers);
+
+// Initial rendering
+renderInhalerGrid(inhalers);

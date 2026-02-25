@@ -190,17 +190,44 @@ main {
     color: #333;
 }
 
-.results-grid {
+#results-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Inhaler detail view */
+
+.detail-view {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    border: 1px solid #dce3ea;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+}
+
+.detail-view-img {
+    
+}
+
+.detail-view-img img {
+    max-width: 100%;
+    height: auto;
+}
+
+.detail-view-info {
+
 }
 
 /* Inhaler cards */
 
 .card {
     border: 1px solid #dce3ea;
-    border-radius: 10px;
     overflow: hidden;
     background: #fff;
     cursor: pointer;
