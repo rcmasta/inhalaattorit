@@ -5,7 +5,11 @@ class InhalersController {
 
     static getInhalers(req, res) {
         try {
-            const data = InhalersService.getAllInhalers();
+            let lang = req.query.lang;
+            if (lang !== "fi" && lang !== "sv" ) {
+                lang = "fi";
+            }
+            const data = InhalersService.getAllInhalers(lang);
             res.json(data);
         } catch (e) {
             res.status(500).json({message: e.message});

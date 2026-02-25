@@ -38,7 +38,7 @@ CREATE TABLE medicine_translation (
 
 -- intake style stuff
 CREATE TABLE intake_style (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY
 );
 
 CREATE TABLE medicine_intake_style (
@@ -50,11 +50,11 @@ CREATE TABLE medicine_intake_style (
 );
 
 CREATE TABLE intake_style_translation (
-    active_ingredient_id INTEGER NOT NULL,
+    intake_style_id INTEGER NOT NULL,
     language TEXT NOT NULL,
     name TEXT NOT NULL,
     PRIMARY KEY (intake_style_id, language),
-    FOREIGN KEU (intake_style_id) REFERENCES intake_style(id)
+    FOREIGN KEY (intake_style_id) REFERENCES intake_style(id)
 );
 
 -- active ingredient stuff
@@ -79,14 +79,14 @@ CREATE TABLE active_ingredient_translation (
     language TEXT NOT NULL,
     name TEXT NOT NULL,
     PRIMARY KEY (active_ingredient_id, language),
-    FOREIGN KEU (active_ingredient_id) REFERENCES active_ingredient(id)
+    FOREIGN KEY (active_ingredient_id) REFERENCES active_ingredient(id)
 );
 
 
 
 -- color stuff
 CREATE TABLE color (
-    id INTEGER PRIMARY KEY,
+    id INTEGER PRIMARY KEY
 );
 
 CREATE TABLE medicine_color (
