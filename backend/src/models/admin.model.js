@@ -73,7 +73,7 @@ const dbAdd = db.transaction((itemdata) => {
 
 const dbEdit = db.transaction((id, updates) => {
     try {
-        const updated = false;
+        let updated = false;
 
         // add dynamicly all fields needed to update
         const updatedMedicineFields = Object.keys(updates).filter(f => medicineFields.includes(f));
