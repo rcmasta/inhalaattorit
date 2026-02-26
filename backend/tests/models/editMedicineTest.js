@@ -25,7 +25,8 @@ rl.question("Give id to update: ", (idInput) => {
         
         colors: [1, 3],
         description: {
-            fi: "moikkamoi"
+            fi: "moikkamoi",
+            sv: ""
             
         }
     };

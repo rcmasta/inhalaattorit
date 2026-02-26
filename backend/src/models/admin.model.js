@@ -1,5 +1,10 @@
 const db = require('../config/db');
 
+const stmtRemoveDesc = db.prepare(
+    "DELETE FROM medicine_translation " +
+    "WHERE medicine_id = @medicine_id AND language = @language"
+);
+
 const stmtDesc = db.prepare(
     "INSERT INTO medicine_translation (medicine_id, language, description) " +
     "VALUES (@medicine_id, @language, @desc) " +
@@ -137,7 +142,12 @@ const insertDesc = (medicine_id, descriptions) => {
     // adds all description languages if already exists overrides the description with new one
     // otherwise create new one
     for (const [language, desc] of Object.entries(descriptions)) {
-        stmtDesc.run({medicine_id, language, desc});
+        const trimmed = String(desc).trim();
+        if (trimmed === ''){
+            stmtRemoveDesc.run({medicine_id, language});
+        } else {
+            stmtDesc.run({medicine_id, language, desc: trimmed});
+        }
     }
 };
 
