@@ -7,6 +7,8 @@ const cron = require('node-cron');
 const fs = require('fs');
 const genPrivateKey = require('./src/utils/genPrivateKey');
 
+const JWT_PRIVATE_KEY = 'jwtPrivateKey.pem';
+
 // routes
 const inhalersRoutes = require('./src/routes/inhalersRoutes');
 const authAdminRoutes = require('./src/routes/authAdminRoutes');
@@ -31,6 +33,14 @@ app.use('/api/admin/inhalers', limiterBasic, authMiddleware, adminRoutes);
 
 // Error handling middleware
 app.use(errorMiddleware);
+
+// on launch synchronously generate a private key for signing jwts if it doesn't already exist
+if (!fs.existsSync(JWT_PRIVATE_KEY)) {
+    genPrivateKey((err, key) => {
+        if (key) fs.writeFileSync('jwtPrivateKey.pem', key);
+        else console.log('Failed to generate a JWT private key.');
+    });
+}
 
 // cron job for rotating the jwt private key.
 // rotates the key at midnight.
