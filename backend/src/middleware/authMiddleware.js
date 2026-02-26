@@ -1,22 +1,19 @@
 const fs = require('file-system')
 const jwt = require('jsonwebtoken');
+const BackendError = require('../classes/backendError');
 
 // check if user is authenticated
 authMiddleware = async (req, res, next) => {
     const token = req.header('Authorization');
-    if (!token) return res.status(401).json({message: 'Access denied.'});
+    if (!token) throw new BackendError(401, 'Access denied.');
 
-    // decode token 
+    // read the private key used for signing tokens
     await fs.readFile("jwtPrivateKey.pem", "utf-8", async (err, privateKey) => {
-        if (err) {
-            return res.status(500).json({message: 'An error occurred.'});
-        }
+        if (err) return next(err);
 
         // verify the token
         await jwt.verify(token, privateKey, (err, decoded) => {
-            if (err) {
-                return res.status(401).json({message: 'Invalid token.'});
-            }
+            if (err) return next(err);
 
             req.username = decoded.username;
             next();
