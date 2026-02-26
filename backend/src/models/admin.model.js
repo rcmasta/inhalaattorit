@@ -34,6 +34,7 @@ const stmtColor = db.prepare(
 const medicineFields = [
     "name",
     "image_path",
+    "links",
     "official_min_age",
     "recommended_min_age",
     "times_a_day",
@@ -51,7 +52,7 @@ const dbAdd = db.transaction((itemdata) => {
              VALUES (${medicineFields.map(f => "@" + f).join(", ")})`
         );
 
-        let res = stmtAddMedicine.run(itemdata);
+        const res = stmtAddMedicine.run(itemdata);
 
         // get medicine_id
         const medicine_id = res.lastInsertRowid;
@@ -72,28 +73,40 @@ const dbAdd = db.transaction((itemdata) => {
 
 const dbEdit = db.transaction((id, updates) => {
     try {
+        const updated = false;
+
         // add dynamicly all fields needed to update
         const updatedMedicineFields = Object.keys(updates).filter(f => medicineFields.includes(f));
 
         if (updatedMedicineFields.length > 0) {
             const setClause = updatedMedicineFields.map(f => `${f} = @${f}`).join(", ");
             db.prepare(`UPDATE medicine SET ${setClause} WHERE id = @id`).run({...updates, id});
+            updated = true;
         }
 
         if ("description" in updates && Object.keys(updates.description).length > 0) {
             insertDesc(id, updates.description);
+            updated = true;
         }
 
         if ("intake_styles" in updates && Object.keys(updates.intake_styles).length > 0) {
             insertStyle(id, updates.intake_styles);
+            updated = true;
         }
 
         if ("active_ingredients" in updates && Object.keys(updates.active_ingredients).length > 0) {
             insertActive(id, updates.active_ingredients);
+            updated = true;
         }
 
         if ("colors" in updates && Object.keys(updates.colors).length > 0) {
             insertColor(id, updates.colors);
+            updated = true;
+        }
+
+        if (!updated) {
+            console.log("Nothing to update");
+            return;
         }
 
         // print for testing
