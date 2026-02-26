@@ -4,8 +4,9 @@ const BackendError = require('../classes/backendError');
 
 // check if user is authenticated
 authMiddleware = async (req, res, next) => {
-    const token = req.header('Authorization');
-    if (!token) throw new BackendError(401, 'Access denied.');
+    const authHeader = req.header('Authorization');
+    if (!authHeader) throw new BackendError(401, 'Access denied.');
+    const token = authHeader.replace('Bearer ', '');
 
     // read the private key used for signing tokens
     await fs.readFile("jwtPrivateKey.pem", "utf-8", async (err, privateKey) => {
