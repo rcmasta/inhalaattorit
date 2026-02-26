@@ -54,7 +54,7 @@ CREATE TABLE intake_style_translation (
     language TEXT NOT NULL,
     name TEXT NOT NULL,
     PRIMARY KEY (intake_style_id, language),
-    FOREIGN KEY (intake_style_id) REFERENCES intake_style(id)
+    FOREIGN KEY (intake_style_id) REFERENCES intake_style(id) ON DELETE CASCADE
 );
 
 -- active ingredient stuff
@@ -79,7 +79,7 @@ CREATE TABLE active_ingredient_translation (
     language TEXT NOT NULL,
     name TEXT NOT NULL,
     PRIMARY KEY (active_ingredient_id, language),
-    FOREIGN KEY (active_ingredient_id) REFERENCES active_ingredient(id)
+    FOREIGN KEY (active_ingredient_id) REFERENCES active_ingredient(id) ON DELETE CASCADE
 );
 
 
@@ -102,6 +102,6 @@ CREATE TABLE color_translation (
     language TEXT NOT NULL,
     name TEXT NOT NULL,
     PRIMARY KEY (color_id, language),
-    FOREIGN KEY (color_id) REFERENCES color(id)
+    FOREIGN KEY (color_id) REFERENCES color(id) ON DELETE CASCADE
 );
 
