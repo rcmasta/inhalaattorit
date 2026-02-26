@@ -1,26 +1,66 @@
 const db = require('../config/db');
 
-const dbAdd = (itemdata) => {
+const stmtDesc = db.prepare(
+    "INSERT INTO medicine_translation (medicine_id, language, description) " +
+    "VALUES (@medicine_id, @language, @desc) " +
+    "ON CONFLICT(medicine_id, language) " +
+    "DO UPDATE SET description = excluded.description"
+);
+
+const stmtRemoveIntake = db.prepare(
+    "DELETE FROM medicine_intake_style WHERE medicine_id = @medicine_id"
+);
+const stmtIntake = db.prepare(
+    "INSERT INTO medicine_intake_style (medicine_id, intake_style_id) " +
+    "VALUES (@medicine_id, @intake_style_id)"
+);
+
+const stmtRemoveActive = db.prepare(
+    "DELETE FROM medicine_active_ingredient WHERE medicine_id = @medicine_id"
+);
+const stmtActive = db.prepare(
+    "INSERT INTO medicine_active_ingredient (medicine_id, active_ingredient_id) " +
+    "VALUES (@medicine_id, @active_ingredient_id)"
+);
+
+const stmtRemoveColor = db.prepare(
+    "DELETE FROM medicine_color WHERE medicine_id = @medicine_id"
+);
+const stmtColor = db.prepare(
+    "INSERT INTO medicine_color (medicine_id, color_id) " +
+    "VALUES (@medicine_id, @color_id)"
+);
+
+const medicineFields = [
+    "name",
+    "image_path",
+    "official_min_age",
+    "recommended_min_age",
+    "times_a_day",
+    "good_intake_speed",
+    "good_coordination",
+    "treatment_medicine",
+    "symptomatic_medicine",
+    "inhaler_brand_id"
+];
+
+const dbAdd = db.transaction((itemdata) => {
     try {
         const stmtAddMedicine = db.prepare(
-            "INSERT INTO medicine (" +
-            "name, image_path, official_min_age, recommended_min_age, times_a_day, " +
-            "good_intake_speed, good_coordination, treatment_medicine, symptomatic_medicine, " +
-            "inhaler_brand_id) " +
-            "VALUES (" +
-            "@name, @image_path, @official_min_age, @recommended_min_age, @times_a_day," +
-            "@good_intake_speed, @good_coordination, @treatment_medicine, @symptomatic_medicine, " +
-            "@inhaler_brand_id)");
+            `INSERT INTO medicine (${medicineFields.join(", ")})
+             VALUES (${medicineFields.map(f => "@" + f).join(", ")})`
+        );
 
-        // run medicine insert query
-        let stmt = db.prepare(addQuery1);
-        let res = stmt.run(itemdata);
+        let res = stmtAddMedicine.run(itemdata);
 
         // get medicine_id
         const medicine_id = res.lastInsertRowid;
 
         // add relations to other tables
-        insertMedicineRelations(medicine_id, itemdata);
+        insertDesc(medicine_id, itemdata.description);
+        insertStyle(medicine_id, itemdata.intake_styles);
+        insertActive(medicine_id, itemdata.active_ingredients);
+        insertColor(medicine_id, itemdata.colors);
 
         // print for testing
         console.log("Added row (id:", medicine_id, ")");
@@ -28,19 +68,33 @@ const dbAdd = (itemdata) => {
     } catch (err) {
         throw err;
     }
-};
+});
 
-const dbEdit = (id, updates) => {
+const dbEdit = db.transaction((id, updates) => {
     try {
         // add dynamicly all fields needed to update
-        const fields = Object.keys(updates)
-                      .map(key => `${key} = @${key}`)
-                      .join(", ");
+        const updatedMedicineFields = Object.keys(updates).filter(f => medicineFields.includes(f));
 
-        // update db
-        const query = `UPDATE medicine SET ${fields} WHERE id = @id`;
-        const stmt = db.prepare(query);
-        const result = stmt.run({...updates, id});
+        if (updatedMedicineFields.length > 0) {
+            const setClause = updatedMedicineFields.map(f => `${f} = @${f}`).join(", ");
+            db.prepare(`UPDATE medicine SET ${setClause} WHERE id = @id`).run({...updates, id});
+        }
+
+        if ("description" in updates && Object.keys(updates.description).length > 0) {
+            insertDesc(id, updates.description);
+        }
+
+        if ("intake_styles" in updates && Object.keys(updates.intake_styles).length > 0) {
+            insertStyle(id, updates.intake_styles);
+        }
+
+        if ("active_ingredients" in updates && Object.keys(updates.active_ingredients).length > 0) {
+            insertActive(id, updates.active_ingredients);
+        }
+
+        if ("colors" in updates && Object.keys(updates.colors).length > 0) {
+            insertColor(id, updates.colors);
+        }
 
         // print for testing
         console.log("Updated row");
@@ -48,58 +102,56 @@ const dbEdit = (id, updates) => {
     } catch (err) {
         throw err;
     }
-};
+});
 
-const dbRemove = (id) => {
+const dbRemove = db.transaction((id) => {
     try {
-        // remove id from db
-        const query = "DELETE FROM medicine WHERE id = @id";
-        const stmt = db.prepare(query);
-        const result = stmt.run({id});
+        const res = db.prepare("DELETE FROM medicine WHERE id = @id").run({id});
 
+        if (res.changes === 0) {
+            console.log("No row with that id")
+            return;
+        }
         // print for testing
         console.log("Deleted row");
         
     } catch (err) {
         throw err;
     }
+});
+
+const insertDesc = (medicine_id, descriptions) => {
+    // adds all description languages if already exists overrides the description with new one
+    // otherwise create new one
+    for (const [language, desc] of Object.entries(descriptions)) {
+        stmtDesc.run({medicine_id, language, desc});
+    }
 };
 
-const insertMedicineRelations = db.transaction((medicine_id, itemdata) => {
+const insertStyle = (medicine_id, intake_styles) => {
+    // removes old relations of the medicine
+    stmtRemoveIntake.run({medicine_id});
 
-    const stmtAddDesc = db.prepare(
-        "INSERT INTO medicine_translation (medicine_id, language, description) " +
-        "VALUES (@medicine_id, @language, @desc)");
-
-    const stmtAddIntake = db.prepare(
-        "INSERT INTO medicine_intake_style (medicine_id, intake_style_id) " +
-        "VALUES (@medicine_id, @intake_style_id)");
-
-    const stmtAddActive = db.prepare(
-        "INSERT INTO medicine_active_ingredient (medicine_id, active_ingredient_id) " +
-        "VALUES (@medicine_id, @active_ingredient_id)");
-
-    const stmtAddColor = db.prepare(
-        "INSERT INTO medicine_color (medicine_id, color_id) " +
-        "VALUES (@medicine_id, @color_id)");
-
-
-    //add descriptions
-    for (const [language, desc] of Object.entries(itemdata.description)) {
-        stmtAddDesc.run({medicine_id, language, desc});
+    // creates new relations
+    for (const intake_style_id of intake_styles) {
+        stmtIntake.run({medicine_id, intake_style_id});
     }
-    // add intake styles
-    for (const intake_style_id of itemdata.intake_style) {
-        stmtAddIntake.run({medicine_id, intake_style_id});
+};
+
+const insertActive = (medicine_id, active_ingredients) => {
+    stmtRemoveActive.run({medicine_id});
+
+    for (const active_ingredient_id of active_ingredients) {
+        stmtActive.run({medicine_id, active_ingredient_id});
     }
-    // add active ingredients
-    for (const active_ingredient_id of itemdata.active_ingredient) {
-        stmtAddActive.run({medicine_id, active_ingredient_id});
+};
+
+const insertColor = (medicine_id, colors) => {
+    stmtRemoveColor.run({medicine_id});
+
+    for (const color_id of colors) {
+        stmtColor.run({medicine_id, color_id});
     }
-    // add colors
-    for (const color_id of itemdata.color) {
-        stmtAddColor.run({medicine_id, color_id});
-    }
-})
+}
 
 module.exports = { dbAdd, dbEdit, dbRemove }

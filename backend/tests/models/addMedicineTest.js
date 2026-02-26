@@ -19,9 +19,9 @@ const testMedicine = {
         sv: "hei"
     },
 
-    intake_style: [1, 2],
-    active_ingredient: [1],
-    color: [2]
+    intake_styles: [1, 2],
+    active_ingredients: [1],
+    colors: [2]
 };
 
 dbAdd(testMedicine);
