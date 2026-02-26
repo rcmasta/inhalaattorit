@@ -14,7 +14,8 @@ const adminRoutes = require('./src/routes/adminRoutes');
 
 // middleware
 const authMiddleware = require('./src/middleware/authMiddleware');
-const { limiterBasic, limiterAdminLogin} = require('./src/middleware/rateLimitMiddleware')
+const { limiterBasic, limiterAdminLogin} = require('./src/middleware/rateLimitMiddleware');
+const errorMiddleware = require('./src/middleware/errorMiddleware.js');
 
 app.use(express.json());
 
@@ -29,7 +30,7 @@ app.use('/api/admin', limiterAdminLogin, authAdminRoutes);
 app.use('/api/admin/inhalers', limiterBasic, authMiddleware, adminRoutes);
 
 // Error handling middleware
-//app.use(require('middleware/errorMiddleware'));
+app.use(errorMiddleware);
 
 // cron job for rotating the jwt private key.
 // rotates the key at midnight.
