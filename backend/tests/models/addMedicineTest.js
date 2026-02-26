@@ -3,7 +3,8 @@ const { dbAdd } = require("../../src/models/admin.model")
 const testMedicine = {
     name: "Testilääke",
     image_path: "/on",
-    description: "Tiedot",
+    links: "testi.json",
+
     official_min_age: 5,
     recommended_min_age: 7,
     times_a_day: 1,
@@ -11,7 +12,16 @@ const testMedicine = {
     good_coordination: 0,
     treatment_medicine: 1,
     symptomatic_medicine: 0,
-    inhaler_brand_id: 1
+    inhaler_brand_id: 1,
+
+    description: {
+        fi: "moi",
+        sv: "hei"
+    },
+
+    intake_style: [1, 2],
+    active_ingredient: [1],
+    color: [2]
 };
 
 dbAdd(testMedicine);
