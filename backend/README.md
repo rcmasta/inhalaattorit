@@ -36,7 +36,7 @@ Optional parameters:
     colors                  int[]
 
 Example JSON:
-```JSON
+```
 {
     name: "Medicine",
     image_path: "/this/dir",
@@ -92,7 +92,7 @@ Optional parameters:
 
 Example JSON:
 
-```JSON
+```
 {
     image_path: /better/location
     times_a_day: 6,
@@ -105,7 +105,7 @@ Example JSON:
 ```
 
 After edit medicine state is:
-```JSON
+```
 {
     id: 1, (automatically given)
     name: "Medicine",

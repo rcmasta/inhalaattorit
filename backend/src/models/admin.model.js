@@ -52,9 +52,10 @@ const medicineFields = [
 
 const dbAdd = db.transaction((itemdata) => {
     try {
+        const givenFields = Object.keys(itemdata).filter(f => medicineFields.includes(f));
         const stmtAddMedicine = db.prepare(
-            `INSERT INTO medicine (${medicineFields.join(", ")})
-             VALUES (${medicineFields.map(f => "@" + f).join(", ")})`
+            `INSERT INTO medicine (${givenFields.join(", ")})
+             VALUES (${givenFields.map(f => "@" + f).join(", ")})`
         );
 
         const res = stmtAddMedicine.run(itemdata);
@@ -63,10 +64,18 @@ const dbAdd = db.transaction((itemdata) => {
         const medicine_id = res.lastInsertRowid;
 
         // add relations to other tables
-        insertDesc(medicine_id, itemdata.description);
-        insertStyle(medicine_id, itemdata.intake_styles);
-        insertActive(medicine_id, itemdata.active_ingredients);
-        insertColor(medicine_id, itemdata.colors);
+        if (itemdata.description) {
+            insertDesc(medicine_id, itemdata.description);
+        }
+        if (itemdata.intake_styles) {
+            insertStyle(medicine_id, itemdata.intake_styles);
+        }
+        if (itemdata.active_ingredients) {
+            insertActive(medicine_id, itemdata.active_ingredients);
+        }
+        if (itemdata.colors) {
+            insertColor(medicine_id, itemdata.colors);
+        }
 
         // print for testing
         console.log("Added row (id:", medicine_id, ")");
