@@ -1,6 +1,19 @@
 import { applyFilter } from './filter.js';
 import { getInhalers } from './api.js';
 import { renderInhalerGrid } from './render.js'
+import { getCounterString } from './lang.js'
+
+var currentInhalers = 0;
+var totalInhalers = 0;
+
+function updateCounter() {
+    const counterStr = getCounterString().replace("{current}", currentInhalers)
+                                         .replace("{total}", totalInhalers);
+    const counterEl = document.getElementById("result-count");
+
+    counterEl.textContent = counterStr;
+
+}
 
 /**
  * Gathers all selected filters in an object
@@ -27,7 +40,10 @@ function filterData() {
     const filters = getFilterObject();
     const filtered = applyFilter(inhalers, filters);
 
+    currentInhalers = filtered.length;
+
     renderInhalerGrid(filtered);
+    updateCounter();
 
     // DEBUG
     console.log("Filters:");
@@ -80,10 +96,20 @@ document.addEventListener("DOMContentLoaded", () => {
     backButton.addEventListener("click", () => {
         filterData();
     });
+
+    // Language button
+
+    const langBtn = document.querySelector(".lang-toggle");
+    if (langBtn) {
+        langBtn.addEventListener("click", function() {
+            updateCounter();
+        });
+    }
 });
 
 // Load inhalers
 const inhalers = await getInhalers();
+currentInhalers = totalInhalers = inhalers.length;
 
 // DEBUG
 console.log("All inhalers:");
@@ -91,3 +117,4 @@ console.log(inhalers);
 
 // Initial rendering
 renderInhalerGrid(inhalers);
+updateCounter();
