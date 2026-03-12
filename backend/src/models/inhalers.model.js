@@ -1,17 +1,20 @@
-const db = require('../config/db');
+const Database = require("../config/db"); 
 
-const getAllInhalers = (lang) => {
+const getAllInhalers = (lang, db = Database) => {
     try {
         const query = 'SELECT m.* FROM medicine m';
         const medicines = db.prepare(query).all();
 
         medicines.forEach(med => {
 
-            med.description = db.prepare(`
+            const row = db.prepare(`
                 SELECT mt.description
                 FROM medicine_translation mt
                 WHERE mt.medicine_id = ? AND mt.language = ?
             `).get(med.id, lang);
+            
+            // description descrpition --> description
+            med.description = row?.description ?? null;
 
             med.inhaler_brand = db.prepare(`
                 SELECT ib.id, ib.name
