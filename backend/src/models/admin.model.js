@@ -51,100 +51,85 @@ const medicineFields = [
 ];
 
 const dbAdd = db.transaction((itemdata) => {
-    try {
-        const givenFields = Object.keys(itemdata).filter(f => medicineFields.includes(f));
-        const stmtAddMedicine = db.prepare(
-            `INSERT INTO medicine (${givenFields.join(", ")})
-             VALUES (${givenFields.map(f => "@" + f).join(", ")})`
-        );
+    const givenFields = Object.keys(itemdata).filter(f => medicineFields.includes(f));
+    const stmtAddMedicine = db.prepare(
+        `INSERT INTO medicine (${givenFields.join(", ")})
+         VALUES (${givenFields.map(f => "@" + f).join(", ")})`
+    );
 
-        const res = stmtAddMedicine.run(itemdata);
+    const res = stmtAddMedicine.run(itemdata);
 
-        // get medicine_id
-        const medicine_id = res.lastInsertRowid;
+    // get medicine_id
+    const medicine_id = res.lastInsertRowid;
 
-        // add relations to other tables
-        if (itemdata.description) {
-            insertDesc(medicine_id, itemdata.description);
-        }
-        if (itemdata.intake_styles) {
-            insertStyle(medicine_id, itemdata.intake_styles);
-        }
-        if (itemdata.active_ingredients) {
-            insertActive(medicine_id, itemdata.active_ingredients);
-        }
-        if (itemdata.colors) {
-            insertColor(medicine_id, itemdata.colors);
-        }
-
-        // print for testing
-        console.log("Added row (id:", medicine_id, ")");
-        
-    } catch (err) {
-        throw err;
+    // add relations to other tables
+    if (itemdata.description) {
+        insertDesc(medicine_id, itemdata.description);
     }
+    if (itemdata.intake_styles) {
+        insertStyle(medicine_id, itemdata.intake_styles);
+    }
+    if (itemdata.active_ingredients) {
+        insertActive(medicine_id, itemdata.active_ingredients);
+    }
+    if (itemdata.colors) {
+        insertColor(medicine_id, itemdata.colors);
+    }
+
+    // print for testing
+    console.log("Added row (id:", medicine_id, ")");
 });
 
 const dbEdit = db.transaction((id, updates) => {
-    try {
-        let updated = false;
+    let updated = false;
 
-        // add dynamicly all fields needed to update
-        const updatedMedicineFields = Object.keys(updates).filter(f => medicineFields.includes(f));
+    // add dynamicly all fields needed to update
+    const updatedMedicineFields = Object.keys(updates).filter(f => medicineFields.includes(f));
 
-        if (updatedMedicineFields.length > 0) {
-            const setClause = updatedMedicineFields.map(f => `${f} = @${f}`).join(", ");
-            db.prepare(`UPDATE medicine SET ${setClause} WHERE id = @id`).run({...updates, id});
-            updated = true;
-        }
-
-        if ("description" in updates && Object.keys(updates.description).length > 0) {
-            insertDesc(id, updates.description);
-            updated = true;
-        }
-
-        if ("intake_styles" in updates && Object.keys(updates.intake_styles).length > 0) {
-            insertStyle(id, updates.intake_styles);
-            updated = true;
-        }
-
-        if ("active_ingredients" in updates && Object.keys(updates.active_ingredients).length > 0) {
-            insertActive(id, updates.active_ingredients);
-            updated = true;
-        }
-
-        if ("colors" in updates && Object.keys(updates.colors).length > 0) {
-            insertColor(id, updates.colors);
-            updated = true;
-        }
-
-        if (!updated) {
-            console.log("Nothing to update");
-            return;
-        }
-
-        // print for testing
-        console.log("Updated row");
-        
-    } catch (err) {
-        throw err;
+    if (updatedMedicineFields.length > 0) {
+        const setClause = updatedMedicineFields.map(f => `${f} = @${f}`).join(", ");
+        db.prepare(`UPDATE medicine SET ${setClause} WHERE id = @id`).run({...updates, id});
+        updated = true;
     }
+
+    if ("description" in updates && Object.keys(updates.description).length > 0) {
+        insertDesc(id, updates.description);
+        updated = true;
+    }
+
+    if ("intake_styles" in updates && Object.keys(updates.intake_styles).length > 0) {
+        insertStyle(id, updates.intake_styles);
+        updated = true;
+    }
+
+    if ("active_ingredients" in updates && Object.keys(updates.active_ingredients).length > 0) {
+        insertActive(id, updates.active_ingredients);
+        updated = true;
+    }
+
+    if ("colors" in updates && Object.keys(updates.colors).length > 0) {
+        insertColor(id, updates.colors);
+        updated = true;
+    }
+
+    if (!updated) {
+        console.log("Nothing to update");
+        return;
+    }
+
+    // print for testing
+    console.log("Updated row");
 });
 
 const dbRemove = db.transaction((id) => {
-    try {
-        const res = db.prepare("DELETE FROM medicine WHERE id = @id").run({id});
+    const res = db.prepare("DELETE FROM medicine WHERE id = @id").run({id});
 
-        if (res.changes === 0) {
-            console.log("No row with that id")
-            return;
-        }
-        // print for testing
-        console.log("Deleted row");
-        
-    } catch (err) {
-        throw err;
+    if (res.changes === 0) {
+        console.log("No row with that id")
+        return;
     }
+    // print for testing
+    console.log("Deleted row");
 });
 
 const insertDesc = (medicine_id, descriptions) => {
