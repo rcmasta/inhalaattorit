@@ -57,4 +57,47 @@ const getAllInhalers = (lang) => {
     }
 };
 
-module.exports = { getAllInhalers };
+const getUsedFilters = (lang) => {
+
+    // using arrays to add data so we don't get duplicates
+    const data = {
+        official_min_age: new Set(),
+        recommended_min_age: new Set(), 
+        times_a_day: new Set(),
+        inhaler_brand: new Set(),
+        intake_styles: new Set(),
+        active_ingredients: new Set(),
+        drug_class_name: new Set(),
+        colors: new Set()
+    };
+
+    // get all medicine and add all fields to data
+    const medicine = getAllInhalers(lang);
+    medicine.forEach(med => {
+        if (med.official_min_age) data.official_min_age.add(med.official_min_age);
+        if (med.recommended_min_age) data.recommended_min_age.add(med.recommended_min_age);
+        if (med.times_a_day) data.times_a_day.add(med.times_a_day);
+    });
+
+    // sets to arrays
+    const res = {
+        official_min_age: [...data.official_min_age],
+        recommended_min_age: [...data.recommended_min_age],
+        times_a_day: [...data.times_a_day],
+
+        good_intake_speed: "boolean",
+        good_coordination: "boolean",
+        treatment_medicine: "boolean",
+        symptomatic_medicine: "boolean",
+
+        inhaler_brand: [...data.inhaler_brand],
+        intake_styles: [...data.intake_styles],
+        active_ingredients: [...data.active_ingredients],
+        drug_class_name: [...data.drug_class_name],
+        colors: [...data.colors]
+    }
+
+    return res;
+};
+
+module.exports = { getAllInhalers, getUsedFilters };
