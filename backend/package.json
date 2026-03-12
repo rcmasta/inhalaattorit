@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "nodemon server.js",
-    "test": "mocha src/tests/**/*.test.js",
+    "test": "mocha src/tests/*.test.js",
     "dev": "node --watch server",
     "test_db": "node src/config/db.js && node src/config/test_script/insert_test_medicines.js"
   },
