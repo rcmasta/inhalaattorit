@@ -1,4 +1,4 @@
-const InhalersService = require('../services/inhalersService');
+const inhalersModel = require('../models/inhalers.model');
 
 
 class InhalersController {
@@ -8,6 +8,7 @@ class InhalersController {
         if (lang !== "fi" && lang !== "sv" ) {
             lang = "fi";
         }
+      
         const data = InhalersService.getAllInhalers(lang);
         res.json(data);
     }
