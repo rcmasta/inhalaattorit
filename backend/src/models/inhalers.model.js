@@ -77,6 +77,15 @@ const getUsedFilters = (lang) => {
         if (med.official_min_age) data.official_min_age.add(med.official_min_age);
         if (med.recommended_min_age) data.recommended_min_age.add(med.recommended_min_age);
         if (med.times_a_day) data.times_a_day.add(med.times_a_day);
+        if (med.inhaler_brand) data.inhaler_brand.add(med.inhaler_brand.name);
+
+        med.intake_styles.forEach(style => data.intake_styles.add(style.name));
+        med.active_ingredients.forEach(ingredient => {
+            data.active_ingredients.add(ingredient.name);
+            data.drug_class_name.add(ingredient.drug_class_name);
+        });
+
+        med.colors.forEach(color => data.colors.add(color.name));
     });
 
     // sets to arrays
