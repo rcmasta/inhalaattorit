@@ -1,4 +1,5 @@
-const db = require('../config/db');
+const db = require('../../config/db');
+const { dbAddActiveIngredient } = require('./activeIngredient');
 
 const stmtRemoveDesc = db.prepare(
     "DELETE FROM medicine_translation " +
@@ -49,6 +50,7 @@ const medicineFields = [
     "symptomatic_medicine",
     "inhaler_brand_id"
 ];
+
 
 const dbAdd = db.transaction((itemdata) => {
     const givenFields = Object.keys(itemdata).filter(f => medicineFields.includes(f));
@@ -171,4 +173,4 @@ const insertColor = (medicine_id, colors) => {
     }
 }
 
-module.exports = { dbAdd, dbEdit, dbRemove }
+module.exports = { dbAdd, dbEdit, dbRemove, dbAddActiveIngredient }

@@ -1,5 +1,6 @@
-const { dbAdd, dbEdit, dbRemove } = require("../../src/models/admin.model");
-const BackendError = require('../classes/backendError.js');
+const { dbAdd, dbEdit, dbRemove } = require("../../models/admin/adminModel");
+const { createActiveIngredient } = require('./activeIngredient');
+const BackendError = require('../../classes/backendError');
 
 const createItem = (req, res, next) => {
     // when creating medicine it must have a name
@@ -34,4 +35,4 @@ const deleteItem = (req, res, next) => {
     res.status(200).json({message: 'Item removed successfully'});
 };
 
-module.exports = { createItem, editItem, deleteItem };
+module.exports = { createItem, editItem, deleteItem, createActiveIngredient };
