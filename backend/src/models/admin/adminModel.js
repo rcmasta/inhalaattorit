@@ -1,5 +1,5 @@
 const db = require('../../config/db');
-const { dbAddActiveIngredient, dbEditActiveIngredient } = require('./activeIngredient');
+const { dbAddActiveIngredient, dbEditActiveIngredient, dbDeleteActiveIngredient } = require('./activeIngredient');
 
 const stmtRemoveDesc = db.prepare(
     "DELETE FROM medicine_translation " +
@@ -173,4 +173,4 @@ const insertColor = (medicine_id, colors) => {
     }
 }
 
-module.exports = { dbAdd, dbEdit, dbRemove, dbAddActiveIngredient, dbEditActiveIngredient }
+module.exports = { dbAdd, dbEdit, dbRemove, dbAddActiveIngredient, dbEditActiveIngredient, dbDeleteActiveIngredient }

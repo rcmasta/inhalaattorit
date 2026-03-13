@@ -1,4 +1,4 @@
-const { dbAddActiveIngredient, dbEditActiveIngredient } = require('../../models/admin/adminModel');
+const { dbAddActiveIngredient, dbEditActiveIngredient, dbDeleteActiveIngredient } = require('../../models/admin/adminModel');
 const BackendError = require('../../classes/backendError');
 
 function checkBody(body) {
@@ -16,7 +16,6 @@ const createActiveIngredient = (req, res, next) => {
     const {name_fi, name_sv} = req.body;
     const drug_class_id = parseInt(req.body.drug_class_id);
     
-
     dbAddActiveIngredient(name_fi, name_sv, drug_class_id);
 
     res.status(201).json({message: 'Active ingredient created successfully.'});
@@ -31,8 +30,15 @@ const editActiveIngredient = (req, res, next) => {
 
     dbEditActiveIngredient(id, name_fi, name_sv, drug_class_id);
 
-    res.status(201).json({message: 'Active ingredient edited successfully'});
-    
+    res.status(200).json({message: 'Active ingredient edited successfully'});  
+};
+
+const deleteActiveIngredient = (req, res, next) => {
+    const id = req.params.id;
+
+    dbDeleteActiveIngredient(id);
+
+    res.status(200).json({message: `Active ingredient deleted successfully`});
 }
 
-module.exports = { createActiveIngredient, editActiveIngredient };
+module.exports = { createActiveIngredient, editActiveIngredient, deleteActiveIngredient };

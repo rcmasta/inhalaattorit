@@ -21,7 +21,6 @@ const dbAddActiveIngredient = db.transaction((name_fi, name_sv, drug_class_id) =
         `(${active_ingredient_id}, 'fi', '${name_fi}'),` +
         `(${active_ingredient_id}, 'sv', '${name_sv}')`
     );
-
     stmtActiveTranslations.run();
 
     console.log(`Added active ingredient (id: ${active_ingredient_id})`);
@@ -33,7 +32,7 @@ const dbEditActiveIngredient = db.transaction((id, name_fi, name_sv, drug_class_
         `WHERE id = ${id}`
     );
 
-    // update the drug class id of the avtice ingredient
+    // update the drug class id of the active ingredient
     const resEditActive = stmtEditActive.run();
 
     // update the names of the active ingredient 
@@ -43,4 +42,15 @@ const dbEditActiveIngredient = db.transaction((id, name_fi, name_sv, drug_class_
     console.log(`Edited active ingredient (id: ${id})`);
 });
 
-module.exports = { dbAddActiveIngredient, dbEditActiveIngredient };
+const dbDeleteActiveIngredient = db.transaction((id) => {
+    const stmtDeleteActive = db.prepare(
+        'DELETE FROM active_ingredient ' +
+        `WHERE id = ${id}`
+    );
+
+    const res = stmtDeleteActive.run();
+
+    console.log(`Deleted active ingredient (id: ${id})`);
+});
+
+module.exports = { dbAddActiveIngredient, dbEditActiveIngredient, dbDeleteActiveIngredient };

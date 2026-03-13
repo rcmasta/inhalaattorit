@@ -7,6 +7,7 @@ router.put('/:id', AdminController.editItem);
 router.delete('/:id', AdminController.deleteItem);
 
 router.post('/active-ingredient', AdminController.createActiveIngredient);
-router.post('/active-ingredient/:id', AdminController.editActiveIngredient);
+router.put('/active-ingredient/:id', AdminController.editActiveIngredient);
+router.delete('/active-ingredient/:id', AdminController.deleteActiveIngredient);
 
 module.exports = router;
