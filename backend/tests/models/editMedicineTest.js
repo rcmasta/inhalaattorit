@@ -12,14 +12,23 @@ rl.question("Give id to update: ", (idInput) => {
     const updateMedicine = {
         name: "vaihdetti nimi",
         image_path: "/uusi/path",
-        description: "päivitetyt tiedot",
+        links: "inhalaattorit.fi",
+
         official_min_age: 4,
         recommended_min_age: 9,
         times_a_day: 2,
         good_intake_speed: 0,
         good_coordination: 1,
         treatment_medicine: 0,
-        symptomatic_medicine: 1
+        symptomatic_medicine: 1,
+        inhaler_brand_id: 4,
+        
+        colors: [1, 3],
+        description: {
+            fi: "moikkamoi",
+            sv: ""
+            
+        }
     };
 
     dbEdit(id, updateMedicine);
