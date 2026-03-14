@@ -55,7 +55,7 @@ const getAllInhalers = (lang, db = Database) => {
     return medicines;
 };
 
-const getUsedFilters = (lang) => {
+const getUsedFilters = (lang, db = Database) => {
 
     // using arrays to add data so we don't get duplicates
     const data = {
@@ -70,7 +70,7 @@ const getUsedFilters = (lang) => {
     };
 
     // get all medicine and add all fields to data
-    const medicine = getAllInhalers(lang);
+    const medicine = getAllInhalers(lang, db);
     medicine.forEach(med => {
         if (med.official_min_age) data.official_min_age.add(med.official_min_age);
         if (med.recommended_min_age) data.recommended_min_age.add(med.recommended_min_age);
