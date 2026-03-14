@@ -9,109 +9,113 @@ function getAuthHeaders() {
     };
 }
 
-// --- frontend calls these ---
-// TODO: replace mock calls with real fetch when backend is ready
+// 401 = token expired or invalid, clear and reload to login
+function checkExpiredToken(res) {
+    if (res.status === 401) {
+        localStorage.removeItem("admin-token");
+        alert("Istunto vanhentunut, kirjaudu uudelleen.");
+        location.reload();
+        return true;
+    }
+    return false;
+}
+
+// try to get error message from response body
+async function getErrorMsg(res) {
+    try {
+        const body = await res.json();
+        return body.message || "Tuntematon virhe";
+    } catch (e) {
+        return "Tuntematon virhe";
+    }
+}
 
 // POST /api/admin/login - returns token or null
 export async function adminLogin(username, password) {
-    return mockLogin(username, password);
+    try {
+        const res = await fetch(API_URL + "/api/admin/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ username, password })
+        });
+        if (!res.ok) return null;
+        const data = await res.json();
+        return data.token || null;
+    } catch (e) {
+        alert("Kirjautuminen epäonnistui. Tarkista yhteys.");
+        return null;
+    }
 }
 
-// GET /api/user/ - returns array of inhalers
+// GET /api/inhalers - returns array of inhalers
+// Passes current language so backend can return translated data
 export async function getInhalers() {
-    return mockGetInhalers();
+    try {
+        const lang = localStorage.getItem("lang") || "fi";
+        const res = await fetch(API_URL + "/api/inhalers?lang=" + lang);
+        if (!res.ok) return [];
+        return await res.json();
+    } catch (e) {
+        console.error("Failed to fetch inhalers:", e);
+        return [];
+    }
 }
 
-// POST /api/admin/inhalers/ - returns created inhaler or null
+// POST /api/admin/inhalers - returns true/false
 export async function createInhaler(data) {
-    return mockCreateInhaler(data);
+    try {
+        const res = await fetch(API_URL + "/api/admin/inhalers", {
+            method: "POST",
+            headers: getAuthHeaders(),
+            body: JSON.stringify(data)
+        });
+        if (checkExpiredToken(res)) return false;
+        if (!res.ok) {
+            alert("Tallennus epäonnistui: " + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert("Yhteysvirhe tallennuksessa.");
+        return false;
+    }
 }
 
-// PUT /api/admin/inhalers/:id - returns updated inhaler or null
+// PUT /api/admin/inhalers/:id - returns true/false
 export async function updateInhaler(id, data) {
-    return mockUpdateInhaler(id, data);
+    try {
+        const res = await fetch(API_URL + "/api/admin/inhalers/" + id, {
+            method: "PUT",
+            headers: getAuthHeaders(),
+            body: JSON.stringify(data)
+        });
+        if (checkExpiredToken(res)) return false;
+        if (!res.ok) {
+            alert("Muokkaus epäonnistui: " + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert("Yhteysvirhe muokkauksessa.");
+        return false;
+    }
 }
 
 // DELETE /api/admin/inhalers/:id - returns true/false
 export async function deleteInhaler(id) {
-    return mockDeleteInhaler(id);
-}
-
-// --- mock stuff, remove when backend is ready ---
-
-const mockInhalers = [
-    {
-        id: 1,
-        name: "Inhalaattori 1",
-        form: "Lääkemuoto 1",
-        age: "Ikä 1",
-        dosage: "Annostelu 1",
-        velocity: "Nopeus 1",
-        coordination: "Koordinaatio 1",
-        device: "Inhalaattori 1",
-        purpose: "Tarkoitus 1",
-        drugGroup: "Ryhmä 1",
-        substance: "Lääkeaine 1",
-        color: "Väri 1"
-    },
-    {
-        id: 2,
-        name: "Inhalaattori 2",
-        form: "Lääkemuoto 2",
-        age: "Ikä 2",
-        dosage: "Annostelu 2",
-        velocity: "Nopeus 2",
-        coordination: "Koordinaatio 2",
-        device: "Inhalaattori 2",
-        purpose: "Tarkoitus 2",
-        drugGroup: "Ryhmä 2",
-        substance: "Lääkeaine 2",
-        color: "Väri 2"
-    },
-    {
-        id: 3,
-        name: "Inhalaattori erittäin pitkä nimi esimerkki testaamista varten",
-        form: "Lääkemuoto erittäin pitkä vaihtoehto esimerkki",
-        age: "Ikä 3",
-        dosage: "Annostelu 3",
-        velocity: "Nopeus 1",
-        coordination: "Koordinaatio 1",
-        device: "Inhalaattori 3",
-        purpose: "Tarkoitus erittäin pitkä vaihtoehto esimerkki",
-        drugGroup: "Ryhmä 3",
-        substance: "Vaikuttava lääkeaine erittäin pitkä nimi esimerkki testaamista varten",
-        color: "Väri 3"
+    try {
+        const res = await fetch(API_URL + "/api/admin/inhalers/" + id, {
+            method: "DELETE",
+            headers: getAuthHeaders()
+        });
+        if (checkExpiredToken(res)) return false;
+        if (!res.ok) {
+            alert("Poisto epäonnistui: " + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert("Yhteysvirhe poistossa.");
+        return false;
     }
-];
-let mockNextId = 4;
-
-function mockLogin(username, password) {
-    if (username === "admin" && password === "admin") {
-        return "placeholder-token";
-    }
-    return null;
-}
-
-function mockGetInhalers() {
-    return [...mockInhalers];
-}
-
-function mockCreateInhaler(data) {
-    const newInhaler = { id: mockNextId++, ...data };
-    mockInhalers.push(newInhaler);
-    return newInhaler;
-}
-
-function mockUpdateInhaler(id, data) {
-    const index = mockInhalers.findIndex(i => i.id === id);
-    if (index === -1) return null;
-    mockInhalers[index] = { id, ...data };
-    return mockInhalers[index];
-}
-
-function mockDeleteInhaler(id) {
-    const index = mockInhalers.findIndex(i => i.id === id);
-    if (index === -1) return false;
-    mockInhalers.splice(index, 1);
-    return true;
 }

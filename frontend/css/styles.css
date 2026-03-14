@@ -117,7 +117,7 @@ main {
     background: #f0f0f0;
 }
 
-.result-count {
+#result-count {
     margin-top: 0.5rem;
     font-size: 0.8rem;
     color: #888;
@@ -190,17 +190,44 @@ main {
     color: #333;
 }
 
-.results-grid {
+#results-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Inhaler detail view */
+
+.detail-view {
+    grid-column: 1 / -1;
+    grid-row: 1 / -1;
+    border: 1px solid #dce3ea;
+    background: #fff;
+    width: 100%;
+    height: 100%;
+}
+
+.detail-view-img {
+    
+}
+
+.detail-view-img img {
+    max-width: 100%;
+    height: auto;
+}
+
+.detail-view-info {
+
 }
 
 /* Inhaler cards */
 
 .card {
     border: 1px solid #dce3ea;
-    border-radius: 10px;
     overflow: hidden;
     background: #fff;
     cursor: pointer;
@@ -226,6 +253,7 @@ main {
     max-width: 100%;
 }
 
+
 .card-info {
     padding: 0.8rem;
 }
@@ -248,6 +276,23 @@ main {
     font-size: 0.78rem;
     color: #666;
     line-height: 1.5;
+}
+
+/* Lang toggle */
+
+.lang-toggle {
+    padding: 0.2rem 0.6rem;
+    border: 1px solid #aab;
+    border-radius: 4px;
+    background: #fff;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    color: #2c3e50;
+}
+
+.lang-toggle:hover {
+    background: #f0f0f0;
 }
 
 /* Nav toggle */
@@ -499,7 +544,8 @@ main {
 }
 
 .add-form-wrap input,
-.add-form-wrap select {
+.add-form-wrap select,
+.add-form-wrap textarea {
     width: 100%;
     padding: 0.5rem 0.8rem;
     border: 1px solid #ccc;
@@ -507,10 +553,16 @@ main {
     font-size: 0.9rem;
     margin-bottom: 0.8rem;
     background: #fff;
+    font-family: inherit;
+}
+
+.add-form-wrap textarea {
+    resize: vertical;
 }
 
 .add-form-wrap input:focus,
-.add-form-wrap select:focus {
+.add-form-wrap select:focus,
+.add-form-wrap textarea:focus {
     outline: none;
     border-color: #7ba0c4;
 }
