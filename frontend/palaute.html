@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="fi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="icon" href="data:,">
+        <title>Palaute — Inhalaattorit.fi</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="header-content">
+                <h1><a href="index.html" data-i18n="site.title">Inhalaattorit.fi</a></h1>
+                <button class="lang-toggle" aria-label="Vaihda kieli">SV</button>
+                <button class="nav-toggle" aria-label="Avaa valikko">&#9776;</button>
+                <nav>
+                    <ul>
+                        <li><a href="tietoa.html" data-i18n="nav.about">Tietoa sivustosta</a></li>
+                        <li><a href="palaute.html" data-i18n="nav.feedback">Palaute</a></li>
+                        <li><a href="admin.html" data-i18n="nav.admin">Admin</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <section class="page-content">
+                <h2 data-i18n="feedback.heading">Palaute</h2>
+                <p id="feedback-intro">Kerro meille miten voimme parantaa sivustoa.</p>
+                <form id="feedback-form">
+                    <label for="feedback-name">Nimi</label>
+                    <input type="text" id="feedback-name" placeholder="Nimi (valinnainen)"/>
+
+                    <label for="feedback-email">Sähköposti</label>
+                    <input type="email" id="feedback-email" placeholder="Sähköposti (valinnainen)"/>
+
+                    <label for="feedback-message">Viesti</label>
+                    <textarea id="feedback-message" rows="5" placeholder="Kirjoita palautteesi tähän..." required></textarea>
+
+                    <button type="submit" class="btn-send">Lähetä</button>
+                </form>
+                <div id="feedback-thanks" style="display: none;">
+                    <p style="margin-top: 1rem;">Kiitos palautteestasi! Olemme yhteydessä tarvittaessa.</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; Inhalaattorit.fi | <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a></p>
+        </footer>
+        <script src="./js/navigation.js"></script>
+        <script type="module" src="./js/lang.js"></script>
+        <script type="module" src="./js/feedback.js"></script>
+    </body>
+</html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="icon" href="data:,">
+        <title>Admin — Inhalaattorit.fi</title>
+    </head>
+
+    <body>
+        <header>
+            <div class="header-content">
+                <h1><a href="index.html" data-i18n="site.title">Inhalaattorit.fi</a></h1>
+                <button class="lang-toggle" aria-label="Vaihda kieli">SV</button>
+                <button class="nav-toggle" aria-label="Avaa valikko">&#9776;</button>
+                <nav>
+                    <ul>
+                        <li><a href="tietoa.html" data-i18n="nav.about">Tietoa sivustosta</a></li>
+                        <li><a href="palaute.html" data-i18n="nav.feedback">Palaute</a></li>
+                        <li><a href="admin.html" data-i18n="nav.admin">Admin</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <div class="admin-login" id="login-view">
+                <h2>Kirjaudu sisään</h2>
+                <form id="admin-login-form">
+                    <label for="admin-username">Käyttäjänimi</label>
+                    <input type="text" id="admin-username" name="username" placeholder="Käyttäjänimi"/>
+
+                    <label for="admin-password">Salasana</label>
+                    <div class="password-field">
+                        <input type="password" id="admin-password" name="password" placeholder="Salasana"/>
+                        <button type="button" class="btn-show-pw" aria-label="Näytä salasana">&#128065;</button>
+                    </div>
+
+                    <button type="submit" class="btn-login">Kirjaudu</button>
+                </form>
+                <p class="forgot-password">Unohditko salasanan? Ota yhteyttä ylläpitoon.</p>
+            </div>
+
+            <div class="admin-panel" id="panel-view" style="display: none;">
+                <div class="panel-header">
+                    <h2>Hallintapaneeli</h2>
+                    <div class="panel-buttons">
+                        <button class="btn-add">+ Lisää inhalaattori</button>
+                        <button class="btn-logout">Kirjaudu ulos</button>
+                    </div>
+                </div>
+
+                <div class="add-form-wrap" id="add-form" style="display: none;">
+                    <h3>Lisää uusi inhalaattori</h3>
+                    <form id="add-inhaler-form">
+                        <label for="add-name">Nimi</label>
+                        <input type="text" id="add-name" placeholder="Nimi" required/>
+
+                        <label for="add-description">Kuvaus</label>
+                        <textarea id="add-description" placeholder="Kuvaus" rows="3"></textarea>
+
+                        <label for="add-image-path">Kuvan polku</label>
+                        <input type="text" id="add-image-path" placeholder="esim. /img/inhaler.jpg"/>
+
+                        <label for="add-min-age">Virallinen ikäraja (vuotta)</label>
+                        <input type="number" id="add-min-age" min="0"/>
+
+                        <label for="add-rec-age">Suositeltu ikäraja (vuotta)</label>
+                        <input type="number" id="add-rec-age" min="0"/>
+
+                        <label for="add-times-day">Annostelu (kertaa päivässä)</label>
+                        <input type="number" id="add-times-day" min="1"/>
+
+                        <label for="add-intake-speed">Sisäänhengitysnopeus</label>
+                        <select id="add-intake-speed">
+                            <option value="">Ei tiedossa</option>
+                            <option value="1">Hyvä (&gt; 30 l/min)</option>
+                            <option value="0">Huono (&lt; 30 l/min)</option>
+                        </select>
+
+                        <label for="add-coordination">Koordinaatio</label>
+                        <select id="add-coordination">
+                            <option value="">Ei tiedossa</option>
+                            <option value="1">Hyvä</option>
+                            <option value="0">Huono</option>
+                        </select>
+
+                        <label for="add-treatment">Hoitava lääke</label>
+                        <select id="add-treatment">
+                            <option value="">Ei tiedossa</option>
+                            <option value="1">Kyllä</option>
+                            <option value="0">Ei</option>
+                        </select>
+
+                        <label for="add-symptomatic">Oirelääke</label>
+                        <select id="add-symptomatic">
+                            <option value="">Ei tiedossa</option>
+                            <option value="1">Kyllä</option>
+                            <option value="0">Ei</option>
+                        </select>
+
+                        <!-- TODO: backend many-to-many fields, add when backend supports them:
+                             - Lääkemuoto / intake_style
+                             - Inhalaattori / inhaler_brand
+                             - Väri / color
+                             - Vaikuttava lääkeaine / active_ingredient
+                             - Lääkeaineryhmä / drug_class -->
+
+                        <div class="add-form-buttons">
+                            <button type="submit" class="btn-add">Tallenna</button>
+                            <button type="button" class="btn-cancel">Peruuta</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="panel-table-wrap">
+                    <table class="panel-table">
+                        <thead>
+                            <tr>
+                                <th>Nimi</th>
+                                <th>Ikäraja</th>
+                                <th>Krt/pv</th>
+                                <th>Nopeus</th>
+                                <th>Koordinaatio</th>
+                                <th>Käyttötarkoitus</th>
+                                <th>Toiminnot</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; Inhalaattorit.fi | <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a></p>
+        </footer>
+        <script src="./js/navigation.js"></script>
+        <script type="module" src="./js/lang.js"></script>
+        <script type="module" src="./js/admin.js"></script>
+    </body>
+</html>
