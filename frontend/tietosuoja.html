@@ -3,9 +3,9 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <link rel="stylesheet" href="./css/styles.css">
         <link rel="icon" href="data:,">
-        <title>Palaute — Inhalaattorit.fi</title>
+        <title>Tietosuojaseloste — Inhalaattorit.fi</title>
+        <link rel="stylesheet" href="./css/styles.css">
     </head>
 
     <body>
@@ -25,25 +25,33 @@
         </header>
 
         <main>
-            <section class="page-content">
-                <h2 data-i18n="feedback.heading">Palaute</h2>
-                <p id="feedback-intro">Kerro meille miten voimme parantaa sivustoa.</p>
-                <form id="feedback-form">
-                    <label for="feedback-name">Nimi</label>
-                    <input type="text" id="feedback-name" placeholder="Nimi (valinnainen)"/>
+            <div class="page-content">
+                <h2 data-i18n="privacy.heading">Tietosuojaseloste</h2>
 
-                    <label for="feedback-email">Sähköposti</label>
-                    <input type="email" id="feedback-email" placeholder="Sähköposti (valinnainen)"/>
+                <h3>Rekisterinpitäjä</h3>
+                <p><!-- TODO: fill in --></p>
 
-                    <label for="feedback-message">Viesti</label>
-                    <textarea id="feedback-message" rows="5" placeholder="Kirjoita palautteesi tähän..." required></textarea>
+                <h3>Yhteystiedot</h3>
+                <p><!-- TODO: fill in --></p>
 
-                    <button type="submit" class="btn-send">Lähetä</button>
-                </form>
-                <div id="feedback-thanks" style="display: none;">
-                    <p style="margin-top: 1rem;">Kiitos palautteestasi! Olemme yhteydessä tarvittaessa.</p>
-                </div>
-            </section>
+                <h3>Henkilötietojen käsittelyn tarkoitus</h3>
+                <p><!-- TODO: fill in --></p>
+
+                <h3>Käsiteltävät henkilötiedot</h3>
+                <p><!-- TODO: fill in --></p>
+
+                <h3>Tietojen säilytysaika</h3>
+                <p><!-- TODO: fill in --></p>
+
+                <h3>Tietojen luovutus</h3>
+                <p><!-- TODO: fill in --></p>
+
+                <h3>Rekisteröidyn oikeudet</h3>
+                <p><!-- TODO: fill in --></p>
+
+                <h3>Evästeet ja analytiikka</h3>
+                <p><!-- TODO: fill in --></p>
+            </div>
         </main>
 
         <footer>
@@ -51,6 +59,5 @@
         </footer>
         <script src="./js/navigation.js"></script>
         <script type="module" src="./js/lang.js"></script>
-        <script type="module" src="./js/feedback.js"></script>
     </body>
 </html>

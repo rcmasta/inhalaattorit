@@ -1,5 +1,19 @@
 import { applyFilter } from './filter.js';
 import { getInhalers } from './api.js';
+import { renderInhalerGrid } from './render.js'
+import { getCounterString } from './lang.js'
+
+var currentInhalers = 0;
+var totalInhalers = 0;
+
+function updateCounter() {
+    const counterStr = getCounterString().replace("{current}", currentInhalers)
+                                         .replace("{total}", totalInhalers);
+    const counterEl = document.getElementById("result-count");
+
+    counterEl.textContent = counterStr;
+
+}
 
 /**
  * Gathers all selected filters in an object
@@ -24,8 +38,12 @@ function getFilterObject() {
  */
 function filterData() {
     const filters = getFilterObject();
-
     const filtered = applyFilter(inhalers, filters);
+
+    currentInhalers = filtered.length;
+
+    renderInhalerGrid(filtered);
+    updateCounter();
 
     // DEBUG
     console.log("Filters:");
@@ -34,14 +52,9 @@ function filterData() {
     console.log(filtered);
 }
 
-const inhalers = await getInhalers();
-
-// DEBUG
-console.log("All inhalers:");
-console.log(inhalers);
-
 // Document event listeners
 document.addEventListener("DOMContentLoaded", () => {
+    console.log("DOMContentLoaded");
     const filterToggle = document.querySelector(".filter-toggle");
     const filterSection = document.querySelector(".search-filter");
     if (filterToggle && filterSection) {
@@ -77,4 +90,31 @@ document.addEventListener("DOMContentLoaded", () => {
             filterData();
         });
     }
+
+    // Back to grid view button
+    const backButton = document.getElementById("return-to-gridview");
+    backButton.addEventListener("click", () => {
+        filterData();
+    });
+
+    // Language button
+
+    const langBtn = document.querySelector(".lang-toggle");
+    if (langBtn) {
+        langBtn.addEventListener("click", function() {
+            updateCounter();
+        });
+    }
 });
+
+// Load inhalers
+const inhalers = await getInhalers();
+currentInhalers = totalInhalers = inhalers.length;
+
+// DEBUG
+console.log("All inhalers:");
+console.log(inhalers);
+
+// Initial rendering
+renderInhalerGrid(inhalers);
+updateCounter();
