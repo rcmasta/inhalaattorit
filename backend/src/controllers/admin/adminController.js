@@ -1,5 +1,7 @@
 const { dbAdd, dbEdit, dbRemove } = require("../../models/admin/adminModel");
 const { getActiveIngredients, createActiveIngredient, editActiveIngredient, deleteActiveIngredient } = require('./activeIngredient');
+const drugClassController = require('./drugClass');
+
 const BackendError = require('../../classes/backendError');
 
 const createItem = (req, res, next) => {
@@ -35,4 +37,4 @@ const deleteItem = (req, res, next) => {
     res.status(200).json({message: 'Item removed successfully'});
 };
 
-module.exports = { createItem, editItem, deleteItem, getActiveIngredients, createActiveIngredient, editActiveIngredient, deleteActiveIngredient };
+module.exports = { createItem, editItem, deleteItem, getActiveIngredients, createActiveIngredient, editActiveIngredient, deleteActiveIngredient, drugClassController };
