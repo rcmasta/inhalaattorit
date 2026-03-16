@@ -11,7 +11,7 @@ const JWT_PRIVATE_KEY = 'jwtPrivateKey.pem';
 
 // routes
 const inhalersRoutes = require('./src/routes/inhalersRoutes');
-const authAdminRoutes = require('./src/routes/authAdminRoutes');
+const authRoutes = require('./src/routes/authRoutes');
 const adminRoutes = require('./src/routes/adminRoutes');
 
 // middleware
@@ -28,8 +28,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 //Routes
 app.use('/api/inhalers', limiterBasic, inhalersRoutes);
-app.use('/api/admin', limiterAdminLogin, authAdminRoutes);
-app.use('/api/admin/inhalers', limiterBasic, authMiddleware, adminRoutes);
+app.use('/api/admin/login', limiterAdminLogin, authRoutes);
+app.use('/api/admin', limiterBasic, authMiddleware, adminRoutes);
 
 // Error handling middleware
 app.use(errorMiddleware);
