@@ -1,4 +1,5 @@
 const db = require('../../config/db');
+const sanitizeName = require('../../utils/sanitizeName');
 
 const stmtEditTL = (id, language, name) => {
     return db.prepare(
@@ -34,7 +35,10 @@ const dbGetActiveIngredients = () => {
     return data;
 };
 
-const dbAddActiveIngredient = db.transaction((name_fi, name_sv, drug_class_id) => {
+const dbAddActiveIngredient = db.transaction((fi, sv, drug_class_id) => {
+    fi = sanitizeName(fi);
+    sv = sanitizeName(sv);
+
     const stmtNewActive = db.prepare(
         "INSERT INTO active_ingredient (drug_class_id) " +
         `VALUES (${drug_class_id})`
@@ -45,15 +49,18 @@ const dbAddActiveIngredient = db.transaction((name_fi, name_sv, drug_class_id) =
 
     const stmtActiveTranslations = db.prepare(
         "INSERT INTO active_ingredient_translation (active_ingredient_id, language, name) VALUES" +
-        `(${active_ingredient_id}, 'fi', '${name_fi}'),` +
-        `(${active_ingredient_id}, 'sv', '${name_sv}')`
+        `(${active_ingredient_id}, 'fi', '${fi}'),` +
+        `(${active_ingredient_id}, 'sv', '${sv}')`
     );
     stmtActiveTranslations.run();
 
     console.log(`Added active ingredient (id: ${active_ingredient_id})`);
 });
 
-const dbEditActiveIngredient = db.transaction((id, name_fi, name_sv, drug_class_id) => {
+const dbEditActiveIngredient = db.transaction((id, fi, sv, drug_class_id) => {
+    fi = sanitizeName(fi);
+    sv = sanitizeName(sv);
+
     const stmtEditActive = db.prepare(
         `UPDATE active_ingredient SET drug_class_id = ${drug_class_id} ` +
         `WHERE id = ${id}`
@@ -63,8 +70,8 @@ const dbEditActiveIngredient = db.transaction((id, name_fi, name_sv, drug_class_
     const resEditActive = stmtEditActive.run();
 
     // update the names of the active ingredient 
-    const resEditFi = stmtEditTL(id, 'fi', name_fi).run();
-    const resEditSv = stmtEditTL(id, 'sv', name_sv).run();
+    const resEditFi = stmtEditTL(id, 'fi', fi).run();
+    const resEditSv = stmtEditTL(id, 'sv', sv).run();
 
     console.log(`Edited active ingredient (id: ${id})`);
 });

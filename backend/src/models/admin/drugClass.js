@@ -1,4 +1,5 @@
 const db = require('../../config/db');
+const sanitizeName = require('../../utils/sanitizeName');
 
 const dbGetDrugClasses = () => {
     const drugClasses = db.prepare(
@@ -9,6 +10,8 @@ const dbGetDrugClasses = () => {
 };
 
 const dbCreateDrugClass = db.transaction((name) => {
+    name = sanitizeName(name);
+
     const res = db.prepare(
         "INSERT INTO drug_class (name) " +
         `VALUES ('${name}')`
@@ -18,6 +21,8 @@ const dbCreateDrugClass = db.transaction((name) => {
 });
 
 const dbEditDrugClass = db.transaction((id, name) => {
+    name = sanitizeName(name);
+
     const res = db.prepare(
         `UPDATE drug_class SET name = '${name}' ` +
         `WHERE id = ${id}`
