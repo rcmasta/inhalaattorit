@@ -51,13 +51,20 @@ const medicineFields = [
 ];
 
 const dbAdd = db.transaction((itemdata) => {
-    const givenFields = Object.keys(itemdata).filter(f => medicineFields.includes(f));
+    const dataToInsert = { ...itemdata };
+
+    // Serialize objects that SQLite can't store directly
+    if (dataToInsert.links && typeof dataToInsert.links === "object") {
+        dataToInsert.links = JSON.stringify(dataToInsert.links);
+    }
+
+    const givenFields = Object.keys(dataToInsert).filter(f => medicineFields.includes(f));
     const stmtAddMedicine = db.prepare(
         `INSERT INTO medicine (${givenFields.join(", ")})
          VALUES (${givenFields.map(f => "@" + f).join(", ")})`
     );
 
-    const res = stmtAddMedicine.run(itemdata);
+    const res = stmtAddMedicine.run(dataToInsert);
 
     // get medicine_id
     const medicine_id = res.lastInsertRowid;
@@ -78,6 +85,8 @@ const dbAdd = db.transaction((itemdata) => {
 
     // print for testing
     console.log("Added row (id:", medicine_id, ")");
+
+    return medicine_id;
 });
 
 const dbEdit = db.transaction((id, updates) => {

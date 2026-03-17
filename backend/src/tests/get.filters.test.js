@@ -1,18 +1,12 @@
 const { expect } = require("chai");
-const { getDb } = require("./test-db");
-require("./test-db"); 
 
 const { getUsedFilters } = require("../models/inhalers.model");
 
-let db;
-before(() => {
-    db = getDb();
-});
 
 describe("GET used filters", () => {
 
     it("should return filter object with expected properties", () => {
-        const result = getUsedFilters("fi", db);
+        const result = getUsedFilters("fi");
 
         expect(result).to.be.an("object");
 
@@ -36,7 +30,7 @@ describe("GET used filters", () => {
 
 
 it("should return unique values in arrays", () => {
-    const result = getUsedFilters("fi", db);
+    const result = getUsedFilters("fi");
 
     const uniqueAges = new Set(result.official_min_age);
 
@@ -45,7 +39,7 @@ it("should return unique values in arrays", () => {
 
 
 it("should contain correct numeric filters", () => {
-    const result = getUsedFilters("fi", db);
+    const result = getUsedFilters("fi");
 
     expect(result.official_min_age).to.have.members([5,6,12]);
     expect(result.recommended_min_age).to.have.members([6,12]);
@@ -54,7 +48,7 @@ it("should contain correct numeric filters", () => {
 
 
 it("should include used inhaler brands", () => {
-    const result = getUsedFilters("fi", db);
+    const result = getUsedFilters("fi");
 
     expect(result.inhaler_brand).to.include("Autohaler");
     expect(result.inhaler_brand).to.include("Turbuhaler");
@@ -62,14 +56,14 @@ it("should include used inhaler brands", () => {
 
 
 it("should include active ingredients", () => {
-    const result = getUsedFilters("fi", db);
+    const result = getUsedFilters("fi");
 
     expect(result.active_ingredients).to.include("Beklometasoni");
 });
 
 
 it("should return boolean filter markers", () => {
-    const result = getUsedFilters("fi", db);
+    const result = getUsedFilters("fi");
 
     expect(result.good_intake_speed).to.equal("boolean");
     expect(result.good_coordination).to.equal("boolean");
@@ -79,7 +73,7 @@ it("should return boolean filter markers", () => {
 
 
 it("should work for Swedish language", () => {
-    const result = getUsedFilters("sv", db);
+    const result = getUsedFilters("sv");
 
     expect(result).to.be.an("object");
     expect(result.intake_styles.length).to.be.greaterThan(0);

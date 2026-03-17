@@ -1,6 +1,6 @@
-const Database = require("../config/db"); 
+const db = require("../config/db"); 
 
-const getAllInhalers = (lang, db = Database) => {
+const getAllInhalers = (lang) => {
     const query = 'SELECT m.* FROM medicine m';
     const medicines = db.prepare(query).all();
 
@@ -55,7 +55,7 @@ const getAllInhalers = (lang, db = Database) => {
     return medicines;
 };
 
-const getUsedFilters = (lang, db = Database) => {
+const getUsedFilters = (lang) => {
 
     // using arrays to add data so we don't get duplicates
     const data = {
@@ -70,7 +70,7 @@ const getUsedFilters = (lang, db = Database) => {
     };
 
     // get all medicine and add all fields to data
-    const medicine = getAllInhalers(lang, db);
+    const medicine = getAllInhalers(lang);
     medicine.forEach(med => {
         if (med.official_min_age) data.official_min_age.add(med.official_min_age);
         if (med.recommended_min_age) data.recommended_min_age.add(med.recommended_min_age);
