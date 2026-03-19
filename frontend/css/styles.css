@@ -212,12 +212,13 @@ main {
 }
 
 .detail-view-img {
-    
+    display: flex;
+    justify-content: center;
 }
 
 .detail-view-img img {
     max-width: 100%;
-    height: auto;
+    object-fit: contain;
 }
 
 .detail-view-info {
@@ -249,8 +250,9 @@ main {
     font-size: 0.9rem;
 }
 
-.card-img-thumbnail {
+.card-img img {
     max-width: 100%;
+    object-fit: contain;
 }
 
 
