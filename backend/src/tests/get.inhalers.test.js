@@ -11,7 +11,7 @@ describe("GET inhalers", () => {
         const results = getAllInhalers("fi");
 
         expect(results).to.be.an("array");
-        expect(results.length).to.equal(3); // seeded medicines
+        expect(results.length).to.equal(4); // seeded medicines
     });
 
     it("should return inhalers with expected structure", () => {
