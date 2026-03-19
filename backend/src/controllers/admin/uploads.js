@@ -1,4 +1,6 @@
 const adminModel = require('../../models/admin/adminModel');
+const db = require('../../config/db');
+
 
 const sharp = require('sharp')
 const path = require('path')
@@ -8,11 +10,13 @@ class uploads {
     static add = async (req, res) => {
         try {
             const itemId = req.params.id;
-            const file = req.file;
+            if (!itemId) { return res.status(400).json({message: "ID parameter missing"}); }
 
-            if (!file) {
-                return res.status(400).json({message: "Image not given"});
-            }
+            const row = db.prepare("SELECT id FROM medicine WHERE id = ?").get(itemId);
+            if (!row) { return res.status(404).json({message: "Can't find medicine with given ID"}) }
+
+            const file = req.file;
+            if (!file) { return res.status(400).json({message: "Image not given"}); }
 
             const metadata = await sharp(file.buffer).metadata();
 
