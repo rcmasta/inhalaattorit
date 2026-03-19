@@ -1,4 +1,4 @@
-const inhalersModel = require('../models/inhalers.model');
+const inhalersModel = require('../models/inhalersModel');
 
 // list of supported languages
 const supportedLanguages = ["fi", "sv"];
