@@ -1,9 +1,9 @@
-const {getAdmin, verifyPassword, signToken} = require('../models/auth.model');
+const {getAdmin, verifyPassword, signToken} = require('../models/authModel');
 const BackendError = require('../classes/backendError');
 
 const INVALID_CREDENTIALS = 'Invalid credentials.';
 
-class authAdminController {
+class authController {
     static postLogin = async (req, res, next) => {
         // get username and password from request.
         const {username, password} = req.body;
@@ -24,4 +24,4 @@ class authAdminController {
     };
 }
 
-module.exports = authAdminController;
+module.exports = authController;
