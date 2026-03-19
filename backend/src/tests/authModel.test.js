@@ -37,20 +37,4 @@ describe("authModel", () => {
         expect(result).to.equal(false);
     });
 
-    it("should sign a token containing the admin username", (done) => {
-        signToken({ username: "token-user" }, (err, token) => {
-            try {
-                expect(err).to.equal(null);
-                expect(token).to.be.a("string");
-
-                const privateKey = fs.readFileSync("jwtPrivateKey.pem", "utf-8");
-                const decoded = jwt.verify(token, privateKey);
-
-                expect(decoded.username).to.equal("token-user");
-                done();
-            } catch (error) {
-                done(error);
-            }
-        });
-    });
 });

@@ -40,7 +40,10 @@ Example JSON:
 {
     name: "Medicine",
     image_path: "/this/dir",
-    links: "inhalaattorit.fi",
+    links: {
+            database: "https://pharmacafennica.fi/spc/2011594",
+            tutorial: "https://www.youtube.com/watch?v=kZ1UXkbvpqo&list=PLNhllJNrG-R__DjSxaxbltf635aJGmadl&index=28"
+        },
     official_min_age: 1,
     recommended_min_age: 5,
     times_a_day: 1,
@@ -110,7 +113,10 @@ After edit medicine state is:
     id: 1, (automatically given)
     name: "Medicine",
     image_path: "/better/location",
-    links: "inhalaattorit.fi",
+    links: {
+            database: "https://pharmacafennica.fi/spc/2011594",
+            tutorial: "https://www.youtube.com/watch?v=kZ1UXkbvpqo&list=PLNhllJNrG-R__DjSxaxbltf635aJGmadl&index=28"
+        },
     official_min_age: 1,
     recommended_min_age: 5,
     times_a_day: 6,
