@@ -30,6 +30,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use('/api/inhalers', limiterBasic, inhalersRoutes);
 app.use('/api/admin/login', limiterAdminLogin, authRoutes);
 app.use('/api/admin', limiterBasic, authMiddleware, adminRoutes);
+app.use('/uploads', express.static('uploads')); 
 
 // Error handling middleware
 app.use(errorMiddleware);
