@@ -1,25 +1,21 @@
 const { expect } = require("chai");
-const { getDb } = require("./test-db");
-require("./test-db"); 
+const db = require('../config/db');
 
-const { getAllInhalers } = require("../models/inhalers.model");
 
-let db;
-before(() => {
-    db = getDb();
-});
+const { getAllInhalers } = require("../models/inhalersModel");
+
 
 describe("GET inhalers", () => {
 
     it("should return all inhalers", () => {
-        const results = getAllInhalers("fi", db);
+        const results = getAllInhalers("fi");
 
         expect(results).to.be.an("array");
         expect(results.length).to.equal(3); // seeded medicines
     });
 
     it("should return inhalers with expected structure", () => {
-        const results = getAllInhalers("fi", db);
+        const results = getAllInhalers("fi");
 
         const inhaler = results[0];
 
@@ -31,13 +27,13 @@ describe("GET inhalers", () => {
     });
 
     it("should return Finnish translations", () => {
-        const results = getAllInhalers("fi", db);
+        const results = getAllInhalers("fi");
 
         expect(results[0].description).to.equal("Tämä on lääkettä");
     });
 
     it("should return Swedish translations", () => {
-        const results = getAllInhalers("sv", db);
+        const results = getAllInhalers("sv");
 
         expect(results[0].description).to.equal("det här är medicin");
     });
@@ -57,7 +53,7 @@ describe("GET inhalers", () => {
             VALUES (?, ?, ?)
         `).run(medId, "fi", "Minimal description");
 
-        const results = getAllInhalers("fi", db);
+        const results = getAllInhalers("fi");
 
         const minimal = results.find(m => m.name === "Minimal Medicine");
 
@@ -69,7 +65,7 @@ describe("GET inhalers", () => {
 
     it("should parse links JSON correctly", () => {
 
-        const results = getAllInhalers("fi", db);
+        const results = getAllInhalers("fi");
 
         expect(results[0].links).to.be.an("object");
         expect(results[0].links).to.have.property("database");
@@ -79,7 +75,7 @@ describe("GET inhalers", () => {
 
         db.exec("DELETE FROM medicine");
 
-        const results = getAllInhalers("fi", db);
+        const results = getAllInhalers("fi");
 
         expect(results).to.be.an("array").that.is.empty;
     });
