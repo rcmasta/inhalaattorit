@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const db = require('../config/db');
 
 
-const { getAllInhalers } = require("../models/inhalers.model");
+const { getAllInhalers } = require("../models/inhalersModel");
 
 
 describe("GET inhalers", () => {
