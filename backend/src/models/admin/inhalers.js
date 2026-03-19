@@ -52,13 +52,20 @@ const medicineFields = [
 
 class inhalers {
     static create = db.transaction((itemdata) => {
-        const givenFields = Object.keys(itemdata).filter(f => medicineFields.includes(f));
+        const dataToInsert = { ...itemdata };
+
+        // Serialize objects that SQLite can't store directly
+        if (dataToInsert.links && typeof dataToInsert.links === "object") {
+            dataToInsert.links = JSON.stringify(dataToInsert.links);
+        }
+
+        const givenFields = Object.keys(dataToInsert).filter(f => medicineFields.includes(f));
         const stmtAddMedicine = db.prepare(
             `INSERT INTO medicine (${givenFields.join(", ")})
              VALUES (${givenFields.map(f => "@" + f).join(", ")})`
         );
 
-        const res = stmtAddMedicine.run(itemdata);
+        const res = stmtAddMedicine.run(dataToInsert);
 
         // get medicine_id
         const medicine_id = res.lastInsertRowid;
@@ -79,6 +86,7 @@ class inhalers {
 
         // print for testing
         console.log("Added row (id:", medicine_id, ")");
+        return medicine_id;
     });
 
     static edit = db.transaction((id, updates) => {
@@ -120,6 +128,8 @@ class inhalers {
 
         // print for testing
         console.log("Updated row");
+        return id;
+    
     });
 
     static delete = db.transaction((id) => {
@@ -127,10 +137,11 @@ class inhalers {
 
         if (res.changes === 0) {
             console.log("No row with that id")
-            return;
+            return null;
         }
         // print for testing
         console.log("Deleted row");
+        return id;
     });
 
 };

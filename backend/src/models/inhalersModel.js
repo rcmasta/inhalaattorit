@@ -1,6 +1,6 @@
-const Database = require("../config/db"); 
+const db = require("../config/db"); 
 
-const getAllInhalers = (lang, db = Database) => {
+const getAllInhalers = (lang) => {
     const query = 'SELECT m.* FROM medicine m';
     const medicines = db.prepare(query).all();
 
