@@ -48,7 +48,7 @@ class uploads {
     static delete = async (req, res) => {
 
         const itemId = req.params.id;
-        if (deleteWithId(itemId)) {
+        if (await this.deleteWithId(itemId)) {
             res.status(200).json({message: 'Image removed successfully'});
         } else {
             res.status(400).json({message: "Image not removed"});
@@ -68,8 +68,6 @@ class uploads {
 
         return true;
     };
-
 };
-
 
 module.exports = uploads;
