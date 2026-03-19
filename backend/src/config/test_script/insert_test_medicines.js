@@ -29,7 +29,7 @@ const insert_join_medicine_color = db.prepare(`
 const test_medicines = [
     {
         name: "Aerobec Autohaler",
-        image_path: null,
+        image_path: "/img/aerobec_autohaler.jpg",
         description: {
             fi: "Tämä on lääkettä",
             sv: "det här är medicin"
@@ -53,7 +53,7 @@ const test_medicines = [
     },
     {
         name: "Alvesco",
-        image_path: null,
+        image_path: "/img/alvesco.jpg",
         description: {
             fi: "Tällä lääkkeellä ei ole inhalaattori merkkiä",
             sv: "Detta läkemedel har inget inhalatormärke."
@@ -77,7 +77,31 @@ const test_medicines = [
     },
     {
         name: "Symbicort Turbuhaler",
-        image_path: null,
+        image_path: "/img/symbicort_turbuhaler.jpg",
+        description: {
+            fi: "hoitavalääke ja oirelääke",
+            sv: "terapeutisk och symtomatisk medicin"
+        },
+        links: {
+            database: "https://pharmacafennica.fi/spc/2011594",
+            tutorial: "https://www.youtube.com/watch?v=kZ1UXkbvpqo&list=PLNhllJNrG-R__DjSxaxbltf635aJGmadl&index=28"
+        },
+        official_min_age: 6,
+        recommended_min_age: 6,
+        times_a_day: 2,
+        good_intake_speed: 1,
+        good_coordination: 1,
+        treatment_medicine: 1,
+        symptomatic_medicine: 1,
+
+        inhaler_brand_id: 3,
+        intake_style_id: [1],
+        active_ingredients_id: [2, 7],
+        color_id: [1, 3]
+    },
+    {
+        name: "Rikkinäinen inhalaattori",
+        image_path: "/img/does_not_exist.jpg",
         description: {
             fi: "hoitavalääke ja oirelääke",
             sv: "terapeutisk och symtomatisk medicin"
