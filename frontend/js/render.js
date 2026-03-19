@@ -1,7 +1,7 @@
 const targetID = "results-grid";
 
 const missingImg = "img/missing.png";
-const emptyField = "";
+const thumbnailSuffix = "_thumbnail";
 
 const inhalerTag = "article";
 const inhalerSection = "section";
@@ -15,11 +15,12 @@ const detailInfoClass = "detail-view-info";
 const cardClass = "card";
 const cardImgClass = "card-img";
 const cardInfoClass = "card-info";
-const cardTypeClass = "card-type";
-const thumbClass = "card-img-thumbnail";
 const hiddenClass = "hidden";
+const backButtonId = "return-to-gridview";
 
-const ariaHidden = "aria-hidden"
+const ariaHiddenAttribute = "aria-hidden"
+const ariaStateVisible = "false"
+const ariaStateHidden = "true"
 
 /**
  * Renders given inhalers
@@ -44,7 +45,7 @@ export function renderInhalerGrid(data) {
         }
     }
     
-    disableBackButton();
+    setBackButtonVisibility(false);
     renderTarget.replaceChildren(inhalerList);
 }
 
@@ -63,13 +64,7 @@ function renderInhalerDetails(inhaler) {
         renderTarget.replaceChildren(inhalerDetails);
     }
 
-    enableBackButton();
-
-    // DEBUG
-    console.log("Clicked inhaler card");
-    console.log(inhaler);
-    console.log(inhalerView);
-
+    setBackButtonVisibility(true);
 }
 
 /**
@@ -83,30 +78,13 @@ function buildCard(inhaler) {
     inhalerCard.classList.add(cardClass);
 
     // Create card sections
-    const cardImage = buildCardImageSection(inhaler);
+    const cardImage = buildImageSection(inhaler, true);
     inhalerCard.appendChild(cardImage);
 
     const cardInfo = buildCardInfoSection(inhaler);
     inhalerCard.appendChild(cardInfo);
 
     return inhalerCard;
-}
-
-/**
- * Builds the image section for the inhaler card
- * @param {*} inhaler JSON object containing the inhaler information
- * @returns HTML element containing the image section
- */
-function buildCardImageSection(inhaler) {
-    const cardImageSection = document.createElement(inhalerSection);
-    cardImageSection.classList.add(cardImgClass);
-    
-    const cardImage = document.createElement(imageTag);
-    cardImage.classList.add(thumbClass);
-    cardImage.src = (inhaler.image_path === null) ? missingImg : inhaler.image_path;
-
-    cardImageSection.appendChild(cardImage);
-    return cardImageSection;
 }
 
 /**
@@ -157,7 +135,7 @@ function buildDetailView(inhaler) {
     detailView.classList.add(detailClass);
 
     // Create detail view sections
-    const detailImage = buildDetailImageSection(inhaler);
+    const detailImage = buildImageSection(inhaler, false);
     detailView.appendChild(detailImage);
 
     const detailInfo = buildDetailInfoSection(inhaler);
@@ -167,67 +145,106 @@ function buildDetailView(inhaler) {
 }
 
 /**
- * Builds the image section for the inhaler detail view
- * @param {*} inhaler JSON object containing the inhaler information
- * @returns HTML element containing the image section
- */
-function buildDetailImageSection(inhaler) {
-    const detailImageSection = document.createElement(inhalerSection);
-    detailImageSection.classList.add(detailImgClass);
-
-    // TODO: Add proper image
-    const detailImage = document.createElement(imageTag);
-    detailImage.src = "img/placeholder.jpg";
-    detailImageSection.appendChild(detailImage);
-
-    return detailImageSection;
-}
-
-/**
  * Builds the info section for the inhaler detail view
  * @param {*} inhaler JSON object containing the inhaler information
  * @returns HTML element containing the info section
  */
 function buildDetailInfoSection(inhaler) {
-    const detailImageSection = document.createElement(inhalerSection);
-    detailImageSection.classList.add(detailInfoClass);
+    const detailInfoSection = document.createElement(inhalerSection);
+    detailInfoSection.classList.add(detailInfoClass);
 
     // Header from inhaler name
     const infoHeader = document.createElement(nameTag);
     infoHeader.textContent = inhaler.name;
-    detailImageSection.appendChild(infoHeader);
+    detailInfoSection.appendChild(infoHeader);
 
     // Relevant info
     if ("inhaler_brand" in inhaler) {
         const infoBrand = document.createElement(lineTag);
         infoBrand.textContent = inhaler.inhaler_brand.name;
-        detailImageSection.appendChild(infoBrand);
+        detailInfoSection.appendChild(infoBrand);
     }    
 
     const infoColor = document.createElement(lineTag);
     infoColor.textContent = inhaler.colors[0].name;
-    detailImageSection.appendChild(infoColor);
+    detailInfoSection.appendChild(infoColor);
 
     // TODO: Localisation
     const infoOfficialAge = document.createElement(lineTag);
     infoOfficialAge.textContent = "Virallinen ikä: " + inhaler.official_min_age;
-    detailImageSection.appendChild(infoOfficialAge);
+    detailInfoSection.appendChild(infoOfficialAge);
 
     const infoRecommendedAge = document.createElement(lineTag);
     infoRecommendedAge.textContent = "Suositeltu ikä: " + inhaler.recommended_min_age;
-    detailImageSection.appendChild(infoRecommendedAge);
+    detailInfoSection.appendChild(infoRecommendedAge);
 
-    return detailImageSection;
+    return detailInfoSection;
 }
 
-function enableBackButton() {
-    const backButton = document.getElementById("return-to-gridview");
-    backButton.classList.remove(hiddenClass);
-    backButton.setAttribute(ariaHidden, "false");
+/**
+ * Builds the image section for inhaler cards and detail view
+ * @param {*} inhaler Inhaler JSON object
+ * @param {*} isGridView If true, render card thumbnail, else full image
+ * @returns 
+ */
+function buildImageSection(inhaler, isGridView) {
+    const imageSection = document.createElement(inhalerSection);
+    imageSection.classList.add(isGridView ? cardImgClass : detailImgClass);
+    buildImage(inhaler, imageSection, isGridView);
+
+    return imageSection;
 }
 
-function disableBackButton() {
-    const backButton = document.getElementById("return-to-gridview");
-    backButton.classList.add(hiddenClass);
-    backButton.setAttribute(ariaHidden, "true");
+/**
+ * Builds the image element, and adds it to a parent
+ * @param {*} inhaler Inhaler JSON object
+ * @param {*} parent The parent element to add the image to
+ * @param {*} isThumbnail Is the image a thumbnail
+ */
+function buildImage(inhaler, parent, isThumbnail) {
+    const image = document.createElement(imageTag);
+
+    if (isThumbnail) {
+        // Generate thumbnail path
+        const dotIdx = inhaler.image_path.lastIndexOf('.');
+        const thumbnailPath = inhaler.image_path.substring(0, dotIdx)
+                      + thumbnailSuffix
+                      + inhaler.image_path.substring(dotIdx);
+        
+        image.src = thumbnailPath;
+    } else {
+        image.src = inhaler.image_path;
+    } 
+    missingImageHandler(image);
+
+    parent.appendChild(image);
+}
+
+/**
+ * Replaces the image with missing image icon
+ * @param {*} image Element containing the image
+ */
+function missingImageHandler(image) {
+    image.onerror = function () {
+        this.onerror = null;
+        this.src = missingImg;
+    }
+}
+
+/**
+ * Sets the back button visibility
+ * @param {*} visible If true, then show the button, else hide.
+ */
+function setBackButtonVisibility(visible) {
+    const backButton = document.getElementById(backButtonId);
+
+    if (visible) {
+        // Show button
+        backButton.classList.remove(hiddenClass);
+        backButton.setAttribute(ariaHiddenAttribute, ariaStateVisible);
+    } else {
+        // Hide button
+        backButton.classList.add(hiddenClass);
+        backButton.setAttribute(ariaHiddenAttribute, ariaStateHidden);
+    }
 }
