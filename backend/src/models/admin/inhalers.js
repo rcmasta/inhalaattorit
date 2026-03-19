@@ -1,4 +1,5 @@
 const db = require('../../config/db');
+const uploads = require('../../controllers/admin/uploads')
 
 const stmtRemoveDesc = db.prepare(
     "DELETE FROM medicine_translation " +
@@ -139,6 +140,10 @@ class inhalers {
             console.log("No row with that id")
             return null;
         }
+
+        // delete pictures
+        uploads.deleteWithId(id);
+
         // print for testing
         console.log("Deleted row");
         return id;

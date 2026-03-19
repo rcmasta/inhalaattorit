@@ -48,17 +48,28 @@ class uploads {
     static delete = async (req, res) => {
 
         const itemId = req.params.id;
-        const fullResImage = path.join(__dirname, '../../../uploads/full/' + itemId + ".jpeg");
-        const thumbResImage = path.join(__dirname, '../../../uploads/thumb/' + itemId + ".jpeg");
+        if (deleteWithId(itemId)) {
+            res.status(200).json({message: 'Image removed successfully'});
+        } else {
+            res.status(400).json({message: "Image not removed"});
+        }
+    };
+
+    static deleteWithId = async (id) => {
+        const fullResImage = path.join(__dirname, '../../../uploads/full/' + id + ".jpeg");
+        const thumbResImage = path.join(__dirname, '../../../uploads/thumb/' + id + ".jpeg");
 
         try { 
             await fs.unlink(fullResImage); 
             await fs.unlink(thumbResImage);
-            res.status(200).json({message: 'Image removed successfully'});
         } catch {
-            res.status(400).json({message: "Image not removed"});
+            return false;
         }
+
+        return true;
     };
+
 };
+
 
 module.exports = uploads;
