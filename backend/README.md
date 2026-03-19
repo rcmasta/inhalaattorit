@@ -133,3 +133,73 @@ After edit medicine state is:
 **Endpoint** DELETE /api/admin/inhalers/{id}
 
     No parameters needed
+
+### Get All Active Ingredients:
+**Endpoint** GET /api/admin/active-ingredient
+
+    No parameters needed
+
+### Create New Active Ingredient:
+**Endpoint** POST /api/admin/active-ingredient
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    fi                      string
+    sv                      string
+    drug_class_id           int
+
+### Edit Existing Active Ingredient:
+**Endpoint** PUT /api/admin/active-ingredient/{id}
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    fi                      string
+    sv                      string
+    drug_class_id           int
+
+### Delete Existing Active Ingredient:
+**Endpoint** DELETE /api/admin/active-ingredient/{id}
+
+    No parameters needed
+
+### Get All Drug Classes:
+**Endpoint** GET /api/admin/drug-class
+
+    No parameters needed
+    
+### Create New Drug Class:
+**Endpoint** POST /api/admin/drug-class
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    name                    string
+
+### Edit Existing Drug Class:
+**Endpoint** PUT /api/admin/drug-class/{id}
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    name                    string
+
+### Delete Existing Drug Class:
+**Endpoint** DELETE /api/admin/drug-class/{id}
+
+    No parameters needed
+
+### Authenticate Admin:
+**Endpoint** POST /api/admin/login
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    username                string
+    password                string
