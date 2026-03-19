@@ -128,6 +128,8 @@ class inhalers {
 
         // print for testing
         console.log("Updated row");
+        return id;
+    
     });
 
     static delete = db.transaction((id) => {
@@ -135,10 +137,11 @@ class inhalers {
 
         if (res.changes === 0) {
             console.log("No row with that id")
-            return;
+            return null;
         }
         // print for testing
         console.log("Deleted row");
+        return id;
     });
 
 };
