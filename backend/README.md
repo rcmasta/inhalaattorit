@@ -138,6 +138,16 @@ After edit medicine state is:
 
     No parameters needed
 
+### Get Full Resolution Image Of Medicine
+**Endpoint:** GET /api/uploads/full/{id}.jpeg
+
+    No parameters needed
+
+### Get Thumbnail Resolution Image Of Medicine
+**Endpoint:** GET /api/uploads/thumb/{id}.jpeg 
+
+    No parameter needed
+
 ### Add Image For Existing Meidicine
 **Endpoint:** POST /api/admin/uploads/{id}
 
