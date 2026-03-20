@@ -1,4 +1,4 @@
-const { dbRemove } = require("../../src/models/admin.model")
+const inhalers = require("../../src/models/admin/inhalers")
 const readline = require("readline");
 
 const rl = readline.createInterface({
@@ -9,6 +9,6 @@ const rl = readline.createInterface({
 rl.question("Give id to remove: ", (idInput) => {
     const id = parseInt(idInput);
 
-    dbRemove(id);
+    inhalers.delete(id);
     rl.close();
 });

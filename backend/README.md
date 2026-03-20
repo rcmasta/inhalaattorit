@@ -3,12 +3,14 @@
 ## API Endpoints
 ### Get All Inhalers:
 
-**Endpoint** GET /api/inhalers/
+**Endpoint:** GET /api/inhalers/
 
     No parameters needed
 
 ### Create New Inhaler:
-**Endpoint** POST /api/admin/inhalers/
+**Endpoint:** POST /api/admin/inhalers/
+
+**Content-Type:** application/json
 
 Must have parameters:
 
@@ -63,7 +65,9 @@ Example JSON:
 ```
 
 ### Edit Existing Inhaler:
-**Endpoint** PUT /api/admin/inhalers/{id}
+**Endpoint:** PUT /api/admin/inhalers/{id}
+
+**Content-Type:** application/json
 
 Must have parameters:
 
@@ -136,17 +140,40 @@ After edit medicine state is:
 ```
 
 ### Delete Existing Inhaler:
-**Endpoint** DELETE /api/admin/inhalers/{id}
+**Endpoint:** DELETE /api/admin/inhalers/{id}
 
     No parameters needed
 
+### Get Full Resolution Image Of Medicine
+**Endpoint:** GET /api/uploads/full/{id}.jpeg
+
+    No parameters needed
+
+### Get Thumbnail Resolution Image Of Medicine
+**Endpoint:** GET /api/uploads/thumb/{id}.jpeg 
+
+    No parameter needed
+
+### Add Image For Existing Meidicine
+**Endpoint:** POST /api/admin/uploads/{id}
+
+**Content-Type:** multipart/form-data
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    image                   file
+
 ### Get All Active Ingredients:
-**Endpoint** GET /api/admin/active-ingredient
+**Endpoint:** GET /api/admin/active-ingredient
 
     No parameters needed
 
 ### Create New Active Ingredient:
-**Endpoint** POST /api/admin/active-ingredient
+**Endpoint:** POST /api/admin/active-ingredient
+
+**Content-Type:** application/json
 
 Must have parameters:
 
@@ -157,7 +184,9 @@ Must have parameters:
     drug_class_id           int
 
 ### Edit Existing Active Ingredient:
-**Endpoint** PUT /api/admin/active-ingredient/{id}
+**Endpoint:** PUT /api/admin/active-ingredient/{id}
+
+**Content-Type:** application/json
 
 Must have parameters:
 
@@ -168,17 +197,19 @@ Must have parameters:
     drug_class_id           int
 
 ### Delete Existing Active Ingredient:
-**Endpoint** DELETE /api/admin/active-ingredient/{id}
+**Endpoint:** DELETE /api/admin/active-ingredient/{id}
 
     No parameters needed
 
 ### Get All Drug Classes:
-**Endpoint** GET /api/admin/drug-class
+**Endpoint:** GET /api/admin/drug-class
 
     No parameters needed
     
 ### Create New Drug Class:
-**Endpoint** POST /api/admin/drug-class
+**Endpoint:** POST /api/admin/drug-class
+
+**Content-Type:** application/json
 
 Must have parameters:
 
@@ -187,7 +218,9 @@ Must have parameters:
     name                    string
 
 ### Edit Existing Drug Class:
-**Endpoint** PUT /api/admin/drug-class/{id}
+**Endpoint:** PUT /api/admin/drug-class/{id}
+
+**Content-Type:** application/json
 
 Must have parameters:
 
@@ -196,12 +229,14 @@ Must have parameters:
     name                    string
 
 ### Delete Existing Drug Class:
-**Endpoint** DELETE /api/admin/drug-class/{id}
+**Endpoint:** DELETE /api/admin/drug-class/{id}
 
     No parameters needed
 
 ### Authenticate Admin:
-**Endpoint** POST /api/admin/login
+**Endpoint:** POST /api/admin/login
+
+**Content-Type:** application/json
 
 Must have parameters:
 
