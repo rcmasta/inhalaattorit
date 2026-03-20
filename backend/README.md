@@ -9,6 +9,7 @@
 
 ### Create New Inhaler:
 **Endpoint** POST /api/admin/inhalers/
+**Content-Type** application/json
 
 Must have parameters:
 
@@ -61,6 +62,7 @@ Example JSON:
 
 ### Edit Existing Inhaler:
 **Endpoint** PUT /api/admin/inhalers/{id}
+**Content-Type** application/json
 
 Must have parameters:
 
@@ -134,6 +136,16 @@ After edit medicine state is:
 
     No parameters needed
 
+### Add Image For Existing Meidicine
+**Endpoint** POST /api/admin/uploads/{id}
+**Content-Type** multipart/form-data
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    image                   file
+
 ### Get All Active Ingredients:
 **Endpoint** GET /api/admin/active-ingredient
 
@@ -141,6 +153,7 @@ After edit medicine state is:
 
 ### Create New Active Ingredient:
 **Endpoint** POST /api/admin/active-ingredient
+**Content-Type** application/json
 
 Must have parameters:
 
@@ -152,6 +165,7 @@ Must have parameters:
 
 ### Edit Existing Active Ingredient:
 **Endpoint** PUT /api/admin/active-ingredient/{id}
+**Content-Type** application/json
 
 Must have parameters:
 
@@ -173,6 +187,7 @@ Must have parameters:
     
 ### Create New Drug Class:
 **Endpoint** POST /api/admin/drug-class
+**Content-Type** application/json
 
 Must have parameters:
 
@@ -182,6 +197,7 @@ Must have parameters:
 
 ### Edit Existing Drug Class:
 **Endpoint** PUT /api/admin/drug-class/{id}
+**Content-Type** application/json
 
 Must have parameters:
 
@@ -196,6 +212,7 @@ Must have parameters:
 
 ### Authenticate Admin:
 **Endpoint** POST /api/admin/login
+**Content-Type** application/json
 
 Must have parameters:
 
