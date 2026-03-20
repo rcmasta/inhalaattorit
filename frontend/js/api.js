@@ -101,6 +101,19 @@ export async function updateInhaler(id, data) {
     }
 }
 
+// GET /api/inhalers/filters - returns available filter values
+export async function getFilters() {
+    try {
+        const lang = localStorage.getItem("lang") || "fi";
+        const res = await fetch(API_URL + "/api/inhalers/filters?lang=" + lang);
+        if (!res.ok) return null;
+        return await res.json();
+    } catch (e) {
+        console.error("Failed to fetch filters:", e);
+        return null;
+    }
+}
+
 // DELETE /api/admin/inhalers/:id - returns true/false
 export async function deleteInhaler(id) {
     try {

@@ -1,5 +1,5 @@
 import { applyFilter } from './filter.js';
-import { getInhalers } from './api.js';
+import { getInhalers, getFilters } from './api.js';
 import { renderInhalerGrid } from './render.js'
 import { getCounterString } from './lang.js'
 
@@ -12,30 +12,19 @@ function updateCounter() {
     const counterEl = document.getElementById("result-count");
 
     counterEl.textContent = counterStr;
-
 }
 
-/**
- * Gathers all selected filters in an object
- * @returns Object containing category-value pairs
- */
 function getFilterObject() {
     const selects = document.querySelectorAll(".inhaler-filter");
     const filters = {};
 
     selects.forEach(select => {
-        const key = select.name;
-        const value = select.value;
-
-        filters[key] = value;
+        filters[select.name] = select.value;
     });
 
     return filters;
 }
 
-/**
- * Filter fetched inhalers
- */
 function filterData() {
     const filters = getFilterObject();
     const filtered = applyFilter(inhalers, filters);
@@ -44,17 +33,54 @@ function filterData() {
 
     renderInhalerGrid(filtered);
     updateCounter();
-
-    // DEBUG
-    console.log("Filters:");
-    console.log(filters);
-    console.log("Results:");
-    console.log(filtered);
 }
 
-// Document event listeners
+// Add <option> elements to a <select>
+function addOptions(selectId, values, labelFn) {
+    const select = document.getElementById(selectId);
+    if (!select || !values) return;
+
+    for (const val of values) {
+        const opt = document.createElement("option");
+        opt.value = String(val);
+        opt.textContent = labelFn ? labelFn(val) : String(val);
+        select.appendChild(opt);
+    }
+}
+
+// Populate all filter dropdowns from backend data
+function populateFilters(filters) {
+    if (!filters) return;
+
+    addOptions("inhaler-form-select", filters.intake_styles);
+
+    const ages = filters.official_min_age.slice().sort((a, b) => a - b);
+    addOptions("inhaler-age-select", ages, v => v + " v");
+
+    const times = filters.times_a_day.slice().sort((a, b) => a - b);
+    addOptions("inhaler-dosage-select", times, v => v + " krt/pv");
+
+    // Boolean: intake speed
+    addOptions("inhaler-velocity-select", ["1", "0"], v =>
+        v === "1" ? "Hyvä (>30 l/min)" : "Huono (<30 l/min)");
+
+    // Boolean: coordination
+    addOptions("inhaler-coordination-select", ["1", "0"], v =>
+        v === "1" ? "Hyvä" : "Huono");
+
+    addOptions("inhaler-type-select", filters.inhaler_brand);
+
+    // Purpose maps to two boolean fields, hardcoded options
+    addOptions("inhaler-purpose-select", ["treatment", "symptomatic"], v =>
+        v === "treatment" ? "Hoitava lääke" : "Oirelääke");
+
+    addOptions("inhaler-drug-group-select", filters.drug_class_name);
+    addOptions("inhaler-active-substance-select", filters.active_ingredients);
+    addOptions("inhaler-color-select", filters.colors);
+}
+
+// Event listeners
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOMContentLoaded");
     const filterToggle = document.querySelector(".filter-toggle");
     const filterSection = document.querySelector(".search-filter");
     if (filterToggle && filterSection) {
@@ -98,7 +124,6 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Language button
-
     const langBtn = document.querySelector(".lang-toggle");
     if (langBtn) {
         langBtn.addEventListener("click", function() {
@@ -107,14 +132,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-// Load inhalers
-const inhalers = await getInhalers();
+// Load data
+const [inhalers, filters] = await Promise.all([getInhalers(), getFilters()]);
 currentInhalers = totalInhalers = inhalers.length;
 
-// DEBUG
-console.log("All inhalers:");
-console.log(inhalers);
-
-// Initial rendering
+populateFilters(filters);
 renderInhalerGrid(inhalers);
 updateCounter();

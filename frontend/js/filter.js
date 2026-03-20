@@ -5,30 +5,49 @@
  * @returns Filtered JSON data
  */
 export function applyFilter(data, filters) {
-    const result = data.filter(filterByCategory(filters));
-
-    return result;
+    return data.filter(item => {
+        for (const [key, value] of Object.entries(filters)) {
+            if (value === "" || value === null) continue;
+            if (!matchesFilter(item, key, value)) return false;
+        }
+        return true;
+    });
 }
 
-/**
- * Filtering function for use with JavaScripts own filter function
- * @param {*} filters Object containing category-value pairs
- * @returns Function for JavaScripts filter function
- */
-function filterByCategory(filters) {
-    return function(item) {
-        for (const [key, value] of Object.entries(filters)) {
-            // Skip empty categories
-            if (value === "" || value === null) {
-                continue;
-            }
-
-            // Check if category does not exist, or category does not match value
-            if (!(key in item) || item[key] !== value) {
-                return false;
-            }
-        }
-
+function matchesFilter(item, key, value) {
+    // Purpose maps to two separate boolean fields
+    if (key === "purpose") {
+        if (value === "treatment") return item.treatment_medicine === 1;
+        if (value === "symptomatic") return item.symptomatic_medicine === 1;
         return true;
-    };
+    }
+
+    // Drug class is nested inside active_ingredients
+    if (key === "drug_class_name") {
+        if (!item.active_ingredients) return false;
+        return item.active_ingredients.some(ai => ai.drug_class_name === value);
+    }
+
+    // Boolean fields (0/1 in backend)
+    if (key === "good_intake_speed" || key === "good_coordination") {
+        return item[key] === Number(value);
+    }
+
+    // Number fields
+    if (key === "official_min_age" || key === "times_a_day") {
+        return item[key] === Number(value);
+    }
+
+    // Object with name (inhaler_brand: {id, name})
+    if (key === "inhaler_brand") {
+        return item.inhaler_brand && item.inhaler_brand.name === value;
+    }
+
+    // Array of objects with name (intake_styles, active_ingredients, colors)
+    if (Array.isArray(item[key])) {
+        return item[key].some(obj => obj.name === value);
+    }
+
+    // Fallback: simple string match
+    return item[key] === value;
 }
