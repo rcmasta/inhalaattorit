@@ -13,9 +13,9 @@ class drugClass {
             throw new BackendError(400, 'Drug class must have a name!');
         }
 
-        adminModel.drugClass.create(req.body.name);
+        const id = adminModel.drugClass.create(req.body.name);
 
-        res.status(201).json({message: 'Created drug class successfully.'});
+        res.status(201).json({id, message: 'Created drug class successfully.'});
     };
 
     static edit = (req, res, next) => {

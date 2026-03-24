@@ -18,7 +18,10 @@ class drugClass {
             `VALUES ('${name}')`
         ).run();
 
-        console.log(`Added drug class (id: ${res.lastInsertRowid})`);
+        const drug_class_id = res.lastInsertRowid;
+
+        console.log(`Added drug class (id: ${drug_class_id})`);
+        return drug_class_id;
     });
 
     static edit = db.transaction((id, name) => {
