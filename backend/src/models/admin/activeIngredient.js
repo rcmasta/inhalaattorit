@@ -56,6 +56,7 @@ class activeIngredient {
         stmtActiveTranslations.run();
 
         console.log(`Added active ingredient (id: ${active_ingredient_id})`);
+        return active_ingredient_id; 
     });
 
     static edit = db.transaction((id, fi, sv, drug_class_id) => {

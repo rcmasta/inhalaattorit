@@ -24,9 +24,9 @@ class activeIngredient {
 
         const drug_class_id = parseInt(req.body.drug_class_id);
         
-        adminModel.activeIngredient.create(fi, sv, drug_class_id);
+        const id = adminModel.activeIngredient.create(fi, sv, drug_class_id);
 
-        res.status(201).json({message: 'Active ingredient created successfully.'});
+        res.status(201).json({id, message: 'Active ingredient created successfully.'});
     };
 
     static edit = (req, res, next) => {

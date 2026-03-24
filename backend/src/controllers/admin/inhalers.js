@@ -8,9 +8,9 @@ class inhalers {
             throw new BackendError(400, 'Error! Missing medicine name!');
         }
 
-        adminModel.inhalers.create(req.body);
+        const id = adminModel.inhalers.create(req.body);
 
-        res.status(201).json({message: 'Item created successfully'});
+        res.status(201).json({id, message: 'Item created successfully'});
     };
 
     static edit = (req, res, next) => {
@@ -32,7 +32,7 @@ class inhalers {
         const id = parseInt(req.params.id);
         adminModel.inhalers.delete(id);
 
-        res.status(200).json({message: 'Item removed successfully'});
+        res.status(200).json({id, message: 'Item removed successfully'});
     };
 
 };
