@@ -61,7 +61,28 @@ export async function getInhalers() {
     }
 }
 
-// POST /api/admin/inhalers - returns true/false
+// fetch inhalers in both languages and merge descriptions into {fi, sv}
+export async function getInhalersBothLangs() {
+    try {
+        const [resFi, resSv] = await Promise.all([
+            fetch(API_URL + "/api/inhalers?lang=fi"),
+            fetch(API_URL + "/api/inhalers?lang=sv")
+        ]);
+        if (!resFi.ok || !resSv.ok) return [];
+        const [dataFi, dataSv] = await Promise.all([resFi.json(), resSv.json()]);
+
+        const svMap = new Map(dataSv.map(i => [i.id, i.description]));
+        return dataFi.map(inh => ({
+            ...inh,
+            description: { fi: inh.description || "", sv: svMap.get(inh.id) || "" }
+        }));
+    } catch (e) {
+        console.error("Failed to fetch inhalers:", e);
+        return [];
+    }
+}
+
+// POST /api/admin/inhalers - returns created id or null
 export async function createInhaler(data) {
     try {
         const res = await fetch(API_URL + "/api/admin/inhalers", {
@@ -69,15 +90,16 @@ export async function createInhaler(data) {
             headers: getAuthHeaders(),
             body: JSON.stringify(data)
         });
-        if (checkExpiredToken(res)) return false;
+        if (checkExpiredToken(res)) return null;
         if (!res.ok) {
             alert("Tallennus epäonnistui: " + await getErrorMsg(res));
-            return false;
+            return null;
         }
-        return true;
+        const body = await res.json();
+        return body.id || true;
     } catch (e) {
         alert("Yhteysvirhe tallennuksessa.");
-        return false;
+        return null;
     }
 }
 
@@ -111,6 +133,28 @@ export async function getFilters() {
     } catch (e) {
         console.error("Failed to fetch filters:", e);
         return null;
+    }
+}
+
+// POST /api/admin/uploads/:id - upload image for inhaler
+export async function uploadImage(id, file) {
+    try {
+        const formData = new FormData();
+        formData.append("image", file);
+        const res = await fetch(API_URL + "/api/admin/uploads/" + id, {
+            method: "POST",
+            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") },
+            body: formData
+        });
+        if (checkExpiredToken(res)) return false;
+        if (!res.ok) {
+            alert("Kuvan lataus epäonnistui: " + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert("Yhteysvirhe kuvan latauksessa.");
+        return false;
     }
 }
 

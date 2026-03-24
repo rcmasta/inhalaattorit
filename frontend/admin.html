@@ -57,11 +57,11 @@
                         <label for="add-name">Nimi</label>
                         <input type="text" id="add-name" placeholder="Nimi" required/>
 
-                        <label for="add-description">Kuvaus</label>
-                        <textarea id="add-description" placeholder="Kuvaus" rows="3"></textarea>
+                        <label for="add-description-fi">Kuvaus (suomi)</label>
+                        <textarea id="add-description-fi" placeholder="Kuvaus suomeksi" rows="3"></textarea>
 
-                        <label for="add-image-path">Kuvan polku</label>
-                        <input type="text" id="add-image-path" placeholder="esim. /img/inhaler.jpg"/>
+                        <label for="add-description-sv">Kuvaus (ruotsi)</label>
+                        <textarea id="add-description-sv" placeholder="Beskrivning" rows="3"></textarea>
 
                         <label for="add-min-age">Virallinen ikäraja (vuotta)</label>
                         <input type="number" id="add-min-age" min="0"/>
@@ -100,12 +100,31 @@
                             <option value="0">Ei</option>
                         </select>
 
-                        <!-- TODO: backend many-to-many fields, add when backend supports them:
-                             - Lääkemuoto / intake_style
-                             - Inhalaattori / inhaler_brand
-                             - Väri / color
-                             - Vaikuttava lääkeaine / active_ingredient
-                             - Lääkeaineryhmä / drug_class -->
+                        <label for="add-brand">Inhalaattori</label>
+                        <select id="add-brand">
+                            <option value="">Valitse...</option>
+                        </select>
+
+                        <fieldset class="checkbox-group" id="add-intake-styles">
+                            <legend>Lääkemuoto</legend>
+                        </fieldset>
+
+                        <fieldset class="checkbox-group" id="add-colors">
+                            <legend>Väri</legend>
+                        </fieldset>
+
+                        <fieldset class="checkbox-group" id="add-ingredients">
+                            <legend>Vaikuttava lääkeaine</legend>
+                        </fieldset>
+
+                        <label for="add-link-db">Tietokanta-linkki</label>
+                        <input type="url" id="add-link-db" placeholder="https://pharmacafennica.fi/..."/>
+
+                        <label for="add-link-tutorial">Tutoriaali-linkki</label>
+                        <input type="url" id="add-link-tutorial" placeholder="https://youtube.com/..."/>
+
+                        <label for="add-image">Kuva</label>
+                        <input type="file" id="add-image" accept="image/*"/>
 
                         <div class="add-form-buttons">
                             <button type="submit" class="btn-add">Tallenna</button>
@@ -119,10 +138,10 @@
                         <thead>
                             <tr>
                                 <th>Nimi</th>
+                                <th>Inhalaattori</th>
+                                <th>Lääkemuoto</th>
                                 <th>Ikäraja</th>
                                 <th>Krt/pv</th>
-                                <th>Nopeus</th>
-                                <th>Koordinaatio</th>
                                 <th>Käyttötarkoitus</th>
                                 <th>Toiminnot</th>
                             </tr>

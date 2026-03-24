@@ -569,6 +569,40 @@ main {
     border-color: #7ba0c4;
 }
 
+/* Checkbox groups */
+.checkbox-group {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 0.6rem 0.8rem;
+    margin-bottom: 0.8rem;
+}
+
+.checkbox-group legend {
+    font-size: 0.8rem;
+    color: #666;
+    padding: 0 0.3rem;
+}
+
+.checkbox-group .checkbox-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem 1rem;
+    margin-top: 0.3rem;
+}
+
+.checkbox-group label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.85rem;
+    margin-bottom: 0;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: auto;
+    margin-bottom: 0;
+}
+
 .add-form-buttons {
     display: flex;
     gap: 0.6rem;
