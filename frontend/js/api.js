@@ -1,6 +1,6 @@
 // auth: login, get token, store in localStorage, send with every admin request
 
-const API_URL = "http://localhost:3000";
+
 
 function getAuthHeaders() {
     return {
@@ -33,7 +33,7 @@ async function getErrorMsg(res) {
 // POST /api/admin/login - returns token or null
 export async function adminLogin(username, password) {
     try {
-        const res = await fetch(API_URL + "/api/admin/login", {
+        const res = await fetch("/api/admin/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ username, password })
@@ -52,7 +52,7 @@ export async function adminLogin(username, password) {
 export async function getInhalers() {
     try {
         const lang = localStorage.getItem("lang") || "fi";
-        const res = await fetch(API_URL + "/api/inhalers?lang=" + lang);
+        const res = await fetch("/api/inhalers?lang=" + lang);
         if (!res.ok) return [];
         return await res.json();
     } catch (e) {
@@ -65,8 +65,8 @@ export async function getInhalers() {
 export async function getInhalersBothLangs() {
     try {
         const [resFi, resSv] = await Promise.all([
-            fetch(API_URL + "/api/inhalers?lang=fi"),
-            fetch(API_URL + "/api/inhalers?lang=sv")
+            fetch("/api/inhalers?lang=fi"),
+            fetch("/api/inhalers?lang=sv")
         ]);
         if (!resFi.ok || !resSv.ok) return [];
         const [dataFi, dataSv] = await Promise.all([resFi.json(), resSv.json()]);
@@ -85,7 +85,7 @@ export async function getInhalersBothLangs() {
 // POST /api/admin/inhalers - returns created id or null
 export async function createInhaler(data) {
     try {
-        const res = await fetch(API_URL + "/api/admin/inhalers", {
+        const res = await fetch("/api/admin/inhalers", {
             method: "POST",
             headers: getAuthHeaders(),
             body: JSON.stringify(data)
@@ -106,7 +106,7 @@ export async function createInhaler(data) {
 // PUT /api/admin/inhalers/:id - returns true/false
 export async function updateInhaler(id, data) {
     try {
-        const res = await fetch(API_URL + "/api/admin/inhalers/" + id, {
+        const res = await fetch("/api/admin/inhalers/" + id, {
             method: "PUT",
             headers: getAuthHeaders(),
             body: JSON.stringify(data)
@@ -127,7 +127,7 @@ export async function updateInhaler(id, data) {
 export async function getFilters() {
     try {
         const lang = localStorage.getItem("lang") || "fi";
-        const res = await fetch(API_URL + "/api/inhalers/filters?lang=" + lang);
+        const res = await fetch("/api/inhalers/filters?lang=" + lang);
         if (!res.ok) return null;
         return await res.json();
     } catch (e) {
@@ -141,7 +141,7 @@ export async function uploadImage(id, file) {
     try {
         const formData = new FormData();
         formData.append("image", file);
-        const res = await fetch(API_URL + "/api/admin/uploads/" + id, {
+        const res = await fetch("/api/admin/uploads/" + id, {
             method: "POST",
             headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") },
             body: formData
@@ -161,7 +161,7 @@ export async function uploadImage(id, file) {
 // DELETE /api/admin/inhalers/:id - returns true/false
 export async function deleteInhaler(id) {
     try {
-        const res = await fetch(API_URL + "/api/admin/inhalers/" + id, {
+        const res = await fetch("/api/admin/inhalers/" + id, {
             method: "DELETE",
             headers: getAuthHeaders()
         });
