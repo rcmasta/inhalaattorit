@@ -124,6 +124,13 @@
                         <input type="url" id="add-link-tutorial" placeholder="https://youtube.com/..."/>
 
                         <label for="add-image">Kuva</label>
+                        <div class="image-preview" id="image-preview" style="display:none">
+                            <img id="image-preview-thumb" alt="Nykyinen kuva"/>
+                            <div class="image-preview-info">
+                                <span>Nykyinen kuva</span>
+                                <button type="button" class="btn-delete-image" id="btn-delete-image">Poista kuva</button>
+                            </div>
+                        </div>
                         <input type="file" id="add-image" accept="image/*"/>
 
                         <div class="add-form-buttons">
@@ -149,6 +156,57 @@
                         <tbody>
                         </tbody>
                     </table>
+                </div>
+                <div class="management-section" id="drug-class-section">
+                    <button class="btn-toggle-section" type="button">Lääkeaineluokat (ICS, LABA...)</button>
+                    <div class="section-content" style="display:none">
+                        <table class="panel-table management-table">
+                            <thead>
+                                <tr>
+                                    <th>Nimi</th>
+                                    <th>Toiminnot</th>
+                                </tr>
+                            </thead>
+                            <tbody id="drug-class-tbody"></tbody>
+                        </table>
+                        <form id="drug-class-form" class="management-form">
+                            <h4 id="drug-class-form-heading">Lisää lääkeaineluokka</h4>
+                            <div class="management-form-row">
+                                <input type="text" id="dc-name" placeholder="Nimi (esim. ICS)" required/>
+                                <button type="submit" class="btn-add" id="dc-submit-btn">Lisää</button>
+                                <button type="button" class="btn-cancel" id="dc-cancel-btn" style="display:none">Peruuta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="management-section" id="ingredient-section">
+                    <button class="btn-toggle-section" type="button">Vaikuttavat lääkeaineet</button>
+                    <div class="section-content" style="display:none">
+                        <table class="panel-table management-table">
+                            <thead>
+                                <tr>
+                                    <th>Nimi (fi)</th>
+                                    <th>Nimi (sv)</th>
+                                    <th>Luokka</th>
+                                    <th>Toiminnot</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ingredient-tbody"></tbody>
+                        </table>
+                        <form id="ingredient-form" class="management-form">
+                            <h4 id="ingredient-form-heading">Lisää lääkeaine</h4>
+                            <div class="management-form-row">
+                                <input type="text" id="ai-name-fi" placeholder="Nimi (suomi)" required/>
+                                <input type="text" id="ai-name-sv" placeholder="Namn (svenska)" required/>
+                                <select id="ai-drug-class" required>
+                                    <option value="">Luokka...</option>
+                                </select>
+                                <button type="submit" class="btn-add" id="ai-submit-btn">Lisää</button>
+                                <button type="button" class="btn-cancel" id="ai-cancel-btn" style="display:none">Peruuta</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </main>

@@ -1,4 +1,10 @@
-import { getInhalers, getInhalersBothLangs, adminLogin, createInhaler, updateInhaler, deleteInhaler, uploadImage } from './api.js';
+import {
+    getInhalers, getInhalersBothLangs, adminLogin,
+    createInhaler, updateInhaler, deleteInhaler,
+    uploadImage, deleteImage, getAdminFilters,
+    getDrugClasses, createDrugClass, updateDrugClass, deleteDrugClass,
+    getActiveIngredients, createActiveIngredient, updateActiveIngredient, deleteActiveIngredient
+} from './api.js';
 
 let inhalers = [];
 let editingId = null;
@@ -74,8 +80,28 @@ function extractOptions(inhalersList, field, idKey) {
     return Array.from(seen.values()).sort((a, b) => a.name.localeCompare(b.name, "fi"));
 }
 
+// get localized name from admin filter item (name can be {fi, sv} or plain string)
+function getFilterName(item) {
+    if (typeof item.name === "object") return item.name.fi || item.name.sv || "";
+    return item.name || "";
+}
+
 async function loadFilterData() {
-    // use inhalers data to get options with IDs
+    // try admin filters endpoint first, fallback to extracting from inhalers
+    const adminFilters = await getAdminFilters();
+
+    if (adminFilters) {
+        const toOpts = (arr) => arr.map(i => ({ id: i.id, name: getFilterName(i) }))
+            .sort((a, b) => a.name.localeCompare(b.name, "fi"));
+
+        populateSelect(document.getElementById("add-brand"), toOpts(adminFilters.inhaler_brands || []));
+        populateCheckboxes(document.getElementById("add-intake-styles"), toOpts(adminFilters.intake_styles || []), "intake_styles");
+        populateCheckboxes(document.getElementById("add-colors"), toOpts(adminFilters.colors || []), "colors");
+        populateCheckboxes(document.getElementById("add-ingredients"), toOpts(adminFilters.active_ingredients || []), "active_ingredients");
+        return;
+    }
+
+    // fallback: extract from existing inhalers data
     const allInhalers = await getInhalers();
 
     const brands = extractOptions(allInhalers, "inhaler_brand", "id");
@@ -217,6 +243,27 @@ function boolToVal(val) {
     return "";
 }
 
+function showImagePreview(id) {
+    const preview = document.getElementById("image-preview");
+    const thumb = document.getElementById("image-preview-thumb");
+    // try to load thumbnail, show preview if it exists
+    const img = new Image();
+    img.onload = () => {
+        thumb.src = img.src;
+        preview.style.display = "";
+    };
+    img.onerror = () => {
+        preview.style.display = "none";
+    };
+    img.src = "/uploads/thumb/" + id + ".jpeg?t=" + Date.now();
+}
+
+function hideImagePreview() {
+    const preview = document.getElementById("image-preview");
+    preview.style.display = "none";
+    document.getElementById("image-preview-thumb").src = "";
+}
+
 function populateForm(inhaler) {
     document.getElementById("add-name").value = inhaler.name || "";
 
@@ -302,6 +349,7 @@ document.addEventListener("DOMContentLoaded", () => {
             showPanel(loginView, panelView);
             loadFilterData();
             loadInhalers();
+            loadManagementData();
         } else {
             alert("Virheellinen käyttäjänimi tai salasana");
         }
@@ -317,6 +365,7 @@ document.addEventListener("DOMContentLoaded", () => {
     addBtn.addEventListener("click", () => {
         editingId = null;
         addInhalerForm.reset();
+        hideImagePreview();
         formHeading.textContent = "Lisää uusi inhalaattori";
         formSubmitBtn.textContent = "Tallenna";
         addFormWrap.style.display = addFormWrap.style.display === "none" ? "" : "none";
@@ -326,6 +375,7 @@ document.addEventListener("DOMContentLoaded", () => {
     cancelBtn.addEventListener("click", () => {
         editingId = null;
         addInhalerForm.reset();
+        hideImagePreview();
         formHeading.textContent = "Lisää uusi inhalaattori";
         formSubmitBtn.textContent = "Tallenna";
         addFormWrap.style.display = "none";
@@ -343,6 +393,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             editingId = id;
             populateForm(inhaler);
+            showImagePreview(id);
             formHeading.textContent = "Muokkaa inhalaattoria";
             formSubmitBtn.textContent = "Tallenna muutokset";
             addFormWrap.style.display = "";
@@ -350,12 +401,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (e.target.classList.contains("btn-delete")) {
             const id = Number(row.dataset.id);
+            if (!confirm("Haluatko varmasti poistaa inhalaattorin?")) return;
             const ok = await deleteInhaler(id);
             if (ok) {
                 row.remove();
                 inhalers = inhalers.filter(i => i.id !== id);
             }
         }
+    });
+
+    // delete image
+    document.getElementById("btn-delete-image").addEventListener("click", async () => {
+        if (!editingId) return;
+        if (!confirm("Haluatko varmasti poistaa kuvan?")) return;
+        const ok = await deleteImage(editingId);
+        if (ok) hideImagePreview();
     });
 
     // save (create or update)
@@ -372,12 +432,8 @@ document.addEventListener("DOMContentLoaded", () => {
             savedId = await createInhaler(data);
         }
 
-        // upload image if we have a numeric ID and a file was selected
-        if (typeof savedId === "number" && imageFile) {
+        if (savedId && imageFile) {
             await uploadImage(savedId, imageFile);
-        } else if (savedId && imageFile) {
-            // backend didn't return ID, image upload needs edit
-            alert("Inhalaattori luotu, mutta kuva pitaa lisata muokkaamalla.");
         }
 
         if (savedId) await loadInhalers();
@@ -386,8 +442,234 @@ document.addEventListener("DOMContentLoaded", () => {
         formHeading.textContent = "Lisää uusi inhalaattori";
         formSubmitBtn.textContent = "Tallenna";
         addInhalerForm.reset();
+        hideImagePreview();
         // uncheck all checkboxes (reset doesn't always clear dynamically added ones)
         addFormWrap.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
         addFormWrap.style.display = "none";
     });
+
+    // --- Section toggles ---
+    document.querySelectorAll(".btn-toggle-section").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const content = btn.nextElementSibling;
+            content.style.display = content.style.display === "none" ? "" : "none";
+        });
+    });
+
+    // --- Drug class management ---
+    let drugClasses = [];
+    let editingDcId = null;
+    const dcTbody = document.getElementById("drug-class-tbody");
+    const dcForm = document.getElementById("drug-class-form");
+    const dcHeading = document.getElementById("drug-class-form-heading");
+    const dcSubmitBtn = document.getElementById("dc-submit-btn");
+    const dcCancelBtn = document.getElementById("dc-cancel-btn");
+    const dcNameInput = document.getElementById("dc-name");
+
+    function buildDcRow(dc) {
+        const row = document.createElement("tr");
+        row.dataset.id = dc.id;
+        const tdName = document.createElement("td");
+        tdName.textContent = dc.name;
+        const tdActions = document.createElement("td");
+        tdActions.className = "panel-actions";
+        const editBtn = document.createElement("button");
+        editBtn.className = "btn-edit";
+        editBtn.textContent = "Muokkaa";
+        const delBtn = document.createElement("button");
+        delBtn.className = "btn-delete";
+        delBtn.textContent = "Poista";
+        tdActions.append(editBtn, delBtn);
+        row.append(tdName, tdActions);
+        return row;
+    }
+
+    async function loadDrugClassList() {
+        drugClasses = await getDrugClasses();
+        dcTbody.replaceChildren();
+        drugClasses.forEach(dc => dcTbody.appendChild(buildDcRow(dc)));
+        // also update the drug class dropdown in ingredient form
+        populateDcDropdown();
+    }
+
+    function populateDcDropdown() {
+        const sel = document.getElementById("ai-drug-class");
+        while (sel.options.length > 1) sel.remove(1);
+        drugClasses.forEach(dc => {
+            const opt = document.createElement("option");
+            opt.value = dc.id;
+            opt.textContent = dc.name;
+            sel.appendChild(opt);
+        });
+    }
+
+    function resetDcForm() {
+        editingDcId = null;
+        dcForm.reset();
+        dcHeading.textContent = "Lisää lääkeaineluokka";
+        dcSubmitBtn.textContent = "Lisää";
+        dcCancelBtn.style.display = "none";
+    }
+
+    dcTbody.addEventListener("click", async (e) => {
+        const row = e.target.closest("tr");
+        if (!row) return;
+        const id = Number(row.dataset.id);
+
+        if (e.target.classList.contains("btn-edit")) {
+            const dc = drugClasses.find(d => d.id === id);
+            if (!dc) return;
+            editingDcId = id;
+            dcNameInput.value = dc.name;
+            dcHeading.textContent = "Muokkaa lääkeaineluokkaa";
+            dcSubmitBtn.textContent = "Tallenna";
+            dcCancelBtn.style.display = "";
+        }
+
+        if (e.target.classList.contains("btn-delete")) {
+            const dc = drugClasses.find(d => d.id === id);
+            const usedBy = ingredients.filter(a => a.drug_class_id === id);
+            if (usedBy.length > 0) {
+                alert("Lääkeaineluokkaa \"" + (dc ? dc.name : "") + "\" ei voi poistaa, koska siihen kuuluu " + usedBy.length + " lääkeainetta. Poista tai siirrä lääkeaineet ensin.");
+                return;
+            }
+            if (!confirm("Haluatko varmasti poistaa lääkeaineluokan?")) return;
+            const ok = await deleteDrugClass(id);
+            if (ok) {
+                await loadDrugClassList();
+                await loadFilterData();
+            }
+        }
+    });
+
+    dcForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const name = dcNameInput.value.trim();
+        if (!name) return;
+
+        if (editingDcId) {
+            const ok = await updateDrugClass(editingDcId, name);
+            if (ok) {
+                await loadDrugClassList();
+                await loadFilterData();
+            }
+        } else {
+            const id = await createDrugClass(name);
+            if (id) {
+                await loadDrugClassList();
+                await loadFilterData();
+            }
+        }
+        resetDcForm();
+    });
+
+    dcCancelBtn.addEventListener("click", resetDcForm);
+
+    // --- Active ingredient management ---
+    let ingredients = [];
+    let editingAiId = null;
+    const aiTbody = document.getElementById("ingredient-tbody");
+    const aiForm = document.getElementById("ingredient-form");
+    const aiHeading = document.getElementById("ingredient-form-heading");
+    const aiSubmitBtn = document.getElementById("ai-submit-btn");
+    const aiCancelBtn = document.getElementById("ai-cancel-btn");
+
+    function buildAiRow(ai) {
+        const row = document.createElement("tr");
+        row.dataset.id = ai.id;
+        const tdFi = document.createElement("td");
+        tdFi.textContent = ai.fi || "";
+        const tdSv = document.createElement("td");
+        tdSv.textContent = ai.sv || "";
+        const tdClass = document.createElement("td");
+        const dc = drugClasses.find(d => d.id === ai.drug_class_id);
+        tdClass.textContent = dc ? dc.name : "-";
+        const tdActions = document.createElement("td");
+        tdActions.className = "panel-actions";
+        const editBtn = document.createElement("button");
+        editBtn.className = "btn-edit";
+        editBtn.textContent = "Muokkaa";
+        const delBtn = document.createElement("button");
+        delBtn.className = "btn-delete";
+        delBtn.textContent = "Poista";
+        tdActions.append(editBtn, delBtn);
+        row.append(tdFi, tdSv, tdClass, tdActions);
+        return row;
+    }
+
+    async function loadIngredientList() {
+        ingredients = await getActiveIngredients();
+        aiTbody.replaceChildren();
+        ingredients.forEach(ai => aiTbody.appendChild(buildAiRow(ai)));
+    }
+
+    function resetAiForm() {
+        editingAiId = null;
+        aiForm.reset();
+        aiHeading.textContent = "Lisää lääkeaine";
+        aiSubmitBtn.textContent = "Lisää";
+        aiCancelBtn.style.display = "none";
+    }
+
+    aiTbody.addEventListener("click", async (e) => {
+        const row = e.target.closest("tr");
+        if (!row) return;
+        const id = Number(row.dataset.id);
+
+        if (e.target.classList.contains("btn-edit")) {
+            const ai = ingredients.find(a => a.id === id);
+            if (!ai) return;
+            editingAiId = id;
+            document.getElementById("ai-name-fi").value = ai.fi || "";
+            document.getElementById("ai-name-sv").value = ai.sv || "";
+            document.getElementById("ai-drug-class").value = ai.drug_class_id || "";
+            aiHeading.textContent = "Muokkaa lääkeainetta";
+            aiSubmitBtn.textContent = "Tallenna";
+            aiCancelBtn.style.display = "";
+        }
+
+        if (e.target.classList.contains("btn-delete")) {
+            if (!confirm("Haluatko varmasti poistaa lääkeaineen?")) return;
+            const ok = await deleteActiveIngredient(id);
+            if (ok) {
+                await loadIngredientList();
+                await loadFilterData();
+            }
+        }
+    });
+
+    aiForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const fi = document.getElementById("ai-name-fi").value.trim();
+        const sv = document.getElementById("ai-name-sv").value.trim();
+        const dcId = Number(document.getElementById("ai-drug-class").value);
+        if (!fi || !sv || !dcId) return;
+
+        if (editingAiId) {
+            const ok = await updateActiveIngredient(editingAiId, fi, sv, dcId);
+            if (ok) {
+                await loadIngredientList();
+                await loadFilterData();
+            }
+        } else {
+            const id = await createActiveIngredient(fi, sv, dcId);
+            if (id) {
+                await loadIngredientList();
+                await loadFilterData();
+            }
+        }
+        resetAiForm();
+    });
+
+    aiCancelBtn.addEventListener("click", resetAiForm);
+
+    async function loadManagementData() {
+        await loadDrugClassList();
+        await loadIngredientList();
+    }
+
+    // load management data on initial page load if already logged in
+    if (localStorage.getItem("admin-token")) {
+        loadManagementData();
+    }
 });

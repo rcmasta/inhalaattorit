@@ -1,7 +1,6 @@
 const targetID = "results-grid";
 
 const missingImg = "img/missing.png";
-const thumbnailSuffix = "_thumbnail";
 
 const inhalerTag = "article";
 const inhalerSection = "section";
@@ -203,45 +202,16 @@ function buildImageSection(inhaler, isGridView) {
  */
 function buildImage(inhaler, parent, isThumbnail) {
     const image = document.createElement(imageTag);
-    const uploadPath = isThumbnail
+    image.src = isThumbnail
         ? "/uploads/thumb/" + inhaler.id + ".jpeg"
         : "/uploads/full/" + inhaler.id + ".jpeg";
 
-    if (!inhaler.image_path) {
-        image.src = uploadPath;
-    } else if (isThumbnail) {
-        const dotIdx = inhaler.image_path.lastIndexOf('.');
-        const thumbnailPath = inhaler.image_path.substring(0, dotIdx)
-                      + thumbnailSuffix
-                      + inhaler.image_path.substring(dotIdx);
-
-        image.src = thumbnailPath;
-    } else {
-        image.src = inhaler.image_path;
-    }
-    // if primary path fails, try upload path, then missing image
-    missingImageHandler(image, uploadPath);
+    image.onerror = function () {
+        this.onerror = null;
+        this.src = missingImg;
+    };
 
     parent.appendChild(image);
-}
-
-/**
- * Replaces the image with missing image icon
- * @param {*} image Element containing the image
- */
-function missingImageHandler(image, fallbackPath) {
-    image.onerror = function () {
-        if (fallbackPath && this.src.indexOf("/uploads/") === -1) {
-            this.onerror = function () {
-                this.onerror = null;
-                this.src = missingImg;
-            };
-            this.src = fallbackPath;
-        } else {
-            this.onerror = null;
-            this.src = missingImg;
-        }
-    };
 }
 
 /**
