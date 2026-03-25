@@ -117,13 +117,11 @@ document.addEventListener("DOMContentLoaded", () => {
       searchInput.focus();
     });
 
-    searchInput.addEventListener("keyup", function (event) {
-      if (event.key === "Enter") {
-        const nameFiltered = filterByName();
-        currentInhalers = nameFiltered.length;
-        renderInhalerGrid(nameFiltered);
-        updateCounter();
-      }
+    searchInput.addEventListener("input", function (event) {
+      const nameFiltered = filterByName();
+      currentInhalers = nameFiltered.length;
+      renderInhalerGrid(nameFiltered);
+      updateCounter();
     });
   }
 
