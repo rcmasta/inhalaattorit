@@ -1,17 +1,25 @@
 /**
- * Apply given filters to given data
- * @param {*} data JSON data to filter
- * @param {*} filters Object containing category-value pairs
- * @returns Filtered JSON data
+ * Gets a set of inhaler ids from filters
+ * @param {*} data JSON object containing inhalers
+ * @param {*} filters JSON object containig filters
+ * @returns 
  */
-export function applyFilter(data, filters) {
-    return data.filter(item => {
+export function getFilteredIds(data, filters) {
+    const idSet = new Set();
+    
+    data.forEach(item => {
+        var addToSet = true;
         for (const [key, value] of Object.entries(filters)) {
             if (value === "" || value === null) continue;
-            if (!matchesFilter(item, key, value)) return false;
+            if (!matchesFilter(item, key, value)) {
+                addToSet = false;
+                break;
+            };
         }
-        return true;
+        if (addToSet) idSet.add(item.id.toString());
     });
+
+    return idSet;
 }
 
 function matchesFilter(item, key, value) {
