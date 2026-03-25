@@ -1,4 +1,7 @@
-const targetID = "results-grid";
+export const gridID = "results-grid";
+export const detailID = "detail-view";
+export const backButtonID = "return-to-gridview";
+
 
 const missingImg = "img/missing.png";
 
@@ -15,7 +18,6 @@ const cardClass = "card";
 const cardImgClass = "card-img";
 const cardInfoClass = "card-info";
 const hiddenClass = "hidden";
-const backButtonId = "return-to-gridview";
 
 const ariaHiddenAttribute = "aria-hidden"
 const ariaStateVisible = "false"
@@ -26,7 +28,7 @@ const ariaStateHidden = "true"
  * @param {*} data JSON data containing (filtered) inhalers
  */
 export function renderInhalerGrid(data) {
-    const renderTarget = document.getElementById(targetID);
+    const renderTarget = document.getElementById(gridID);
     const inhalerList = document.createDocumentFragment();
     
     // Build cards for each inhaler
@@ -37,6 +39,7 @@ export function renderInhalerGrid(data) {
 
         const inhalerCard = buildCard(inhaler);
         if (inhalerCard !== null) {
+            inhalerCard.id = inhaler.id;
             inhalerCard.addEventListener("click", (event) => {
                 renderInhalerDetails(inhaler);
             });
@@ -44,8 +47,28 @@ export function renderInhalerGrid(data) {
         }
     }
     
-    setBackButtonVisibility(false);
+    setElementVisibility(backButtonID, false);
+    setElementVisibility(detailID, false);
     renderTarget.replaceChildren(inhalerList);
+}
+
+/**
+ * Sets element visibility
+ * @param {*} elementId HTML id of the element
+ * @param {*} visible Sets element visible if true, hides if false
+ */
+export function setElementVisibility(elementId, visible) {
+    const element = document.getElementById(elementId);
+
+    if (visible) {
+        // Show button
+        element.classList.remove(hiddenClass);
+        element.setAttribute(ariaHiddenAttribute, ariaStateVisible);
+    } else {
+        // Hide button
+        element.classList.add(hiddenClass);
+        element.setAttribute(ariaHiddenAttribute, ariaStateHidden);
+    }
 }
 
 /**
@@ -53,7 +76,7 @@ export function renderInhalerGrid(data) {
  * @param {*} inhaler JSON object containing the inhaler
  */
 function renderInhalerDetails(inhaler) {
-    const renderTarget = document.getElementById(targetID);
+    const renderTarget = document.getElementById(detailID);
     const inhalerDetails = document.createDocumentFragment();
 
     // Create detailed view
@@ -63,7 +86,9 @@ function renderInhalerDetails(inhaler) {
         renderTarget.replaceChildren(inhalerDetails);
     }
 
-    setBackButtonVisibility(true);
+    setElementVisibility(backButtonID, true);
+    setElementVisibility(gridID, false);
+    setElementVisibility(detailID, true);
 }
 
 /**
@@ -212,22 +237,4 @@ function buildImage(inhaler, parent, isThumbnail) {
     };
 
     parent.appendChild(image);
-}
-
-/**
- * Sets the back button visibility
- * @param {*} visible If true, then show the button, else hide.
- */
-function setBackButtonVisibility(visible) {
-    const backButton = document.getElementById(backButtonId);
-
-    if (visible) {
-        // Show button
-        backButton.classList.remove(hiddenClass);
-        backButton.setAttribute(ariaHiddenAttribute, ariaStateVisible);
-    } else {
-        // Hide button
-        backButton.classList.add(hiddenClass);
-        backButton.setAttribute(ariaHiddenAttribute, ariaStateHidden);
-    }
 }
