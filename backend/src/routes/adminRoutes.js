@@ -7,7 +7,7 @@ router.post('/inhalers', adminController.inhalers.create);
 router.put('/inhalers/:id', adminController.inhalers.edit);
 router.delete('/inhalers/:id', adminController.inhalers.delete);
 
-router.get('/inhalers/filters', adminController.inhalers.filters);
+router.get('/filters', adminController.filters.get);
 
 // inhaler pictures
 const storage = multer.memoryStorage();
