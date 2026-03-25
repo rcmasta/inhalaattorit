@@ -34,7 +34,6 @@ class inhalers {
 
         res.status(200).json({id, message: 'Item removed successfully'});
     };
-
 };
 
 module.exports = inhalers;
