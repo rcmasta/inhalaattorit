@@ -37,19 +37,22 @@ class inhalers {
     };
 
     static filters = (req, res, next) => {
+        try {
+            const intakeMap = getAllLangFromDB("intake_style");
+            const ingredientsMap = getAllLangFromDB("active_ingredient");
+            const colorsMap = getAllLangFromDB("color");
+            const brandMap = Object.fromEntries(db.prepare(`SELECT id, name FROM inhaler_brand`).all()
+                            .map(r => [r.id, {id: r.id, name: r.name}]));
 
-        const intakeMap = getAllLangFromDB("intake_style");
-        const ingredientsMap = getAllLangFromDB("active_ingredient");
-        const colorsMap = getAllLangFromDB("color");
-        const brandMap = Object.fromEntries(db.prepare(`SELECT id, name FROM inhaler_brand`).all()
-                         .map(r => [r.id, {id: r.id, name: r.name}]));
-
-        res.status(200).json({ 
-            active_ingredients: Object.values(ingredientsMap),
-            colors: Object.values(colorsMap),
-            intake_styles: Object.values(intakeMap),
-            inhaler_brands: Object.values(brandMap) 
-        });
+            res.status(200).json({ 
+                active_ingredients: Object.values(ingredientsMap),
+                colors: Object.values(colorsMap),
+                intake_styles: Object.values(intakeMap),
+                inhaler_brands: Object.values(brandMap) 
+            });
+        } catch (err) { 
+            throw new BackendError(500, "An unexpected error occurred while fetching filters.");
+        }
     };
 };
 
