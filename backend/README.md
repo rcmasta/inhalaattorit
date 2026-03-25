@@ -1,11 +1,38 @@
 # Backend
 
 ## API Endpoints
+
+## Public API
+
 ### Get All Inhalers:
 
 **Endpoint:** GET /api/inhalers/
 
     No parameters needed
+
+### Get Full Resolution Image Of Medicine
+**Endpoint:** GET /api/uploads/full/{id}.jpeg
+
+    No parameters needed
+
+### Get Thumbnail Resolution Image Of Medicine
+**Endpoint:** GET /api/uploads/thumb/{id}.jpeg 
+
+    No parameter needed
+
+### Authenticate Admin:
+**Endpoint:** POST /api/admin/login
+
+**Content-Type:** application/json
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    username                string
+    password                string
+
+## Admin API
 
 ### Create New Inhaler:
 **Endpoint:** POST /api/admin/inhalers/
@@ -144,17 +171,7 @@ After edit medicine state is:
 
     No parameters needed
 
-### Get Full Resolution Image Of Medicine
-**Endpoint:** GET /api/uploads/full/{id}.jpeg
-
-    No parameters needed
-
-### Get Thumbnail Resolution Image Of Medicine
-**Endpoint:** GET /api/uploads/thumb/{id}.jpeg 
-
-    No parameter needed
-
-### Add Image For Existing Meidicine
+### Add/Replace Image For Existing Inhaler
 **Endpoint:** POST /api/admin/uploads/{id}
 
 **Content-Type:** multipart/form-data
@@ -164,6 +181,11 @@ Must have parameters:
     Field                   Type
     -------------------------------------
     image                   file
+
+### Get All Non Trivial Filter Options (with ids)
+**Endpoint:** GET /api/admin/filters
+
+**Content-Type** 
 
 ### Get All Active Ingredients:
 **Endpoint:** GET /api/admin/active-ingredient
@@ -232,15 +254,3 @@ Must have parameters:
 **Endpoint:** DELETE /api/admin/drug-class/{id}
 
     No parameters needed
-
-### Authenticate Admin:
-**Endpoint:** POST /api/admin/login
-
-**Content-Type:** application/json
-
-Must have parameters:
-
-    Field                   Type
-    -------------------------------------
-    username                string
-    password                string
