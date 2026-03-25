@@ -11,4 +11,4 @@ else
 fi
 
 echo "Starting backend server"
-exec npm run start_prod
+exec npm start
