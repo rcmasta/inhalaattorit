@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "node server.js",
     "test": "cross-env NODE_ENV=test mocha src/tests/*.test.js",
     "dev": "node --watch server",
     "test_db": "node src/config/test_script/insert_manual_test.js"

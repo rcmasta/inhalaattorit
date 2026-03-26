@@ -20,6 +20,15 @@ function checkExpiredToken(res) {
     return false;
 }
 
+// 429 = rate limited
+function checkRateLimit(res) {
+    if (res.status === 429) {
+        alert("Liian monta pyyntöä, odota hetki ja yritä uudelleen.");
+        return true;
+    }
+    return false;
+}
+
 // try to get error message from response body
 async function getErrorMsg(res) {
     try {
@@ -91,6 +100,7 @@ export async function createInhaler(data) {
             body: JSON.stringify(data)
         });
         if (checkExpiredToken(res)) return null;
+        if (checkRateLimit(res)) return null;
         if (!res.ok) {
             alert("Tallennus epäonnistui: " + await getErrorMsg(res));
             return null;
@@ -112,6 +122,7 @@ export async function updateInhaler(id, data) {
             body: JSON.stringify(data)
         });
         if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
         if (!res.ok) {
             alert("Muokkaus epäonnistui: " + await getErrorMsg(res));
             return false;
@@ -136,6 +147,177 @@ export async function getFilters() {
     }
 }
 
+// GET /api/admin/drug-class
+export async function getDrugClasses() {
+    try {
+        const res = await fetch("/api/admin/drug-class", {
+            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") }
+        });
+        if (checkExpiredToken(res)) return [];
+        if (checkRateLimit(res)) return [];
+        if (!res.ok) return [];
+        return await res.json();
+    } catch (e) {
+        console.error("Failed to fetch drug classes:", e);
+        return [];
+    }
+}
+
+// POST /api/admin/drug-class
+export async function createDrugClass(name) {
+    try {
+        const res = await fetch("/api/admin/drug-class", {
+            method: "POST",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ name })
+        });
+        if (checkExpiredToken(res)) return null;
+        if (checkRateLimit(res)) return null;
+        if (!res.ok) {
+            alert("Lääkeaineluokan lisäys epäonnistui: " + await getErrorMsg(res));
+            return null;
+        }
+        const body = await res.json();
+        return body.id || true;
+    } catch (e) {
+        alert("Yhteysvirhe lääkeaineluokan lisäyksessä.");
+        return null;
+    }
+}
+
+// PUT /api/admin/drug-class/:id
+export async function updateDrugClass(id, name) {
+    try {
+        const res = await fetch("/api/admin/drug-class/" + id, {
+            method: "PUT",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ name })
+        });
+        if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
+        if (!res.ok) {
+            alert("Lääkeaineluokan muokkaus epäonnistui: " + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert("Yhteysvirhe lääkeaineluokan muokkauksessa.");
+        return false;
+    }
+}
+
+// DELETE /api/admin/drug-class/:id
+export async function deleteDrugClass(id) {
+    try {
+        const res = await fetch("/api/admin/drug-class/" + id, {
+            method: "DELETE",
+            headers: getAuthHeaders()
+        });
+        if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
+        if (!res.ok) {
+            alert("Lääkeaineluokan poisto epäonnistui: " + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert("Yhteysvirhe lääkeaineluokan poistossa.");
+        return false;
+    }
+}
+
+// GET /api/admin/active-ingredient
+export async function getActiveIngredients() {
+    try {
+        const res = await fetch("/api/admin/active-ingredient", {
+            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") }
+        });
+        if (checkExpiredToken(res)) return [];
+        if (checkRateLimit(res)) return [];
+        if (!res.ok) return [];
+        return await res.json();
+    } catch (e) {
+        console.error("Failed to fetch active ingredients:", e);
+        return [];
+    }
+}
+
+// POST /api/admin/active-ingredient
+export async function createActiveIngredient(fi, sv, drugClassId) {
+    try {
+        const res = await fetch("/api/admin/active-ingredient", {
+            method: "POST",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ fi, sv, drug_class_id: drugClassId })
+        });
+        if (checkExpiredToken(res)) return null;
+        if (checkRateLimit(res)) return null;
+        if (!res.ok) {
+            alert("Lääkeaineen lisäys epäonnistui: " + await getErrorMsg(res));
+            return null;
+        }
+        const body = await res.json();
+        return body.id || true;
+    } catch (e) {
+        alert("Yhteysvirhe lääkeaineen lisäyksessä.");
+        return null;
+    }
+}
+
+// PUT /api/admin/active-ingredient/:id
+export async function updateActiveIngredient(id, fi, sv, drugClassId) {
+    try {
+        const res = await fetch("/api/admin/active-ingredient/" + id, {
+            method: "PUT",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ fi, sv, drug_class_id: drugClassId })
+        });
+        if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
+        if (!res.ok) {
+            alert("Lääkeaineen muokkaus epäonnistui: " + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert("Yhteysvirhe lääkeaineen muokkauksessa.");
+        return false;
+    }
+}
+
+// DELETE /api/admin/active-ingredient/:id
+export async function deleteActiveIngredient(id) {
+    try {
+        const res = await fetch("/api/admin/active-ingredient/" + id, {
+            method: "DELETE",
+            headers: getAuthHeaders()
+        });
+        if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
+        if (!res.ok) {
+            alert("Lääkeaineen poisto epäonnistui: " + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert("Yhteysvirhe lääkeaineen poistossa.");
+        return false;
+    }
+}
+
+// GET /api/admin/filters - all filter values for admin
+export async function getAdminFilters() {
+    try {
+        const res = await fetch("/api/admin/filters", {
+            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") }
+        });
+        if (!res.ok) return null;
+        return await res.json();
+    } catch (e) {
+        return null;
+    }
+}
+
 // POST /api/admin/uploads/:id - upload image for inhaler
 export async function uploadImage(id, file) {
     try {
@@ -147,6 +329,7 @@ export async function uploadImage(id, file) {
             body: formData
         });
         if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
         if (!res.ok) {
             alert("Kuvan lataus epäonnistui: " + await getErrorMsg(res));
             return false;
@@ -154,6 +337,26 @@ export async function uploadImage(id, file) {
         return true;
     } catch (e) {
         alert("Yhteysvirhe kuvan latauksessa.");
+        return false;
+    }
+}
+
+// DELETE /api/admin/uploads/:id - delete inhaler image
+export async function deleteImage(id) {
+    try {
+        const res = await fetch("/api/admin/uploads/" + id, {
+            method: "DELETE",
+            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") }
+        });
+        if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
+        if (!res.ok) {
+            alert("Kuvan poisto epäonnistui: " + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert("Yhteysvirhe kuvan poistossa.");
         return false;
     }
 }
@@ -166,6 +369,7 @@ export async function deleteInhaler(id) {
             headers: getAuthHeaders()
         });
         if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
         if (!res.ok) {
             alert("Poisto epäonnistui: " + await getErrorMsg(res));
             return false;

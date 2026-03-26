@@ -1,6 +1,12 @@
-import { applyFilter } from "./filter.js";
+import { getFilteredIds } from "./filter.js";
 import { getInhalers, getFilters } from "./api.js";
-import { renderInhalerGrid } from "./render.js";
+import {
+  gridID,
+  detailID,
+  backButtonID,
+  renderInhalerGrid,
+  setElementVisibility,
+} from "./render.js";
 import { getCounterString } from "./lang.js";
 
 var currentInhalers = 0;
@@ -28,12 +34,17 @@ function getFilterObject() {
 
 function filterData() {
   const filters = getFilterObject();
-  const filtered = applyFilter(inhalers, filters);
+  const filterIds = getFilteredIds(inhalers, filters);
+  const renderTarget = document.getElementById(gridID);
 
-  currentInhalers = filtered.length;
-
-  renderInhalerGrid(filtered);
+  currentInhalers = filterIds.size;
   updateCounter();
+
+  [...renderTarget.children].forEach((card) => {
+    setElementVisibility(card.id, filterIds.has(card.id));
+  });
+
+  //renderInhalerGrid(filtered);
 }
 
 // Add <option> elements to a <select>
@@ -144,8 +155,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Back to grid view button
-  const backButton = document.getElementById("return-to-gridview");
+  const backButton = document.getElementById(backButtonID);
   backButton.addEventListener("click", () => {
+    setElementVisibility(gridID, true);
+    setElementVisibility(backButtonID, false);
+    setElementVisibility(detailID, false);
     filterData();
   });
 

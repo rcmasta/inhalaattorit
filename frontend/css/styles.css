@@ -603,6 +603,53 @@ main {
     margin-bottom: 0;
 }
 
+/* Image preview */
+.image-preview {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.6rem;
+    background: #f8f9fa;
+    border: 1px solid #dce3ea;
+    border-radius: 8px;
+    margin-bottom: 0.4rem;
+}
+
+.image-preview img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.image-preview-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.image-preview-info span {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.btn-delete-image {
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    border: 1px solid #c0392b;
+    border-radius: 6px;
+    background: #fdf0ef;
+    color: #c0392b;
+    cursor: pointer;
+    width: fit-content;
+}
+
+.btn-delete-image:hover {
+    background: #c0392b;
+    color: #fff;
+}
+
 .add-form-buttons {
     display: flex;
     gap: 0.6rem;
@@ -675,6 +722,81 @@ main {
 
 .btn-delete:hover {
     background: #fdf0ef;
+}
+
+/* Management sections */
+
+.management-section {
+    margin-top: 1.5rem;
+}
+
+.btn-toggle-section {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #2c3e50;
+    background: #fff;
+    border: 1px solid #dce3ea;
+    border-radius: 8px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.btn-toggle-section:hover {
+    background: #f4f6f8;
+}
+
+.section-content {
+    background: #fff;
+    border: 1px solid #dce3ea;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 1rem;
+}
+
+.management-table {
+    margin-bottom: 1rem;
+}
+
+.management-form h4 {
+    margin: 0 0 0.5rem 0;
+    font-size: 0.9rem;
+    color: #333;
+}
+
+.management-form-row {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.management-form-row input,
+.management-form-row select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 0.85rem;
+}
+
+.management-form-row input[type="text"] {
+    flex: 1;
+    min-width: 120px;
+}
+
+.management-form-row select {
+    min-width: 100px;
+}
+
+.management-form-row .btn-add {
+    padding: 0.4rem 1rem;
+    font-size: 0.8rem;
+}
+
+.management-form-row .btn-cancel {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
 }
 
 /* Footer */
