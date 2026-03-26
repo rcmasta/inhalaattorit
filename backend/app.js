@@ -3,6 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 
+app.set("trust proxy", 1);
+
 const cron = require('node-cron');
 const fs = require('fs');
 const genPrivateKey = require('./src/utils/genPrivateKey');
