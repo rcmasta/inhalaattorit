@@ -102,9 +102,20 @@ function getSearchName() {
 function filterByName() {
   const name = getSearchName();
 
-  return inhalers.filter((inhaler) =>
+  const nameFiltered = inhalers.filter((inhaler) =>
     inhaler.name.toLowerCase().includes(name.toLowerCase()),
   );
+
+  const renderTarget = document.getElementById(gridID);
+  currentInhalers = nameFiltered.length;
+  updateCounter();
+
+  [...renderTarget.children].forEach((card) => {
+    setElementVisibility(
+      card.id,
+      nameFiltered.some((inhaler) => inhaler.id.toString() === card.id),
+    );
+  });
 }
 
 // Event listeners
@@ -128,12 +139,7 @@ document.addEventListener("DOMContentLoaded", () => {
       searchInput.focus();
     });
 
-    searchInput.addEventListener("input", function (event) {
-      const nameFiltered = filterByName();
-      currentInhalers = nameFiltered.length;
-      renderInhalerGrid(nameFiltered);
-      updateCounter();
-    });
+    searchInput.addEventListener("input", filterByName);
   }
 
   // Drop-down filters
