@@ -11,7 +11,7 @@ fi
 
 echo "Checking test database"
 
-if [ ! -f src/config/inhalers.db ]; then
+if [ ! -f /backend/data/inhalers.db ]; then
     echo "Database not found. Generating."
     npm run test_db
 else
