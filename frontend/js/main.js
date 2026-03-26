@@ -118,6 +118,25 @@ function filterByName() {
   });
 }
 
+function autoCompleteSearch() {
+  let results = [];
+  const name = getSearchName();
+
+  if (name.length > 0) {
+    results = inhalers
+      .filter((inhaler) =>
+        inhaler.name.toLowerCase().includes(name.toLowerCase())
+      )
+  }
+
+  const content = results.map((inhaler) => `<li class="autocomplete-item" data-id="${inhaler.id}">${inhaler.name}</li>`);
+
+  const resultsBox = document.querySelector(".result-box");
+  if (!resultsBox) return;
+
+  resultsBox.innerHTML = "<ul>" + content.join("") + "</ul>";
+}
+
 // Event listeners
 document.addEventListener("DOMContentLoaded", () => {
   const filterToggle = document.querySelector(".filter-toggle");
@@ -140,6 +159,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     searchInput.addEventListener("input", filterByName);
+    searchInput.addEventListener("input", autoCompleteSearch);
   }
 
   // Drop-down filters
