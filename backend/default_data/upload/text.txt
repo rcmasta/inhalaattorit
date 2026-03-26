@@ -1,0 +1,1 @@
+This file is to prevent data/upload/ folder from not existing.
