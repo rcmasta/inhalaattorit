@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+mkdir -p /backend/data
+
 if [ ! -f /backend/data/.initialized ]; then
   echo "Seeding persistent volume with initial data."
   cp -R /backend/default_data/* /backend/data/
