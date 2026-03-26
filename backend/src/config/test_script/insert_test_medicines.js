@@ -28,7 +28,7 @@ const insert_test_med = (db) => {
     const test_medicines = [
         {
             name: "Aerobec Autohaler",
-            image_path: "img/aerobec_autohaler.jpg",
+            image_path: null,
             description: {
                 fi: "Tämä on lääkettä",
                 sv: "det här är medicin"
@@ -52,7 +52,7 @@ const insert_test_med = (db) => {
         },
         {
             name: "Alvesco",
-            image_path: "img/alvesco.jpg",
+            image_path: null,
             description: {
                 fi: "Tällä lääkkeellä ei ole inhalaattori merkkiä",
                 sv: "Detta läkemedel har inget inhalatormärke."
@@ -76,7 +76,7 @@ const insert_test_med = (db) => {
         },
         {
             name: "Symbicort Turbuhaler",
-            image_path: "img/symbicort_turbuhaler.jpg",
+            image_path: null,
             description: {
                 fi: "hoitavalääke ja oirelääke",
                 sv: "terapeutisk och symtomatisk medicin"
@@ -100,7 +100,7 @@ const insert_test_med = (db) => {
         },
         {
             name: "Rikkinäinen kuva inhalaattori",
-            image_path: "img/does_not_exist.jpg",
+            image_path: null,
             description: {
                 fi: "hoitavalääke ja oirelääke",
                 sv: "terapeutisk och symtomatisk medicin"

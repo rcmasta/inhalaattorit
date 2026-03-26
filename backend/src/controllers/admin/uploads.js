@@ -24,8 +24,8 @@ class uploads {
             const fullSize = Math.min(metadata.width, metadata.height, MAX_FULL_RES);
             const thumbSize = Math.min(fullSize, MAX_THUMB_RES);
 
-            const fullResFolder = path.join(__dirname, '../../../uploads/full');
-            const thumbResFolder = path.join(__dirname, '../../../uploads/thumb');
+            const fullResFolder = path.join(__dirname, '../../../data/uploads/full');
+            const thumbResFolder = path.join(__dirname, '../../../data/uploads/thumb');
 
             // creates if missing folders
             await fs.mkdir(fullResFolder, { recursive: true });
@@ -63,8 +63,8 @@ class uploads {
     };
 
     static deleteWithId = async (id) => {
-        const fullResImage = path.join(__dirname, '../../../uploads/full/' + id + ".jpeg");
-        const thumbResImage = path.join(__dirname, '../../../uploads/thumb/' + id + ".jpeg");
+        const fullResImage = path.join(__dirname, '../../../data/uploads/full/' + id + ".jpeg");
+        const thumbResImage = path.join(__dirname, '../../../data/uploads/thumb/' + id + ".jpeg");
 
         try { 
             await fs.unlink(fullResImage); 

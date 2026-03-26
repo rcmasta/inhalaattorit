@@ -7,7 +7,7 @@ const isTest = process.env.NODE_ENV === "test";
 
 const dbPath = isTest
     ? ":memory:" // or path.join(__dirname, "test.db")
-    : path.join(__dirname, "inhalers.db");
+    : path.join(__dirname, '../../data/db/inhalers.db');
 
 
 const db = new Database(dbPath, {
