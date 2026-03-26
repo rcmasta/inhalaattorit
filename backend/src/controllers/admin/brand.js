@@ -4,58 +4,50 @@ const BackendError = require('../../classes/backendError');
 class brand {
 
     static get = (req, res) => {
-        try {
-            const brands = adminModel.brand.get();
-            res.status(200).json(brands);
-
-        } catch (err) {
-            throw new BackendError(500, "Internal server error!");
-        }
+        const brands = adminModel.brand.get();
+        res.status(200).json(brands);
     };
 
     static create = (req, res) => {
-
-        try {
-            if ( !req.body.name ) {
-                throw new BackendError(400, 'Error! Missing medicine name!');
-            }
-            const id = adminModel.brand.create(req.body);
-            res.status(201).json({id, message: 'Brand created successfully'});
-
-        } catch (err) {
-            throw new BackendError(500, "Internal server error!");
+        if ( !req.body.name ) {
+            throw new BackendError(400, 'Error! Missing brand name!');
         }
+
+        const result = adminModel.brand.create(req.body.name);
+        if (!result.success) { throw new BackendError(409, 'Brand name already in use!'); }
+
+        res.status(201).json({id: result.id, message: 'Brand created successfully'});
     };
 
-    static edit = (req, res) => {
-        try {       
-            if ( !req.body || Object.keys(req.body).length === 0){
-                throw new BackendError(400, 'Error! Nothing to update!');
-            }
-
-            // if name is given it can't be null/empty
-            if ( "name" in req.body && (!req.body.name || req.body.name.trim() === "") ) {
-                throw new BackendError(400, 'Error! Brand must have a name!');
-            }
-
-            adminModel.brand.edit(req.params.id, req.body)
-            res.status(201).json({message: 'Brand edited successfully'});
-
-        } catch (err) {
-            throw new BackendError(500, "Internal server error!");
+    static edit = (req, res) => {   
+        if ( !req.body || Object.keys(req.body).length === 0){
+            return res.status(400).json({message: 'Nothing to update!'});
         }
 
+        // if name is given it can't be null/empty
+        if ( "name" in req.body && (!req.body.name || req.body.name.trim() === "") ) {
+            throw new BackendError(400, 'Missing brand name!');
+        }
+
+        const result = adminModel.brand.edit(req.params.id, req.body.name)
+
+        if (!result.success) {
+            switch (result.error) {
+                case "NAME_TAKEN": throw new BackendError(409, 'Brand name already in use!');
+                case "ID_MISSING": throw new BackendError(404, 'Non valid brand ID!');
+            }
+            throw new BackendError(400, 'Brand was not edited! Something went wrond.')
+        }
+
+        res.status(200).json({message: 'Brand edited successfully'});
     };
 
     static delete = (req, res) => {
-        try {
-            const id = parseInt(req.params.id);
-            adminModel.brand.delete(id);
+        const id = parseInt(req.params.id);
+        const result = adminModel.brand.delete(id);
 
-            res.status(200).json({id, message: 'Brand removed successfully'});
-        } catch (err) {
-            throw new BackendError(500, "Internal server error!");
-        }
+        if (!result) { throw new BackendError(404, 'Non valid brand ID!'); }
+        res.status(200).json({message: 'Brand removed successfully'});
     };
 };
 
