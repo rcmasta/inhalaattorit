@@ -254,3 +254,35 @@ Must have parameters:
 **Endpoint:** DELETE /api/admin/drug-class/{id}
 
     No parameters needed
+
+### Get All Inhaler Brands:
+**Endpoint:** GET /api/admin/brand
+
+    No parameters needed
+    
+### Create New Inhaler Brand:
+**Endpoint:** POST /api/admin/brand
+
+**Content-Type:** application/json
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    name                    string
+
+### Edit Existing Inhaler Brand:
+**Endpoint:** PUT /api/admin/brand/{id}
+
+**Content-Type:** application/json
+
+Must have parameters:
+
+    Field                   Type
+    -------------------------------------
+    name                    string
+
+### Delete Existing Inhaler Brand:
+**Endpoint:** DELETE /api/admin/brand/{id}
+
+    No parameters needed
