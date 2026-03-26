@@ -25,6 +25,7 @@ router.post('/drug-class', adminController.drugClass.create);
 router.put('/drug-class/:id', adminController.drugClass.edit);
 router.delete('/drug-class/:id', adminController.drugClass.delete);
 
+router.get('/brand', adminController.brand.get);
 router.post('/brand', adminController.brand.create);
 router.put('/brand/:id', adminController.brand.edit);
 router.delete('/brand/:id', adminController.brand.delete);
