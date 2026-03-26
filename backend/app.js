@@ -30,7 +30,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/inhalers', limiterBasic, inhalersRoutes);
 app.use('/api/admin/login', limiterAdminLogin, authRoutes);
 app.use('/api/admin', limiterBasic, authMiddleware, adminRoutes);
-app.use('/uploads', express.static('uploads')); 
+app.use('/uploads', express.static(path.join(__dirname, './data/uploads'))); 
 
 // Error handling middleware
 app.use(errorMiddleware);

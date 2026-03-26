@@ -4,7 +4,7 @@ const fs = require('file-system');
 
 // assuming there will be only one or maybe even two admins,
 // having them in a json file should be sufficient.
-const admins = require('../../data/admins.json');
+const admins = require('../../data/admindata/admins.json');
 
 // returns an admin ({username, password}) with the given username (or null if not found)
 const getAdmin = async (username) => {
