@@ -9,6 +9,8 @@ var DEFAULT_LANG = "fi";
 // Add more keys as needed, matching the data-i18n attributes in HTML.
 // Placeholder translations, replace with real Swedish later
 var sv = {
+    "nav.guide": "", // TODO
+    "nav.front-page": "",  // TODO
     "nav.about": "Om denna webbplats",
     "nav.feedback": "Feedback",
     "nav.admin": "Admin",
@@ -44,7 +46,52 @@ var sv = {
     "feedback.heading": "Feedback",
     "privacy.heading": "Dataskyddsbeskrivning",
     "privacy.link": "Dataskyddsbeskrivning",
-    "search.placeholder": "Sök efter namn..."
+    "search.placeholder": "Sök efter namn...",
+    "guide.heading": "", // TODO
+    "guide.intro": "", // TODO
+    "guide.medform-heading": "", // TODO
+    "guide.powder": "", // TODO
+    "guide.powder-body": "", // TODO
+    "guide.powder-capsule": "", // TODO
+    "guide.powder-capsule-body": "", // TODO
+    "guide.spray": "", // TODO
+    "guide.spray-body": "", // TODO
+    "guide.autohaler": "", // TODO
+    "guide.autohaler-body": "", // TODO
+    "guide.mist": "", // TODO
+    "guide.mist-body": "",
+    "guide.age-heading": "",
+    "guide.age-official": "",
+    "guide.age-official-body": "",
+    "guide.age-recommended": "",
+    "guide.age-recommended-body": "",
+    "guide.dosage-heading": "",
+    "guide.dosage-body": "",
+    "guide.inhalation-heading": "",
+    "guide.inhalation": "",
+    "guide.inhalation-body": "",
+    "guide.coordination": "",
+    "guide.coordination-body": "",
+    "guide.inhaler-heading": "",
+    "guide.inhaler-body": "",
+    "guide.purpose-heading": "",
+    "guide.purpose-body": "",
+    "guide.medgroup-heading": "",
+    "guide.medgroup": "",
+    "guide.ics": "",
+    "guide.ics-body": "",
+    "guide.lama": "",
+    "guide.lama-body": "",
+    "guide.laba": "",
+    "guide.laba-body": "",
+    "guide.saba": "",
+    "guide.saba-body": "",
+    "guide.sama": "",
+    "guide.saba-body": "",
+    "guide.substance-heading": "",
+    "guide.substance-body": "",
+    "guide.color-heading": "",
+    "guide.color-body": ""
 };
 
 const fiCounter = "Näytetään {current}/{total}";
