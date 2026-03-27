@@ -7,7 +7,8 @@
     "start": "node server.js",
     "test": "cross-env NODE_ENV=test mocha src/tests/*.test.js",
     "dev": "node --watch server",
-    "test_db": "node src/config/test_script/insert_manual_test.js"
+    "test_db": "node src/config/test_script/insert_manual_test.js",
+    "populate_db": "node src/config/populate_db/populateDB.js"
   },
   "keywords": [],
   "author": "",
@@ -24,7 +25,8 @@
     "multer": "^2.1.1",
     "node-cron": "^4.2.1",
     "openssl-nodejs": "^1.0.5",
-    "sharp": "^0.34.5"
+    "sharp": "^0.34.5",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "chai": "^6.2.2",
