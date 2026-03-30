@@ -21,6 +21,9 @@ class xlsxIndices {
 
     static COLORS_FIRST = 44;
     static COLORS_LAST = 52;
+
+    static DATABASE_LINK = xlsxIndices.COLORS_LAST + 2;
+    static TUTORIAL_LINK = xlsxIndices.DATABASE_LINK + 1;
 }
 
 module.exports = xlsxIndices;

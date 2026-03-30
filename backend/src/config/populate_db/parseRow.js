@@ -6,6 +6,7 @@ const parseInhalerBrand = require('./parseInhalerBrand');
 const parseUsecase = require('./parseUsecase');
 const parseActiveIngredients = require('./parseActiveIngredients');
 const parseColors = require('./parseColors');
+const parseLinks = require('./parseLinks');
 
 const parseRow = (row) => {
     let data = {};
@@ -20,6 +21,7 @@ const parseRow = (row) => {
     [data.treatment_medicine, data.symptomatic_medicine] = parseUsecase(row);
     data.active_ingredient_ids = parseActiveIngredients(row);
     data.color_ids = parseColors(row);
+    [data.database_link, data.tutorial_link] = parseLinks(row);
 
     return data;
 }
