@@ -49,6 +49,7 @@ export function renderInhalerGrid(data) {
     
     setElementVisibility(backButtonID, false);
     setElementVisibility(detailID, false);
+    setElementVisibility(gridID, true);
     renderTarget.replaceChildren(inhalerList);
 }
 
@@ -59,16 +60,7 @@ export function renderInhalerGrid(data) {
  */
 export function setElementVisibility(elementId, visible) {
     const element = document.getElementById(elementId);
-
-    if (visible) {
-        // Show button
-        element.classList.remove(hiddenClass);
-        element.setAttribute(ariaHiddenAttribute, ariaStateVisible);
-    } else {
-        // Hide button
-        element.classList.add(hiddenClass);
-        element.setAttribute(ariaHiddenAttribute, ariaStateHidden);
-    }
+    element.hidden = !visible;
 }
 
 /**
@@ -87,8 +79,8 @@ function renderInhalerDetails(inhaler) {
     }
 
     setElementVisibility(backButtonID, true);
-    setElementVisibility(gridID, false);
     setElementVisibility(detailID, true);
+    setElementVisibility(gridID, false);
 }
 
 /**

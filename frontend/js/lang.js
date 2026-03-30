@@ -7,7 +7,6 @@ var DEFAULT_LANG = "fi";
 
 // Swedish translations. Finnish is the default in HTML, no need to list here.
 // Add more keys as needed, matching the data-i18n attributes in HTML.
-// Placeholder translations, replace with real Swedish later
 var sv = {
     "nav.guide": "Anvisning",
     "nav.front-page": "Ingångssida",
@@ -47,6 +46,7 @@ var sv = {
     "privacy.heading": "Dataskyddsbeskrivning",
     "privacy.link": "Dataskyddsbeskrivning",
     "search.placeholder": "Sök efter namn...",
+    "guide.close": "Stäng anvisningarna",
     "guide.heading": "Anvisningar för användning av webbplatsen",
     "guide.intro-1": "Webbplatsen har utvecklats för att främja korrekt och säker användning. Webbplatsen tar inte ställning till patientdiagnoser eller till vilka läkemedel som ska förskrivas till patienter utan varje läkare fattar sina egna vårdbeslut baserat på rekommendationer från",
     "guide.intro-link": "God medicinsk praxis",
@@ -97,6 +97,9 @@ var sv = {
 };
 
 const fiCounter = "Näytetään {current}/{total}";
+const fiGuideUrl = "https://www.kaypahoito.fi/suositukset";
+
+const guideUrlId = "guide-url";
 
 export function getCounterString() {
     const el = document.getElementById("result-count");
@@ -136,7 +139,15 @@ function applyTranslations(lang) {
         }
     });
 
+    // Guide URL
+    const guideUrl = document.getElementById(guideUrlId);
+
     document.documentElement.lang = lang;
+    if (lang === "fi") {
+        guideUrl.href = fiGuideUrl;
+    } else {
+        guideUrl.href = sv["guide.intro-link-url"];
+    }
 }
 
 function updateToggle(lang) {
