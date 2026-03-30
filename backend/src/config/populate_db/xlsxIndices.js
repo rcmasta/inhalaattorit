@@ -7,8 +7,8 @@ class xlsxIndices {
 
     static TIMES_A_DAY = 8; 
 
-    static BAD_COORDINATION = 9;
-    static BAD_INTAKE = 10;
+    static BAD_INTAKE = 9;
+    static BAD_COORDINATION = 10;
     static BAD_BOTH = 11;
 
     static INHALER_BRAND_FIRST = 12; 
