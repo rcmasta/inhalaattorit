@@ -51,4 +51,4 @@ if [ ! -d "$DATA_DIR/$UPLOAD_DIR" ]; then
 fi
 
 echo "Starting backend server"
-exec npm start
+exec node server.js
