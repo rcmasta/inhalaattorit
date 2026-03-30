@@ -1,5 +1,5 @@
-const xlsx = require('xlsx')
-// const db = require('../db');
+const xlsx = require('xlsx');
+const db = require('../db');
 const parseRow = require('./parseRow');
 const insertRow = require('./insertRow');
 
@@ -14,8 +14,8 @@ const sheet_json = xlsx.utils.sheet_to_json(sheet);
 
 for (const [key, value] of Object.entries(sheet_json)) {
     let data;
-    if (value["OTSIKKO VALIKKOON"]) data = parseRow(value);
-    if (data) insertRow(data);
+    if (value["OTSIKKO VALIKKOON"] && value["OTSIKKO VALIKKOON"] != "Lääke") data = parseRow(value);
+    if (data) insertRow(data, db);
 }
 
-
+console.log("Database populated!");

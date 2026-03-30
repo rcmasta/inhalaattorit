@@ -6,6 +6,8 @@ const parseInhalerBrand = (row) => {
     for (let i = xlsxIndices.INHALER_BRAND_FIRST; i <= xlsxIndices.INHALER_BRAND_LAST; i++) {
         if (isChecked(row[`__EMPTY_${i}`])) return i - (xlsxIndices.INHALER_BRAND_FIRST - 2);
     }
+
+    return null;
 }
 
 module.exports = parseInhalerBrand;
