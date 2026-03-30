@@ -2,6 +2,7 @@ import { getFilteredIds } from './filter.js';
 import { getInhalers, getFilters } from './api.js';
 import { gridID, detailID, backButtonID, renderInhalerGrid, setElementVisibility } from './render.js'
 import { getCounterString } from './lang.js'
+import { openButtonId, closeButtonId, toggleGuidePanel } from './guide.js';
 
 var currentInhalers = 0;
 var totalInhalers = 0;
@@ -138,6 +139,17 @@ document.addEventListener("DOMContentLoaded", () => {
             updateCounter();
         });
     }
+
+    // Guide panel
+    const guideButtonOpen = document.getElementById(openButtonId);
+    guideButtonOpen.addEventListener("click", function () {
+        toggleGuidePanel(true);
+    });
+
+    const guideButtonClose = document.getElementById(closeButtonId);
+    guideButtonClose.addEventListener("click", function() {
+        toggleGuidePanel(false);
+    });
 });
 
 // Load data
