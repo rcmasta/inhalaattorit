@@ -1,6 +1,46 @@
 // auth: login, get token, store in localStorage, send with every admin request
 
+import { getLang } from './lang.js';
 
+const apiTexts = {
+    "Istunto vanhentunut, kirjaudu uudelleen.": "Sessionen har gått ut, logga in igen.",
+    "Liian monta pyyntöä, odota hetki ja yritä uudelleen.": "För många förfrågningar, vänta en stund och försök igen.",
+    "Kirjautuminen epäonnistui. Tarkista yhteys.": "Inloggningen misslyckades. Kontrollera anslutningen.",
+    "Tuntematon virhe": "Okänt fel",
+    "Tallennus epäonnistui: ": "Sparandet misslyckades: ",
+    "Yhteysvirhe tallennuksessa.": "Anslutningsfel vid sparning.",
+    "Muokkaus epäonnistui: ": "Redigeringen misslyckades: ",
+    "Yhteysvirhe muokkauksessa.": "Anslutningsfel vid redigering.",
+    "Poisto epäonnistui: ": "Raderingen misslyckades: ",
+    "Yhteysvirhe poistossa.": "Anslutningsfel vid radering.",
+    "Lääkeaineluokan lisäys epäonnistui: ": "Tillägg av läkemedelsgrupp misslyckades: ",
+    "Yhteysvirhe lääkeaineluokan lisäyksessä.": "Anslutningsfel vid tillägg av läkemedelsgrupp.",
+    "Lääkeaineluokan muokkaus epäonnistui: ": "Redigering av läkemedelsgrupp misslyckades: ",
+    "Yhteysvirhe lääkeaineluokan muokkauksessa.": "Anslutningsfel vid redigering av läkemedelsgrupp.",
+    "Lääkeaineluokan poisto epäonnistui: ": "Radering av läkemedelsgrupp misslyckades: ",
+    "Yhteysvirhe lääkeaineluokan poistossa.": "Anslutningsfel vid radering av läkemedelsgrupp.",
+    "Lääkeaineen lisäys epäonnistui: ": "Tillägg av aktiv substans misslyckades: ",
+    "Yhteysvirhe lääkeaineen lisäyksessä.": "Anslutningsfel vid tillägg av aktiv substans.",
+    "Lääkeaineen muokkaus epäonnistui: ": "Redigering av aktiv substans misslyckades: ",
+    "Yhteysvirhe lääkeaineen muokkauksessa.": "Anslutningsfel vid redigering av aktiv substans.",
+    "Lääkeaineen poisto epäonnistui: ": "Radering av aktiv substans misslyckades: ",
+    "Yhteysvirhe lääkeaineen poistossa.": "Anslutningsfel vid radering av aktiv substans.",
+    "Inhalaattorin lisäys epäonnistui: ": "Tillägg av inhalatormärke misslyckades: ",
+    "Yhteysvirhe inhalaattorin lisäyksessä.": "Anslutningsfel vid tillägg av inhalatormärke.",
+    "Inhalaattorin muokkaus epäonnistui: ": "Redigering av inhalatormärke misslyckades: ",
+    "Yhteysvirhe inhalaattorin muokkauksessa.": "Anslutningsfel vid redigering av inhalatormärke.",
+    "Inhalaattorin poisto epäonnistui: ": "Radering av inhalatormärke misslyckades: ",
+    "Yhteysvirhe inhalaattorin poistossa.": "Anslutningsfel vid radering av inhalatormärke.",
+    "Kuvan lataus epäonnistui: ": "Bilduppladdning misslyckades: ",
+    "Yhteysvirhe kuvan latauksessa.": "Anslutningsfel vid bilduppladdning.",
+    "Kuvan poisto epäonnistui: ": "Radering av bild misslyckades: ",
+    "Yhteysvirhe kuvan poistossa.": "Anslutningsfel vid radering av bild."
+};
+
+function t(text) {
+    if (getLang() === "sv" && apiTexts[text]) return apiTexts[text];
+    return text;
+}
 
 function getAuthHeaders() {
     return {
@@ -9,11 +49,15 @@ function getAuthHeaders() {
     };
 }
 
+function getAuthOnly() {
+    return { "Authorization": "Bearer " + localStorage.getItem("admin-token") };
+}
+
 // 401 = token expired or invalid, clear and reload to login
 function checkExpiredToken(res) {
     if (res.status === 401) {
         localStorage.removeItem("admin-token");
-        alert("Istunto vanhentunut, kirjaudu uudelleen.");
+        alert(t("Istunto vanhentunut, kirjaudu uudelleen."));
         location.reload();
         return true;
     }
@@ -23,7 +67,7 @@ function checkExpiredToken(res) {
 // 429 = rate limited
 function checkRateLimit(res) {
     if (res.status === 429) {
-        alert("Liian monta pyyntöä, odota hetki ja yritä uudelleen.");
+        alert(t("Liian monta pyyntöä, odota hetki ja yritä uudelleen."));
         return true;
     }
     return false;
@@ -33,9 +77,9 @@ function checkRateLimit(res) {
 async function getErrorMsg(res) {
     try {
         const body = await res.json();
-        return body.message || "Tuntematon virhe";
+        return body.message || t("Tuntematon virhe");
     } catch (e) {
-        return "Tuntematon virhe";
+        return t("Tuntematon virhe");
     }
 }
 
@@ -51,7 +95,7 @@ export async function adminLogin(username, password) {
         const data = await res.json();
         return data.token || null;
     } catch (e) {
-        alert("Kirjautuminen epäonnistui. Tarkista yhteys.");
+        alert(t("Kirjautuminen epäonnistui. Tarkista yhteys."));
         return null;
     }
 }
@@ -102,13 +146,13 @@ export async function createInhaler(data) {
         if (checkExpiredToken(res)) return null;
         if (checkRateLimit(res)) return null;
         if (!res.ok) {
-            alert("Tallennus epäonnistui: " + await getErrorMsg(res));
+            alert(t("Tallennus epäonnistui: ") + await getErrorMsg(res));
             return null;
         }
         const body = await res.json();
         return body.id || true;
     } catch (e) {
-        alert("Yhteysvirhe tallennuksessa.");
+        alert(t("Yhteysvirhe tallennuksessa."));
         return null;
     }
 }
@@ -124,12 +168,12 @@ export async function updateInhaler(id, data) {
         if (checkExpiredToken(res)) return false;
         if (checkRateLimit(res)) return false;
         if (!res.ok) {
-            alert("Muokkaus epäonnistui: " + await getErrorMsg(res));
+            alert(t("Muokkaus epäonnistui: ") + await getErrorMsg(res));
             return false;
         }
         return true;
     } catch (e) {
-        alert("Yhteysvirhe muokkauksessa.");
+        alert(t("Yhteysvirhe muokkauksessa."));
         return false;
     }
 }
@@ -151,7 +195,7 @@ export async function getFilters() {
 export async function getDrugClasses() {
     try {
         const res = await fetch("/api/admin/drug-class", {
-            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") }
+            headers: getAuthOnly()
         });
         if (checkExpiredToken(res)) return [];
         if (checkRateLimit(res)) return [];
@@ -174,13 +218,13 @@ export async function createDrugClass(name) {
         if (checkExpiredToken(res)) return null;
         if (checkRateLimit(res)) return null;
         if (!res.ok) {
-            alert("Lääkeaineluokan lisäys epäonnistui: " + await getErrorMsg(res));
+            alert(t("Lääkeaineluokan lisäys epäonnistui: ") + await getErrorMsg(res));
             return null;
         }
         const body = await res.json();
         return body.id || true;
     } catch (e) {
-        alert("Yhteysvirhe lääkeaineluokan lisäyksessä.");
+        alert(t("Yhteysvirhe lääkeaineluokan lisäyksessä."));
         return null;
     }
 }
@@ -196,12 +240,12 @@ export async function updateDrugClass(id, name) {
         if (checkExpiredToken(res)) return false;
         if (checkRateLimit(res)) return false;
         if (!res.ok) {
-            alert("Lääkeaineluokan muokkaus epäonnistui: " + await getErrorMsg(res));
+            alert(t("Lääkeaineluokan muokkaus epäonnistui: ") + await getErrorMsg(res));
             return false;
         }
         return true;
     } catch (e) {
-        alert("Yhteysvirhe lääkeaineluokan muokkauksessa.");
+        alert(t("Yhteysvirhe lääkeaineluokan muokkauksessa."));
         return false;
     }
 }
@@ -216,12 +260,12 @@ export async function deleteDrugClass(id) {
         if (checkExpiredToken(res)) return false;
         if (checkRateLimit(res)) return false;
         if (!res.ok) {
-            alert("Lääkeaineluokan poisto epäonnistui: " + await getErrorMsg(res));
+            alert(t("Lääkeaineluokan poisto epäonnistui: ") + await getErrorMsg(res));
             return false;
         }
         return true;
     } catch (e) {
-        alert("Yhteysvirhe lääkeaineluokan poistossa.");
+        alert(t("Yhteysvirhe lääkeaineluokan poistossa."));
         return false;
     }
 }
@@ -230,7 +274,7 @@ export async function deleteDrugClass(id) {
 export async function getActiveIngredients() {
     try {
         const res = await fetch("/api/admin/active-ingredient", {
-            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") }
+            headers: getAuthOnly()
         });
         if (checkExpiredToken(res)) return [];
         if (checkRateLimit(res)) return [];
@@ -253,13 +297,13 @@ export async function createActiveIngredient(fi, sv, drugClassId) {
         if (checkExpiredToken(res)) return null;
         if (checkRateLimit(res)) return null;
         if (!res.ok) {
-            alert("Lääkeaineen lisäys epäonnistui: " + await getErrorMsg(res));
+            alert(t("Lääkeaineen lisäys epäonnistui: ") + await getErrorMsg(res));
             return null;
         }
         const body = await res.json();
         return body.id || true;
     } catch (e) {
-        alert("Yhteysvirhe lääkeaineen lisäyksessä.");
+        alert(t("Yhteysvirhe lääkeaineen lisäyksessä."));
         return null;
     }
 }
@@ -275,12 +319,12 @@ export async function updateActiveIngredient(id, fi, sv, drugClassId) {
         if (checkExpiredToken(res)) return false;
         if (checkRateLimit(res)) return false;
         if (!res.ok) {
-            alert("Lääkeaineen muokkaus epäonnistui: " + await getErrorMsg(res));
+            alert(t("Lääkeaineen muokkaus epäonnistui: ") + await getErrorMsg(res));
             return false;
         }
         return true;
     } catch (e) {
-        alert("Yhteysvirhe lääkeaineen muokkauksessa.");
+        alert(t("Yhteysvirhe lääkeaineen muokkauksessa."));
         return false;
     }
 }
@@ -295,12 +339,91 @@ export async function deleteActiveIngredient(id) {
         if (checkExpiredToken(res)) return false;
         if (checkRateLimit(res)) return false;
         if (!res.ok) {
-            alert("Lääkeaineen poisto epäonnistui: " + await getErrorMsg(res));
+            alert(t("Lääkeaineen poisto epäonnistui: ") + await getErrorMsg(res));
             return false;
         }
         return true;
     } catch (e) {
-        alert("Yhteysvirhe lääkeaineen poistossa.");
+        alert(t("Yhteysvirhe lääkeaineen poistossa."));
+        return false;
+    }
+}
+
+// GET /api/admin/brand
+export async function getBrands() {
+    try {
+        const res = await fetch("/api/admin/brand", {
+            headers: getAuthOnly()
+        });
+        if (checkExpiredToken(res)) return [];
+        if (checkRateLimit(res)) return [];
+        if (!res.ok) return [];
+        return await res.json();
+    } catch (e) {
+        console.error("Failed to fetch brands:", e);
+        return [];
+    }
+}
+
+// POST /api/admin/brand
+export async function createBrand(name) {
+    try {
+        const res = await fetch("/api/admin/brand", {
+            method: "POST",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ name })
+        });
+        if (checkExpiredToken(res)) return null;
+        if (checkRateLimit(res)) return null;
+        if (!res.ok) {
+            alert(t("Inhalaattorin lisäys epäonnistui: ") + await getErrorMsg(res));
+            return null;
+        }
+        const body = await res.json();
+        return body.id || true;
+    } catch (e) {
+        alert(t("Yhteysvirhe inhalaattorin lisäyksessä."));
+        return null;
+    }
+}
+
+// PUT /api/admin/brand/:id
+export async function updateBrand(id, name) {
+    try {
+        const res = await fetch("/api/admin/brand/" + id, {
+            method: "PUT",
+            headers: getAuthHeaders(),
+            body: JSON.stringify({ name })
+        });
+        if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
+        if (!res.ok) {
+            alert(t("Inhalaattorin muokkaus epäonnistui: ") + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert(t("Yhteysvirhe inhalaattorin muokkauksessa."));
+        return false;
+    }
+}
+
+// DELETE /api/admin/brand/:id
+export async function deleteBrand(id) {
+    try {
+        const res = await fetch("/api/admin/brand/" + id, {
+            method: "DELETE",
+            headers: getAuthOnly()
+        });
+        if (checkExpiredToken(res)) return false;
+        if (checkRateLimit(res)) return false;
+        if (!res.ok) {
+            alert(t("Inhalaattorin poisto epäonnistui: ") + await getErrorMsg(res));
+            return false;
+        }
+        return true;
+    } catch (e) {
+        alert(t("Yhteysvirhe inhalaattorin poistossa."));
         return false;
     }
 }
@@ -309,7 +432,7 @@ export async function deleteActiveIngredient(id) {
 export async function getAdminFilters() {
     try {
         const res = await fetch("/api/admin/filters", {
-            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") }
+            headers: getAuthOnly()
         });
         if (!res.ok) return null;
         return await res.json();
@@ -325,18 +448,18 @@ export async function uploadImage(id, file) {
         formData.append("image", file);
         const res = await fetch("/api/admin/uploads/" + id, {
             method: "POST",
-            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") },
+            headers: getAuthOnly(),
             body: formData
         });
         if (checkExpiredToken(res)) return false;
         if (checkRateLimit(res)) return false;
         if (!res.ok) {
-            alert("Kuvan lataus epäonnistui: " + await getErrorMsg(res));
+            alert(t("Kuvan lataus epäonnistui: ") + await getErrorMsg(res));
             return false;
         }
         return true;
     } catch (e) {
-        alert("Yhteysvirhe kuvan latauksessa.");
+        alert(t("Yhteysvirhe kuvan latauksessa."));
         return false;
     }
 }
@@ -346,17 +469,17 @@ export async function deleteImage(id) {
     try {
         const res = await fetch("/api/admin/uploads/" + id, {
             method: "DELETE",
-            headers: { "Authorization": "Bearer " + localStorage.getItem("admin-token") }
+            headers: getAuthOnly()
         });
         if (checkExpiredToken(res)) return false;
         if (checkRateLimit(res)) return false;
         if (!res.ok) {
-            alert("Kuvan poisto epäonnistui: " + await getErrorMsg(res));
+            alert(t("Kuvan poisto epäonnistui: ") + await getErrorMsg(res));
             return false;
         }
         return true;
     } catch (e) {
-        alert("Yhteysvirhe kuvan poistossa.");
+        alert(t("Yhteysvirhe kuvan poistossa."));
         return false;
     }
 }
@@ -371,12 +494,12 @@ export async function deleteInhaler(id) {
         if (checkExpiredToken(res)) return false;
         if (checkRateLimit(res)) return false;
         if (!res.ok) {
-            alert("Poisto epäonnistui: " + await getErrorMsg(res));
+            alert(t("Poisto epäonnistui: ") + await getErrorMsg(res));
             return false;
         }
         return true;
     } catch (e) {
-        alert("Yhteysvirhe poistossa.");
+        alert(t("Yhteysvirhe poistossa."));
         return false;
     }
 }

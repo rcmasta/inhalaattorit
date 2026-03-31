@@ -11,7 +11,7 @@ var sv = {
     "nav.guide": "Anvisning",
     "nav.front-page": "Ingångssida",
     "nav.about": "Om denna webbplats",
-    "nav.feedback": "Feedback",
+    "nav.feedback": "Kontakt",
     "nav.admin": "Admin",
     "site.title": "Inhalaattorit.fi",
     "search.heading": "Sök efter ett läkemedel / en inhalator med namn",
@@ -42,7 +42,8 @@ var sv = {
     "filters.clear": "Rensa filter",
     "results.heading": "Inhalatorer",
     "about.heading": "Om webbplatsen",
-    "feedback.heading": "Feedback",
+    "feedback.heading": "Kontakt",
+    "feedback.intro": "Vill du ge feedback om webbplatsen eller rapportera ett fel? Kontakta oss via e-post:",
     "privacy.heading": "Dataskyddsbeskrivning",
     "privacy.link": "Dataskyddsbeskrivning",
     "search.placeholder": "Sök efter namn...",
@@ -93,7 +94,69 @@ var sv = {
     "guide.substance-heading": "Aktiv substans",
     "guide.substance-body": "Den aktiv substansen/aktiva substanserna i läkemedlet",
     "guide.color-heading": "Färg",
-    "guide.color-body": "Inhalatorns färger, möjliggör sökning på basen av inhalatorns färg"
+    "guide.color-body": "Inhalatorns färger, möjliggör sökning på basen av inhalatorns färg",
+
+    // Admin
+    "admin.login-heading": "Logga in",
+    "admin.username": "Användarnamn",
+    "admin.password": "Lösenord",
+    "admin.login-btn": "Logga in",
+    "admin.forgot-pw": "Glömt lösenordet? Kontakta administratören.",
+    "admin.panel-heading": "Kontrollpanel",
+    "admin.add-inhaler": "+ Lägg till inhalator",
+    "admin.logout": "Logga ut",
+    "admin.form-heading": "Lägg till ny inhalator",
+    "admin.name": "Namn",
+    "admin.desc-fi": "Beskrivning (finska)",
+    "admin.desc-fi-ph": "Beskrivning på finska",
+    "admin.desc-sv": "Beskrivning (svenska)",
+    "admin.min-age": "Officiell åldersgräns (år)",
+    "admin.rec-age": "Rekommenderad åldersgräns (år)",
+    "admin.times-day": "Dosering (gånger per dag)",
+    "admin.intake-speed": "Inandningshastighet",
+    "admin.unknown": "Okänt",
+    "admin.speed-good": "God (> 30 l/min)",
+    "admin.speed-poor": "Dålig (< 30 l/min)",
+    "admin.coordination": "Koordination",
+    "admin.good": "God",
+    "admin.poor": "Dålig",
+    "admin.treatment": "Behandlingsläkemedel",
+    "admin.symptomatic": "Symtomläkemedel",
+    "admin.yes": "Ja",
+    "admin.no": "Nej",
+    "admin.brand": "Inhalator",
+    "admin.select": "Välj...",
+    "admin.intake-styles": "Läkemedelsform",
+    "admin.colors": "Färg",
+    "admin.ingredients": "Aktiv substans",
+    "admin.link-db": "Databaslänk",
+    "admin.link-tutorial": "Instruktionslänk",
+    "admin.image": "Bild",
+    "admin.current-image": "Nuvarande bild",
+    "admin.delete-image": "Radera bild",
+    "admin.save": "Spara",
+    "admin.cancel": "Avbryt",
+    "admin.th-age": "Åldersgräns",
+    "admin.th-dosage": "Ggr/dag",
+    "admin.th-purpose": "Användning",
+    "admin.th-actions": "Åtgärder",
+    "admin.brands-heading": "Inhalatormärken (Ellipta, Turbuhaler...)",
+    "admin.brand-add": "Lägg till inhalatormärke",
+    "admin.brand-ph": "Namn (t.ex. Ellipta)",
+    "admin.dc-heading": "Läkemedelsgrupper (ICS, LABA...)",
+    "admin.dc-add": "Lägg till läkemedelsgrupp",
+    "admin.dc-ph": "Namn (t.ex. ICS)",
+    "admin.ai-heading": "Aktiva substanser",
+    "admin.ai-add": "Lägg till aktiv substans",
+    "admin.ai-fi-ph": "Namn (finska)",
+    "admin.ai-sv-ph": "Namn (svenska)",
+    "admin.class": "Grupp",
+    "admin.class-select": "Grupp...",
+    "admin.name-fi": "Namn (fi)",
+    "admin.name-sv": "Namn (sv)",
+    "admin.btn-add": "Lägg till",
+    "admin.btn-edit": "Redigera",
+    "admin.btn-delete": "Radera"
 };
 
 const fiCounter = "Näytetään {current}/{total}";
@@ -139,20 +202,22 @@ function applyTranslations(lang) {
         }
     });
 
-    // Guide URL
+    // Guide URL (only exists on index.html)
     const guideUrl = document.getElementById(guideUrlId);
 
     document.documentElement.lang = lang;
-    if (lang === "fi") {
-        guideUrl.href = fiGuideUrl;
-    } else {
-        guideUrl.href = sv["guide.intro-link-url"];
+    if (guideUrl) {
+        if (lang === "fi") {
+            guideUrl.href = fiGuideUrl;
+        } else {
+            guideUrl.href = sv["guide.intro-link-url"];
+        }
     }
 }
 
 function updateToggle(lang) {
     var btn = document.querySelector(".lang-toggle");
-    if (btn) btn.textContent = lang === "fi" ? "SV" : "FI";
+    if (btn) btn.textContent = lang === "fi" ? "FI" : "SV";
 }
 
 document.addEventListener("DOMContentLoaded", function() {
