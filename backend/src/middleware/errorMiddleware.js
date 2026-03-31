@@ -3,7 +3,7 @@ const errorMiddleware = (err, req, res, next) => {
     console.log(err.stack);
 
     // specific errors
-    if (err.name === 'JsonWebTokenError') return res.status(401).json({message: 'Invalid token.'});
+    if (err.name === 'JsonWebTokenError' || err.name == 'TokenExpiredError') return res.status(401).json({message: 'Invalid token.'});
     if (err.name === 'BackendError') return res.status(err.status).json({message: err.message});
 
     // generic error
