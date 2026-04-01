@@ -1,11 +1,10 @@
 const adminModel = require('../../models/admin/adminModel');
 const db = require('../../config/db');
-const sharp = require('sharp')
-const path = require('path')
-const fs = require('fs/promises')
+const path = require('path');
+const fs = require('fs/promises');
+const { fork } = require("child_process");
 
-const MAX_FULL_RES = 2160; // limits full size res 
-const MAX_THUMB_RES = 500; // limits thumbnail res
+const UPLOADS_FOLDER = path.join(__dirname, '../../../data/uploads');
 
 class uploads {
     static add = async (req, res) => {
@@ -19,30 +18,12 @@ class uploads {
             const file = req.file;
             if (!file) { return res.status(400).json({message: "Image not given"}); }
 
-            const metadata = await sharp(file.buffer).metadata();
+            // worker for managing image compression and resolution
+            fork(
+                path.join(__dirname, "../../workers/imageWorker.js"),
+                [req.file.path, itemId, UPLOADS_FOLDER]
+            );
 
-            const fullSize = Math.min(metadata.width, metadata.height, MAX_FULL_RES);
-            const thumbSize = Math.min(fullSize, MAX_THUMB_RES);
-
-            const fullResFolder = path.join(__dirname, '../../../data/uploads/full');
-            const thumbResFolder = path.join(__dirname, '../../../data/uploads/thumb');
-
-            // creates if missing folders
-            await fs.mkdir(fullResFolder, { recursive: true });
-            await fs.mkdir(thumbResFolder, { recursive: true });
-
-            // full size picture
-            await sharp(file.buffer)
-                .resize({ width: fullSize, height: fullSize })
-                .jpeg({quality: 90})
-                .toFile(path.join(fullResFolder, itemId + ".jpeg"));
-
-            // thumbnail picture
-            await sharp(file.buffer)
-                .resize({ width: thumbSize, height: thumbSize})
-                .jpeg({quality: 50})
-                .toFile(path.join(thumbResFolder, itemId + ".jpeg"));
-     
             res.status(201).json({message: 'Image added successfully'});
         } catch (err) {
             console.log(err);
@@ -63,12 +44,9 @@ class uploads {
     };
 
     static deleteWithId = async (id) => {
-        const fullResImage = path.join(__dirname, '../../../data/uploads/full/' + id + ".jpeg");
-        const thumbResImage = path.join(__dirname, '../../../data/uploads/thumb/' + id + ".jpeg");
-
         try { 
-            await fs.unlink(fullResImage); 
-            await fs.unlink(thumbResImage);
+            await fs.unlink(path.join(UPLOADS_FOLDER, "full", id + ".jpeg")); 
+            await fs.unlink(path.join(UPLOADS_FOLDER, "thumb" + id + ".jpeg"));
         } catch {
             return false;
         }
