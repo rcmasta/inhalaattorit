@@ -1,7 +1,7 @@
 const express = require('express');
 const adminController = require('../controllers/admin/adminController');
 const router = express.Router();
-const multer = require('multer');
+const upload = require("../middleware/upload");
 
 router.post('/inhalers', adminController.inhalers.create);
 router.put('/inhalers/:id', adminController.inhalers.edit);
@@ -9,9 +9,6 @@ router.delete('/inhalers/:id', adminController.inhalers.delete);
 
 router.get('/filters', adminController.filters.get);
 
-// inhaler pictures
-const storage = multer.memoryStorage();
-const upload = multer({ storage });
 router.post('/uploads/:id', upload.single('image'), adminController.uploads.add);
 router.delete('/uploads/:id', adminController.uploads.delete);
 
