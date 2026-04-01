@@ -118,23 +118,50 @@ function filterByName() {
   });
 }
 
+function selectInputText(inputEl) {
+  const searchInput = document.getElementById("inhaler-name");
+  const resultsBox = document.querySelector(".result-box");
+  if (!searchInput || !resultsBox) return;
+
+  searchInput.value = inputEl.textContent;
+  resultsBox.innerHTML = "";
+  searchInput.focus();
+  filterByName();
+}
+
 function autoCompleteSearch() {
-  let results = [];
   const name = getSearchName();
-
-  if (name.length > 0) {
-    results = inhalers
-      .filter((inhaler) =>
-        inhaler.name.toLowerCase().includes(name.toLowerCase())
-      )
-  }
-
-  const content = results.map((inhaler) => `<li class="autocomplete-item" data-id="${inhaler.id}">${inhaler.name}</li>`);
-
   const resultsBox = document.querySelector(".result-box");
   if (!resultsBox) return;
 
-  resultsBox.innerHTML = "<ul>" + content.join("") + "</ul>";
+  const results =
+    name.length > 0
+      ? inhalers.filter((inhaler) =>
+          inhaler.name.toLowerCase().includes(name.toLowerCase()),
+        )
+      : [];
+
+  if (results.length === 0) {
+    resultsBox.innerHTML = "";
+    return;
+  }
+
+  const ul = document.createElement("ul");
+
+  results.forEach((inhaler) => {
+    const li = document.createElement("li");
+    li.dataset.id = inhaler.id;
+    li.textContent = inhaler.name;
+
+    li.addEventListener("click", () => {
+      selectInputText(li);
+    });
+
+    ul.appendChild(li);
+  });
+
+  resultsBox.innerHTML = "";
+  resultsBox.appendChild(ul);
 }
 
 // Event listeners
@@ -152,10 +179,13 @@ document.addEventListener("DOMContentLoaded", () => {
   // Name search
   const clearBtn = document.querySelector(".btn-clear");
   const searchInput = document.getElementById("inhaler-name");
-  if (clearBtn && searchInput) {
+  const resultsBox = document.querySelector(".result-box");
+  if (clearBtn && searchInput && resultsBox) {
     clearBtn.addEventListener("click", () => {
+      resultsBox.innerHTML = "";
       searchInput.value = "";
       searchInput.focus();
+      filterData();
     });
 
     searchInput.addEventListener("input", filterByName);
