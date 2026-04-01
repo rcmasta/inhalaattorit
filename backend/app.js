@@ -3,6 +3,8 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 
+app.set("trust proxy", 1);
+
 const cron = require('node-cron');
 const fs = require('fs');
 const genPrivateKey = require('./src/utils/genPrivateKey');
@@ -30,7 +32,7 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/inhalers', limiterBasic, inhalersRoutes);
 app.use('/api/admin/login', limiterAdminLogin, authRoutes);
 app.use('/api/admin', limiterBasic, authMiddleware, adminRoutes);
-app.use('/uploads', express.static('uploads')); 
+app.use('/uploads', express.static(path.join(__dirname, './data/uploads'))); 
 
 // Error handling middleware
 app.use(errorMiddleware);

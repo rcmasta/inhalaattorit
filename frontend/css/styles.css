@@ -14,12 +14,17 @@ body {
     min-height: 100vh;
 }
 
+[hidden] {
+    display: none !important;
+}
+
 /* Header */
 
 header {
     grid-column: 1 / -1;
     background-color: #d5dde5;
     padding: 1rem 2rem;
+    font: inherit;
 }
 
 .header-content {
@@ -28,6 +33,7 @@ header {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    font: inherit;
 }
 
 header h1 {
@@ -46,14 +52,37 @@ nav ul {
     gap: 2rem;
 }
 
-nav a {
+.nav-link {
+    background: none;
+    border: none;
+    padding: 0;
     text-decoration: none;
     color: #2c3e50;
     font-size: 0.95rem;
+    font-family: inherit;
+    cursor: pointer;
 }
 
-nav a:hover {
+.nav-link:hover {
     text-decoration: underline;
+}
+
+/* Guide */
+aside {
+
+}
+
+aside ul {
+    list-style-type: none;
+}
+aside ul li::before {
+    content: "-";
+    margin-right: 0.5em;
+    font-weight: 600;
+}
+
+.bold {
+    font-weight: 600;
 }
 
 /* Main */
@@ -217,10 +246,6 @@ main {
     gap: 1rem;
 }
 
-.hidden {
-    display: none !important;
-}
-
 /* Inhaler detail view */
 
 .detail-view {
@@ -308,10 +333,11 @@ main {
     border: 1px solid #aab;
     border-radius: 4px;
     background: #fff;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
     color: #2c3e50;
+    margin-left: auto;
 }
 
 .lang-toggle:hover {
@@ -774,6 +800,7 @@ main {
     border-top: none;
     border-radius: 0 0 8px 8px;
     padding: 1rem;
+    overflow-x: auto;
 }
 
 .management-table {
@@ -903,6 +930,27 @@ footer {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.8rem;
+    }
+
+    .management-form-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .management-form-row input[type="text"],
+    .management-form-row select {
+        width: 100%;
+    }
+
+    .management-form-row .btn-add,
+    .management-form-row .btn-cancel {
+        width: auto;
+        align-self: flex-start;
+    }
+
+    .panel-actions {
+        flex-direction: column;
+        gap: 0.3rem;
     }
 }
 
