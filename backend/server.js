@@ -1,5 +1,6 @@
 const app = require('./app');
 const initFolders = require('./src/services/fileSystemService');
+require("./src/jobs/cleanTmp");
 
 const PORT = process.env.PORT || 3000;
 
