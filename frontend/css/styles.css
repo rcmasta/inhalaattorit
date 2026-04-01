@@ -146,6 +146,27 @@ main {
     background: #f0f0f0;
 }
 
+#search-suggestions ul {
+    margin-top: 0.6rem;
+    margin-left: 2.9rem;
+    background: #fff;
+    padding: 0.6rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    font-size: 0.95rem;
+    color: #888;
+}   
+
+#search-suggestions ul li {
+    list-style: none;
+    padding: 0.3rem 0;
+    cursor: pointer;
+}
+
+#search-suggestions ul li:hover {
+    background: #f0f0f0;
+}   
+
 #result-count {
     margin-top: 0.5rem;
     font-size: 0.8rem;
