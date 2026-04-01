@@ -1,5 +1,6 @@
-const sharp = require('sharp')
-const path = require('path')
+const sharp = require('sharp');
+const path = require('path');
+const fs = require('fs/promises');
 
 const MAX_FULL_RES = 2160; // limits full size res 
 const MAX_THUMB_RES = 500; // limits thumbnail res

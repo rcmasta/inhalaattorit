@@ -46,7 +46,7 @@ class uploads {
     static deleteWithId = async (id) => {
         try { 
             await fs.unlink(path.join(UPLOADS_FOLDER, "full", id + ".jpeg")); 
-            await fs.unlink(path.join(UPLOADS_FOLDER, "thumb" + id + ".jpeg"));
+            await fs.unlink(path.join(UPLOADS_FOLDER, "thumb", id + ".jpeg"));
         } catch {
             return false;
         }
