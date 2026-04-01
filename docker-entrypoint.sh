@@ -31,7 +31,7 @@ if [ ! -f "$DATA_DIR/$INIT_FILE" ]; then
   touch "$DATA_DIR/$INIT_FILE"
 fi
 
-echo "Checking test database"
+echo "Checking database"
 
 if [ ! -d "$DATA_DIR/$DB_DIR" ]; then
     echo "Database directory missing. Creating."
@@ -40,7 +40,7 @@ fi
 
 if [ ! -f "$DATA_DIR/$DB_DIR/$DB_FILE" ]; then
     echo "Database not found. Generating."
-    npm run test_db
+    npm run populate_db -- /backend/data/taulukko.xlsx
 else
     echo "Database already exists. Skipping generation."
 fi
