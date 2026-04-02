@@ -1,7 +1,7 @@
 const express = require('express');
 const adminController = require('../controllers/admin/adminController');
 const router = express.Router();
-const upload = require("../middleware/upload");
+const upload = require("../middleware/uploadMiddleware");
 
 router.post('/inhalers', adminController.inhalers.create);
 router.put('/inhalers/:id', adminController.inhalers.edit);
