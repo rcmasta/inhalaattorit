@@ -32,7 +32,10 @@ app.use(express.static(path.join(__dirname, '../frontend')));
 app.use('/api/inhalers', limiterBasic, inhalersRoutes);
 app.use('/api/admin/login', limiterAdminLogin, authRoutes);
 app.use('/api/admin', limiterBasic, authMiddleware, adminRoutes);
-app.use('/uploads', express.static(path.join(__dirname, './data/uploads'))); 
+app.use('/uploads', express.static(path.join(__dirname, './data/uploads')));
+
+// redirect requests to unused routes to index
+app.all('/*splat', (req, res) => {res.redirect('/index.html')});
 
 // Error handling middleware
 app.use(errorMiddleware);
