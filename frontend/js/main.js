@@ -61,7 +61,7 @@ function populateFilters(filters) {
 
   addOptions("inhaler-form-select", filters.intake_styles);
 
-  const ages = filters.official_min_age.slice().sort((a, b) => a - b);
+  const ages = filters.recommended_min_age.slice().sort((a, b) => a - b);
   addOptions("inhaler-age-select", ages, (v) => v + " v");
 
   const times = filters.times_a_day.slice().sort((a, b) => a - b);
@@ -170,6 +170,9 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
+  
+  // Age filter
+  document.getElementById("inhaler-age-select").addEventListener("input", filterData);
 
   // Name search
   const clearBtn = document.querySelector(".btn-clear");
