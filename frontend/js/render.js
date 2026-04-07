@@ -117,6 +117,7 @@ function buildCardInfoSection(inhaler) {
     infoHeader.textContent = inhaler.name;
     cardInfoSection.appendChild(infoHeader);
 
+
     // Relevant info
     if ("inhaler_brand" in inhaler) {
         const infoBrand = document.createElement(lineTag);
@@ -166,71 +167,128 @@ function buildDetailInfoSection(inhaler) {
     detailInfoSection.classList.add(detailInfoClass);
 
     // Header from inhaler name
-    const infoHeader = document.createElement(nameTag);
+    const infoHeader = document.createElement("h2");
     infoHeader.textContent = inhaler.name;
     detailInfoSection.appendChild(infoHeader);
 
-    // Relevant info
+    // Color badge
+    if (inhaler.colors && inhaler.colors.length > 0) {
+        const colorBadge = document.createElement("span");
+        colorBadge.classList.add("inhaler-color-badge");
+        colorBadge.textContent = inhaler.colors.map(c => c.name).join(", ");
+        detailInfoSection.appendChild(colorBadge);
+    }
+
+    // Basic info section
+    const basicSection = document.createElement("div");
+    basicSection.classList.add("detail-info-section");
+
     if ("inhaler_brand" in inhaler) {
-        const infoBrand = document.createElement(lineTag);
-        infoBrand.textContent = inhaler.inhaler_brand.name;
-        detailInfoSection.appendChild(infoBrand);
-    }    
+        const infoBrand = document.createElement("div");
+        infoBrand.classList.add("detail-info-item");
+        infoBrand.innerHTML = `<span class="detail-info-item-label">Inhalaattori:</span><span class="detail-info-item-value">${inhaler.inhaler_brand.name}</span>`;
+        basicSection.appendChild(infoBrand);
+    }
 
-    const infoColor = document.createElement(lineTag);
-    infoColor.textContent = "Värit: " + inhaler.colors.map(c => c.name).join(', ');
-    detailInfoSection.appendChild(infoColor);
+    const infoIntakeStyles = document.createElement("div");
+    infoIntakeStyles.classList.add("detail-info-item");
+    infoIntakeStyles.innerHTML = `<span class="detail-info-item-label">Lääkemuoto:</span><span class="detail-info-item-value">${inhaler.intake_styles.map(s => s.name).join(', ')}</span>`;
+    basicSection.appendChild(infoIntakeStyles);
 
-    const infoOfficialAge = document.createElement(lineTag);
-    infoOfficialAge.textContent = "Virallinen ikäraja: " + inhaler.official_min_age;
-    detailInfoSection.appendChild(infoOfficialAge);
+    detailInfoSection.appendChild(basicSection);
 
-    const infoRecommendedAge = document.createElement(lineTag);
-    infoRecommendedAge.textContent = "Suositeltu minimi ikäraja: " + inhaler.recommended_min_age;
-    detailInfoSection.appendChild(infoRecommendedAge);
+    // Age and dosage section
+    const ageSection = document.createElement("div");
+    ageSection.classList.add("detail-info-section");
+    ageSection.innerHTML = `<h3>Ikä ja annostelu</h3>`;
 
-    const infoTimesADay = document.createElement(lineTag);
-    infoTimesADay.textContent = "Annostelu määrä päivässä: " + inhaler.times_a_day;
-    detailInfoSection.appendChild(infoTimesADay);
+    const infoOfficialAge = document.createElement("div");
+    infoOfficialAge.classList.add("detail-info-item");
+    infoOfficialAge.innerHTML = `<span class="detail-info-item-label">Virallinen ikäraja:</span><span class="detail-info-item-value">${inhaler.official_min_age} vuotta</span>`;
+    ageSection.appendChild(infoOfficialAge);
 
-    const intakeSpeedText = inhaler.good_intake_speed === 1 ? "Korkea (>30l/min)" : "Matala (>30l/min)";
-    const infoIntakeSpeed = document.createElement(lineTag);
-    infoIntakeSpeed.textContent = "Vaadittu sisäänhengityksen nopeus: " + intakeSpeedText;
-    detailInfoSection.appendChild(infoIntakeSpeed);
+    const infoRecommendedAge = document.createElement("div");
+    infoRecommendedAge.classList.add("detail-info-item");
+    infoRecommendedAge.innerHTML = `<span class="detail-info-item-label">Suositeltu ikä:</span><span class="detail-info-item-value">${inhaler.recommended_min_age} vuotta</span>`;
+    ageSection.appendChild(infoRecommendedAge);
 
-    const coordinationText = inhaler.good_coordination === 1 ? "Hyvä" : "Huono";
-    const infoCoordination = document.createElement(lineTag);
-    infoCoordination.textContent = "Sopii potilaille joiden koordinaatiokyky on: " + coordinationText;
-    detailInfoSection.appendChild(infoCoordination);
+    const infoTimesADay = document.createElement("div");
+    infoTimesADay.classList.add("detail-info-item");
+    infoTimesADay.innerHTML = `<span class="detail-info-item-label">Annostelu:</span><span class="detail-info-item-value">${inhaler.times_a_day}x päivässä</span>`;
+    ageSection.appendChild(infoTimesADay);
 
-    const infoTreatment = document.createElement(lineTag);
-    infoTreatment.textContent = "Hoitava lääke: " + (inhaler.treatment_medicine ? "Kyllä" : "Ei");
-    detailInfoSection.appendChild(infoTreatment);
+    detailInfoSection.appendChild(ageSection);
 
-    const infoSymptomatic = document.createElement(lineTag);
-    infoSymptomatic.textContent = "Oirelääke: " + (inhaler.symptomatic_medicine ? "Kyllä" : "Ei");
-    detailInfoSection.appendChild(infoSymptomatic);
+    // Requirements section
+    const requirementsSection = document.createElement("div");
+    requirementsSection.classList.add("detail-info-section");
+    requirementsSection.innerHTML = `<h3>Vaatimukset</h3>`;
 
-    const infoDescription = document.createElement(lineTag);
-    infoDescription.textContent = "Kuvaus: " + inhaler.description;
-    detailInfoSection.appendChild(infoDescription);
+    const intakeSpeedText = inhaler.good_intake_speed === 1 ? "Korkea (>30 l/min)" : "Matala (≤30 l/min)";
+    const infoIntakeSpeed = document.createElement("div");
+    infoIntakeSpeed.classList.add("detail-info-item");
+    infoIntakeSpeed.innerHTML = `<span class="detail-info-item-label">Sisäänhengitysnopeus:</span><span class="detail-info-item-value">${intakeSpeedText}</span>`;
+    requirementsSection.appendChild(infoIntakeSpeed);
 
-    const infoIntakeStyles = document.createElement(lineTag);
-    infoIntakeStyles.textContent = "Lääkemuoto: " + inhaler.intake_styles.map(s => s.name).join(', ');
-    detailInfoSection.appendChild(infoIntakeStyles);
+    const coordinationText = inhaler.good_coordination === 1 ? "Hyvä" : "Tavallinen";
+    const infoCoordination = document.createElement("div");
+    infoCoordination.classList.add("detail-info-item");
+    infoCoordination.innerHTML = `<span class="detail-info-item-label">Koordinaatiokyky:</span><span class="detail-info-item-value">${coordinationText}</span>`;
+    requirementsSection.appendChild(infoCoordination);
 
-    const infoActiveIngredients = document.createElement(lineTag);
-    infoActiveIngredients.textContent = "Vaikuttavat lääkeaineet: " + inhaler.active_ingredients.map(ing => ing.name).join(', ');
-    detailInfoSection.appendChild(infoActiveIngredients);
+    detailInfoSection.appendChild(requirementsSection);
 
-    // Links
+    // Purpose section
+    const purposeSection = document.createElement("div");
+    purposeSection.classList.add("detail-info-section");
+    purposeSection.innerHTML = `<h3>Käyttötarkoitus</h3>`;
+
+    const infoTreatment = document.createElement("div");
+    infoTreatment.classList.add("detail-info-item");
+    infoTreatment.innerHTML = `<span class="detail-info-item-label">Hoitava lääke:</span><span class="detail-info-item-value">${inhaler.treatment_medicine ? "Kyllä" : "Ei"}</span>`;
+    purposeSection.appendChild(infoTreatment);
+
+    const infoSymptomatic = document.createElement("div");
+    infoSymptomatic.classList.add("detail-info-item");
+    infoSymptomatic.innerHTML = `<span class="detail-info-item-label">Oirelääke:</span><span class="detail-info-item-value">${inhaler.symptomatic_medicine ? "Kyllä" : "Ei"}</span>`;
+    purposeSection.appendChild(infoSymptomatic);
+
+    detailInfoSection.appendChild(purposeSection);
+
+    // Active ingredients section
+    const ingredientsSection = document.createElement("div");
+    ingredientsSection.classList.add("detail-info-section");
+    ingredientsSection.innerHTML = `<h3>Vaikuttavat lääkeaineet</h3>`;
+
+    const infoActiveIngredients = document.createElement("div");
+    infoActiveIngredients.classList.add("detail-info-item");
+    infoActiveIngredients.innerHTML = `<span class="detail-info-item-value">${inhaler.active_ingredients.map(ing => ing.name).join(', ')}</span>`;
+    ingredientsSection.appendChild(infoActiveIngredients);
+
+    detailInfoSection.appendChild(ingredientsSection);
+
+    // Description section
+    if (inhaler.description) {
+        const descSection = document.createElement("div");
+        descSection.classList.add("detail-info-section");
+        const descContent = document.createElement("p");
+        descContent.classList.add("detail-description");
+        descContent.textContent = inhaler.description;
+        descSection.appendChild(descContent);
+        detailInfoSection.appendChild(descSection);
+    }
+
+    // Links section
+    const linksSection = document.createElement("div");
+    linksSection.classList.add("detail-action-buttons");
+
     if (inhaler.links.database) {
         const linkDatabase = document.createElement("a");
         linkDatabase.href = inhaler.links.database;
         linkDatabase.textContent = "Tietokanta-linkki";
         linkDatabase.target = "_blank";
-        detailInfoSection.appendChild(linkDatabase);
-        detailInfoSection.appendChild(document.createElement("br"));
+        linkDatabase.classList.add("btn-primary");
+        linksSection.appendChild(linkDatabase);
     }
 
     if (inhaler.links.tutorial) {
@@ -238,9 +296,11 @@ function buildDetailInfoSection(inhaler) {
         linkTutorial.href = inhaler.links.tutorial;
         linkTutorial.textContent = "Opetusvideo";
         linkTutorial.target = "_blank";
-        detailInfoSection.appendChild(linkTutorial);
-        detailInfoSection.appendChild(document.createElement("br"));
+        linkTutorial.classList.add("btn-primary");
+        linksSection.appendChild(linkTutorial);
     }
+
+    detailInfoSection.appendChild(linksSection);
 
     return detailInfoSection;
 }
