@@ -116,8 +116,17 @@ function buildCardInfoSection(inhaler) {
     const infoHeader = document.createElement(nameTag);
     infoHeader.textContent = inhaler.name;
     cardInfoSection.appendChild(infoHeader);
-
-
+    // If the inhaler is with extention, add a badge to the header
+    for (const style of inhaler.intake_styles) {
+        if (style.intake_style_id === 5) {
+            const extBadge = document.createElement("span");
+            extBadge.classList.add("inhaler-extension-badge");
+            extBadge.textContent = " + Tilanjatke";
+            infoHeader.appendChild(extBadge);
+            break;
+        }
+    }
+    
     // Relevant info
     if ("inhaler_brand" in inhaler) {
         const infoBrand = document.createElement(lineTag);
@@ -169,8 +178,18 @@ function buildDetailInfoSection(inhaler) {
     // Header from inhaler name
     const infoHeader = document.createElement("h2");
     infoHeader.textContent = inhaler.name;
+    
+    for (const style of inhaler.intake_styles) {
+        if (style.intake_style_id === 5) {
+            const extBadge = document.createElement("span");
+            extBadge.classList.add("inhaler-extension-badge");
+            extBadge.textContent = " + Tilanjatke";
+            infoHeader.appendChild(extBadge);
+            break;
+        }
+    }
     detailInfoSection.appendChild(infoHeader);
-
+    
     // Color badge
     if (inhaler.colors && inhaler.colors.length > 0) {
         const colorBadge = document.createElement("span");
