@@ -124,18 +124,14 @@ function buildCardInfoSection(inhaler) {
         cardInfoSection.appendChild(infoBrand);
     }    
 
-    const infoColor = document.createElement(lineTag);
-    infoColor.textContent = inhaler.colors[0].name;
-    cardInfoSection.appendChild(infoColor);
-
-    // TODO: Localisation
-    const infoOfficialAge = document.createElement(lineTag);
-    infoOfficialAge.textContent = "Virallinen ikä: " + inhaler.official_min_age;
-    cardInfoSection.appendChild(infoOfficialAge);
-
     const infoRecommendedAge = document.createElement(lineTag);
     infoRecommendedAge.textContent = "Suositeltu ikä: " + inhaler.recommended_min_age;
     cardInfoSection.appendChild(infoRecommendedAge);
+
+    const infoActiveIngrediend = document.createElement(lineTag);
+    infoActiveIngrediend.style.whiteSpace = "pre-line";
+    infoActiveIngrediend.textContent = "Vaikuttavat lääkeaineet:\n" + inhaler.active_ingredients.map(ing => ing.name).join(', ');
+    cardInfoSection.appendChild(infoActiveIngrediend);
 
     // TODO: Intake and coordination
     return cardInfoSection;
@@ -182,17 +178,69 @@ function buildDetailInfoSection(inhaler) {
     }    
 
     const infoColor = document.createElement(lineTag);
-    infoColor.textContent = inhaler.colors[0].name;
+    infoColor.textContent = "Värit: " + inhaler.colors.map(c => c.name).join(', ');
     detailInfoSection.appendChild(infoColor);
 
-    // TODO: Localisation
     const infoOfficialAge = document.createElement(lineTag);
-    infoOfficialAge.textContent = "Virallinen ikä: " + inhaler.official_min_age;
+    infoOfficialAge.textContent = "Virallinen ikäraja: " + inhaler.official_min_age;
     detailInfoSection.appendChild(infoOfficialAge);
 
     const infoRecommendedAge = document.createElement(lineTag);
-    infoRecommendedAge.textContent = "Suositeltu ikä: " + inhaler.recommended_min_age;
+    infoRecommendedAge.textContent = "Suositeltu minimi ikäraja: " + inhaler.recommended_min_age;
     detailInfoSection.appendChild(infoRecommendedAge);
+
+    const infoTimesADay = document.createElement(lineTag);
+    infoTimesADay.textContent = "Annostelu määrä päivässä: " + inhaler.times_a_day;
+    detailInfoSection.appendChild(infoTimesADay);
+
+    const intakeSpeedText = inhaler.good_intake_speed === 1 ? "Korkea (>30l/min)" : "Matala (>30l/min)";
+    const infoIntakeSpeed = document.createElement(lineTag);
+    infoIntakeSpeed.textContent = "Vaadittu sisäänhengityksen nopeus: " + intakeSpeedText;
+    detailInfoSection.appendChild(infoIntakeSpeed);
+
+    const coordinationText = inhaler.good_coordination === 1 ? "Hyvä" : "Huono";
+    const infoCoordination = document.createElement(lineTag);
+    infoCoordination.textContent = "Sopii potilaille joiden koordinaatiokyky on: " + coordinationText;
+    detailInfoSection.appendChild(infoCoordination);
+
+    const infoTreatment = document.createElement(lineTag);
+    infoTreatment.textContent = "Hoitava lääke: " + (inhaler.treatment_medicine ? "Kyllä" : "Ei");
+    detailInfoSection.appendChild(infoTreatment);
+
+    const infoSymptomatic = document.createElement(lineTag);
+    infoSymptomatic.textContent = "Oirelääke: " + (inhaler.symptomatic_medicine ? "Kyllä" : "Ei");
+    detailInfoSection.appendChild(infoSymptomatic);
+
+    const infoDescription = document.createElement(lineTag);
+    infoDescription.textContent = "Kuvaus: " + inhaler.description;
+    detailInfoSection.appendChild(infoDescription);
+
+    const infoIntakeStyles = document.createElement(lineTag);
+    infoIntakeStyles.textContent = "Lääkemuoto: " + inhaler.intake_styles.map(s => s.name).join(', ');
+    detailInfoSection.appendChild(infoIntakeStyles);
+
+    const infoActiveIngredients = document.createElement(lineTag);
+    infoActiveIngredients.textContent = "Vaikuttavat lääkeaineet: " + inhaler.active_ingredients.map(ing => ing.name).join(', ');
+    detailInfoSection.appendChild(infoActiveIngredients);
+
+    // Links
+    if (inhaler.links.database) {
+        const linkDatabase = document.createElement("a");
+        linkDatabase.href = inhaler.links.database;
+        linkDatabase.textContent = "Tietokanta-linkki";
+        linkDatabase.target = "_blank";
+        detailInfoSection.appendChild(linkDatabase);
+        detailInfoSection.appendChild(document.createElement("br"));
+    }
+
+    if (inhaler.links.tutorial) {
+        const linkTutorial = document.createElement("a");
+        linkTutorial.href = inhaler.links.tutorial;
+        linkTutorial.textContent = "Opetusvideo";
+        linkTutorial.target = "_blank";
+        detailInfoSection.appendChild(linkTutorial);
+        detailInfoSection.appendChild(document.createElement("br"));
+    }
 
     return detailInfoSection;
 }
