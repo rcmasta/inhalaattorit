@@ -10,7 +10,8 @@
     "test_db": "node src/config/test_script/insert_manual_test.js",
     "populate_db": "node src/config/populate_db/populateDB.js",
     "add_admin": "node src/config/admin/addAdmin.js",
-    "change_password": "node src/config/admin/changePassword.js"
+    "change_password": "node src/config/admin/changePassword.js",
+    "delete_admin": "node src/config/admin/deleteAdmin.js"
   },
   "keywords": [],
   "author": "",
