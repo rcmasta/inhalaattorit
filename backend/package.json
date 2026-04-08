@@ -8,7 +8,8 @@
     "test": "cross-env NODE_ENV=test mocha src/tests/*.test.js",
     "dev": "node --watch server",
     "test_db": "node src/config/test_script/insert_manual_test.js",
-    "populate_db": "node src/config/populate_db/populateDB.js"
+    "populate_db": "node src/config/populate_db/populateDB.js",
+    "add_admin": "node src/config/admin/addAdmin.js"
   },
   "keywords": [],
   "author": "",
