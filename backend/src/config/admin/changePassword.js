@@ -5,7 +5,12 @@ const genPassword = require('./genPassword');
 let admins = require('../../../data/admindata/admins.json');
 
 const username = process.argv[2]
-const passwordLen = process.argv[3];
+const passwordLen = parseInt(process.argv[3]);
+
+if (!username || !passwordLen) {
+    console.log('Username and password length required! (npm run change_password {username} {password length})');
+    return;
+}
 
 const admin = admins.find(a => a.username === username);
 if (!admin) {
