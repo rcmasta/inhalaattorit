@@ -112,6 +112,7 @@ var sv = {
     "admin.btn-add": "Lägg till",
     "admin.btn-edit": "Redigera",
     "admin.btn-delete": "Radera",
+    "admin.scroll-hint": "Tips: under inhalatorlistan finns även hanteringen av inhalatormärken, läkemedelsgrupper och aktiva substanser.",
 
     // Card and detail page
     "card.extension-badge": " + Spacer",
