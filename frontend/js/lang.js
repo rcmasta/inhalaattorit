@@ -197,14 +197,14 @@ var sv = {
 
 var fi = {
     "card.extension-badge": " + Tilanjatke",
-    "card.recommended-age": "Suositeltu ikä: ",
+    "card.recommended-age": "Suositeltu ikäraja: ",
     "card.active-ingredients": "Vaikuttavat lääkeaineet:\n",
     "detail.extension-badge": " + Tilanjatke",
     "detail.inhaler": "Inhalaattori:",
     "detail.form": "Lääkemuoto:",
     "detail.age-dosage": "Ikä ja annostelu",
     "detail.official-age": "Virallinen ikäraja:",
-    "detail.recommended-age": "Suositeltu ikä:",
+    "detail.recommended-age": "Suositeltu ikäraja:",
     "detail.dosage": "Annostelu:",
     "detail.years": " vuotta",
     "detail.times-day": "x päivässä",
