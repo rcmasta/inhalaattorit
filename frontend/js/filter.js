@@ -42,7 +42,11 @@ function matchesFilter(item, key, value) {
     }
 
     // Number fields
-    if (key === "official_min_age" || key === "times_a_day") {
+    // After
+    if (key === "recommended_min_age") {
+        return item[key] <= Number(value);
+    }
+    if (key === "times_a_day") {
         return item[key] === Number(value);
     }
 

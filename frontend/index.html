@@ -103,10 +103,8 @@
                     <option value="" data-i18n="filters.form-option">Valitse lääkemuoto</option>
                 </select>
 
-                <label for="inhaler-age-select" data-i18n="filters.age">Ikä</label>
-                <select class="inhaler-filter" name="official_min_age" id="inhaler-age-select">
-                    <option value="" data-i18n="filters.age-option">Valitse ikä</option>
-                </select>
+                <label for="inhaler-age-select" data-i18n="filters.age">Potilaan ikä (jos alle 18 v.)</label>
+                <input type="number" class="inhaler-filter" name="recommended_min_age" id="inhaler-age-select" data-i18n-placeholder="filters.age-option" min="0" placeholder="Syötä ikä">
 
                 <label for="inhaler-dosage-select" data-i18n="filters.dosage">Annostelu</label>
                 <select class="inhaler-filter" name="times_a_day" id="inhaler-dosage-select">
@@ -154,7 +152,7 @@
             <!-- Results grid and detail view -->
             <section class="results">
                 <h2 data-i18n="results.heading">Inhalaattorit</h2>
-                <button id="return-to-gridview" hidden>←</button>
+                <button id="return-to-gridview" hidden>x</button>
                 <section id="results-grid"></section>
                 <section id="detail-view"></section>
             </section>

@@ -105,6 +105,7 @@ export async function adminLogin(username, password) {
 export async function getInhalers() {
     try {
         const lang = localStorage.getItem("lang") || "fi";
+        console.log("Fetching inhalers with lang:", lang);
         const res = await fetch("/api/inhalers?lang=" + lang);
         if (!res.ok) return [];
         return await res.json();

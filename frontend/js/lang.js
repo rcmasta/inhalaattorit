@@ -21,8 +21,8 @@ var sv = {
     "filters.heading": "Filter",
     "filters.form": "Läkemedelsform",
     "filters.form-option": "Välj läkemedelsform",
-    "filters.age": "Ålder",
-    "filters.age-option": "Välj ålder",
+    "filters.age": "Patientens ålder (om under 18 år)",
+    "filters.age-option": "Ange ålder",
     "filters.dosage": "Dosering",
     "filters.dosage-option": "Välj dosering",
     "filters.velocity": "Inandningstakt",
@@ -40,6 +40,13 @@ var sv = {
     "filters.color": "Färg",
     "filters.color-option": "Välj färg",
     "filters.clear": "Rensa filter",
+    "filter.dosage-suffix": " gånger/dag",
+    "filter.speed-good": "Bra (>30 l/min)",
+    "filter.speed-poor": "Dålig (≤30 l/min)",
+    "filter.coord-good": "Bra",
+    "filter.coord-poor": "Dålig",
+    "filter.treatment": "Behandlingsläkemedel",
+    "filter.symptomatic": "Symtomläkemedel",
     "results.heading": "Inhalatorer",
     "about.heading": "Om webbplatsen",
     "feedback.heading": "Kontakt",
@@ -156,7 +163,82 @@ var sv = {
     "admin.name-sv": "Namn (sv)",
     "admin.btn-add": "Lägg till",
     "admin.btn-edit": "Redigera",
-    "admin.btn-delete": "Radera"
+    "admin.btn-delete": "Radera",
+
+    // Card and detail page
+    "card.extension-badge": " + Spacer",
+    "card.recommended-age": "Rekommenderad ålder: ",
+    "card.active-ingredients": "Aktiva substanser:\n",
+    "detail.extension-badge": " + Spacer",
+    "detail.inhaler": "Inhalator:",
+    "detail.form": "Läkemedelsform:",
+    "detail.age-dosage": "Ålder och dosering",
+    "detail.official-age": "Officiell åldersgräns:",
+    "detail.recommended-age": "Rekommenderad åldergräns:",
+    "detail.dosage": "Dosering:",
+    "detail.years": " år",
+    "detail.times-day": "x gånger per dag",
+    "detail.requirements": "Krav",
+    "detail.intake-speed": "Inandningshastighet:",
+    "detail.speed-high": "Bra (>30 l/min)",
+    "detail.speed-low": "Dålig (≤30 l/min)",
+    "detail.coordination": "Koordinationsförmåga:",
+    "detail.coord-good": "Bra",
+    "detail.coord-normal": "Vanlig",
+    "detail.purpose": "Användningsändamål",
+    "detail.treatment": "Behandlingsläkemedel:",
+    "detail.symptomatic": "Symtomläkemedel:",
+    "detail.yes": "Ja",
+    "detail.no": "Nej",
+    "detail.ingredients": "Aktiva substanser",
+    "detail.database-link": "Databaslänk",
+    "detail.tutorial-link": "Instruktionsvideo"
+};
+
+var fi = {
+    "card.extension-badge": " + Tilanjatke",
+    "card.recommended-age": "Suositeltu ikä: ",
+    "card.active-ingredients": "Vaikuttavat lääkeaineet:\n",
+    "detail.extension-badge": " + Tilanjatke",
+    "detail.inhaler": "Inhalaattori:",
+    "detail.form": "Lääkemuoto:",
+    "detail.age-dosage": "Ikä ja annostelu",
+    "detail.official-age": "Virallinen ikäraja:",
+    "detail.recommended-age": "Suositeltu ikä:",
+    "detail.dosage": "Annostelu:",
+    "detail.years": " vuotta",
+    "detail.times-day": "x päivässä",
+    "detail.requirements": "Vaatimukset",
+    "detail.intake-speed": "Sisäänhengitysnopeus:",
+    "detail.speed-high": "Korkea (>30 l/min)",
+    "detail.speed-low": "Matala (≤30 l/min)",
+    "detail.coordination": "Koordinaatiokyky:",
+    "detail.coord-good": "Hyvä",
+    "detail.coord-normal": "Tavallinen",
+    "detail.purpose": "Käyttötarkoitus",
+    "detail.treatment": "Hoitava lääke:",
+    "detail.symptomatic": "Oirelääke:",
+    "detail.yes": "Kyllä",
+    "detail.no": "Ei",
+    "detail.ingredients": "Vaikuttavat lääkeaineet",
+    "detail.database-link": "Tietokanta-linkki",
+    "detail.tutorial-link": "Opetusvideo",
+    "filter.dosage-suffix": " krt/pv",
+    "filter.speed-good": "Hyvä (>30 l/min)",
+    "filter.speed-poor": "Huono (≤30 l/min)",
+    "filter.coord-good": "Hyvä",
+    "filter.coord-poor": "Huono",
+    "filter.treatment": "Hoitava lääke",
+    "filter.symptomatic": "Oirelääke",
+    "filters.form-option": "Valitse lääkemuoto",
+    "filters.dosage-option": "Valitse annostelu",
+    "filters.velocity-option": "Valitse sisäänhengitysnopeus",
+    "filters.coordination-option": "Valitse koordinaatiokyky",
+    "filters.type-option": "Valitse inhalaattori",
+    "filters.purpose-option": "Valitse käyttötarkoitus",
+    "filters.drug-group-option": "Valitse lääkeaineryhmä",
+    "filters.substance-option": "Valitse vaikuttava lääkeaine",
+    "filters.color-option": "Valitse väri",
 };
 
 const fiCounter = "Näytetään {current}/{total}";
@@ -236,3 +318,14 @@ document.addEventListener("DOMContentLoaded", function() {
     updateToggle(lang);
     if (lang !== DEFAULT_LANG) applyTranslations(lang);
 });
+
+
+export function getTranslation(key) {
+    const lang = getLang();
+    if (lang === "fi") {
+        return fi[key] || key;
+    } else if (lang === "sv") {
+        return sv[key] || key;
+    }
+    return key;
+}
