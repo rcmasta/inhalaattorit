@@ -1,7 +1,7 @@
 import { getFilteredIds } from './filter.js';
 import { getInhalers, getFilters } from './api.js';
 import { gridID, detailID, backButtonID, renderInhalerGrid, setElementVisibility } from './render.js'
-import { getCounterString } from './lang.js'
+import { getCounterString, getTranslation } from './lang.js'
 import { openButtonId, closeButtonId, toggleGuidePanel } from './guide.js';
 
 var currentInhalers = 0;
@@ -61,27 +61,38 @@ function populateFilters(filters) {
 
   addOptions("inhaler-form-select", filters.intake_styles);
 
-  const ages = filters.recommended_min_age.slice().sort((a, b) => a - b);
-  addOptions("inhaler-age-select", ages, (v) => v + " v");
+  // No longer an select form
+  //const ages = filters.recommended_min_age.slice().sort((a, b) => a - b);
+  //addOptions("inhaler-age-select", ages, (v) => v + " v");
 
   const times = filters.times_a_day.slice().sort((a, b) => a - b);
-  addOptions("inhaler-dosage-select", times, (v) => v + " krt/pv");
+  addOptions(
+    "inhaler-dosage-select",
+    times,
+    (v) => `${v}${getTranslation("filter.dosage-suffix")}`,
+  );
 
   // Boolean: intake speed
   addOptions("inhaler-velocity-select", ["1", "0"], (v) =>
-    v === "1" ? "Hyvä (>30 l/min)" : "Huono (<30 l/min)",
+    v === "1"
+      ? getTranslation("filter.speed-good")
+      : getTranslation("filter.speed-poor"),
   );
 
   // Boolean: coordination
   addOptions("inhaler-coordination-select", ["1", "0"], (v) =>
-    v === "1" ? "Hyvä" : "Huono",
+    v === "1"
+      ? getTranslation("filter.coord-good")
+      : getTranslation("filter.coord-poor"),
   );
 
   addOptions("inhaler-type-select", filters.inhaler_brand);
 
   // Purpose maps to two boolean fields, hardcoded options
   addOptions("inhaler-purpose-select", ["treatment", "symptomatic"], (v) =>
-    v === "treatment" ? "Hoitava lääke" : "Oirelääke",
+    v === "treatment"
+      ? getTranslation("filter.treatment")
+      : getTranslation("filter.symptomatic"),
   );
 
   addOptions("inhaler-drug-group-select", filters.drug_class_name);
@@ -221,8 +232,10 @@ document.addEventListener("DOMContentLoaded", () => {
     const langBtn = document.querySelector(".lang-toggle");
     if (langBtn) {
         langBtn.addEventListener("click", function() {
+            setTimeout(() => location.reload(), 50);
             updateCounter();
             renderInhalerGrid(inhalers);
+            
         });
     }
 
