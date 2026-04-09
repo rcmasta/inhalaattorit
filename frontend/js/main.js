@@ -222,6 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (langBtn) {
         langBtn.addEventListener("click", function() {
             updateCounter();
+            renderInhalerGrid(inhalers);
         });
     }
 

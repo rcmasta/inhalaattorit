@@ -1,7 +1,7 @@
 export const gridID = "results-grid";
 export const detailID = "detail-view";
 export const backButtonID = "return-to-gridview";
-
+import { getTranslation } from './lang.js';
 
 const missingImg = "img/missing.png";
 
@@ -121,7 +121,7 @@ function buildCardInfoSection(inhaler) {
         if (style.intake_style_id === 5) {
             const extBadge = document.createElement("span");
             extBadge.classList.add("inhaler-extension-badge");
-            extBadge.textContent = " + Tilanjatke";
+            extBadge.textContent = getTranslation("card.extension-badge");
             infoHeader.appendChild(extBadge);
             break;
         }
@@ -135,12 +135,12 @@ function buildCardInfoSection(inhaler) {
     }    
 
     const infoRecommendedAge = document.createElement(lineTag);
-    infoRecommendedAge.textContent = "Suositeltu ikä: " + inhaler.recommended_min_age;
+    infoRecommendedAge.textContent = getTranslation("card.recommended-age") + inhaler.recommended_min_age;
     cardInfoSection.appendChild(infoRecommendedAge);
 
     const infoActiveIngrediend = document.createElement(lineTag);
     infoActiveIngrediend.style.whiteSpace = "pre-line";
-    infoActiveIngrediend.textContent = "Vaikuttavat lääkeaineet:\n" + inhaler.active_ingredients.map(ing => ing.name).join(', ');
+    infoActiveIngrediend.textContent = getTranslation("card.active-ingredients") + inhaler.active_ingredients.map(ing => ing.name).join(', ');
     cardInfoSection.appendChild(infoActiveIngrediend);
 
     // TODO: Intake and coordination
@@ -183,7 +183,7 @@ function buildDetailInfoSection(inhaler) {
         if (style.intake_style_id === 5) {
             const extBadge = document.createElement("span");
             extBadge.classList.add("inhaler-extension-badge");
-            extBadge.textContent = " + Tilanjatke";
+            extBadge.textContent = getTranslation("detail.extension-badge");
             infoHeader.appendChild(extBadge);
             break;
         }
@@ -205,13 +205,13 @@ function buildDetailInfoSection(inhaler) {
     if ("inhaler_brand" in inhaler) {
         const infoBrand = document.createElement("div");
         infoBrand.classList.add("detail-info-item");
-        infoBrand.innerHTML = `<span class="detail-info-item-label">Inhalaattori:</span><span class="detail-info-item-value">${inhaler.inhaler_brand.name}</span>`;
+        infoBrand.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.inhaler")}</span><span class="detail-info-item-value">${inhaler.inhaler_brand.name}</span>`;
         basicSection.appendChild(infoBrand);
     }
 
     const infoIntakeStyles = document.createElement("div");
     infoIntakeStyles.classList.add("detail-info-item");
-    infoIntakeStyles.innerHTML = `<span class="detail-info-item-label">Lääkemuoto:</span><span class="detail-info-item-value">${inhaler.intake_styles.map(s => s.name).join(', ')}</span>`;
+    infoIntakeStyles.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.form")}</span><span class="detail-info-item-value">${inhaler.intake_styles.map(s => s.name).join(', ')}</span>`;
     basicSection.appendChild(infoIntakeStyles);
 
     detailInfoSection.appendChild(basicSection);
@@ -219,21 +219,21 @@ function buildDetailInfoSection(inhaler) {
     // Age and dosage section
     const ageSection = document.createElement("div");
     ageSection.classList.add("detail-info-section");
-    ageSection.innerHTML = `<h3>Ikä ja annostelu</h3>`;
+    ageSection.innerHTML = `<h3>${getTranslation("detail.age-dosage")}</h3>`;
 
     const infoOfficialAge = document.createElement("div");
     infoOfficialAge.classList.add("detail-info-item");
-    infoOfficialAge.innerHTML = `<span class="detail-info-item-label">Virallinen ikäraja:</span><span class="detail-info-item-value">${inhaler.official_min_age} vuotta</span>`;
+    infoOfficialAge.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.official-age")}</span><span class="detail-info-item-value">${inhaler.official_min_age}${getTranslation("detail.years")}</span>`;
     ageSection.appendChild(infoOfficialAge);
 
     const infoRecommendedAge = document.createElement("div");
     infoRecommendedAge.classList.add("detail-info-item");
-    infoRecommendedAge.innerHTML = `<span class="detail-info-item-label">Suositeltu ikä:</span><span class="detail-info-item-value">${inhaler.recommended_min_age} vuotta</span>`;
+    infoRecommendedAge.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.recommended-age")}</span><span class="detail-info-item-value">${inhaler.recommended_min_age}${getTranslation("detail.years")}</span>`;
     ageSection.appendChild(infoRecommendedAge);
 
     const infoTimesADay = document.createElement("div");
     infoTimesADay.classList.add("detail-info-item");
-    infoTimesADay.innerHTML = `<span class="detail-info-item-label">Annostelu:</span><span class="detail-info-item-value">${inhaler.times_a_day}x päivässä</span>`;
+    infoTimesADay.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.dosage")}</span><span class="detail-info-item-value">${inhaler.times_a_day}${getTranslation("detail.times-day")}</span>`;
     ageSection.appendChild(infoTimesADay);
 
     detailInfoSection.appendChild(ageSection);
@@ -241,18 +241,18 @@ function buildDetailInfoSection(inhaler) {
     // Requirements section
     const requirementsSection = document.createElement("div");
     requirementsSection.classList.add("detail-info-section");
-    requirementsSection.innerHTML = `<h3>Vaatimukset</h3>`;
+    requirementsSection.innerHTML = `<h3>${getTranslation("detail.requirements")}</h3>`;
 
-    const intakeSpeedText = inhaler.good_intake_speed === 1 ? "Korkea (>30 l/min)" : "Matala (≤30 l/min)";
+    const intakeSpeedText = inhaler.good_intake_speed === 1 ? getTranslation("detail.speed-high") : getTranslation("detail.speed-low");
     const infoIntakeSpeed = document.createElement("div");
     infoIntakeSpeed.classList.add("detail-info-item");
-    infoIntakeSpeed.innerHTML = `<span class="detail-info-item-label">Sisäänhengitysnopeus:</span><span class="detail-info-item-value">${intakeSpeedText}</span>`;
+    infoIntakeSpeed.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.intake-speed")}</span><span class="detail-info-item-value">${intakeSpeedText}</span>`;
     requirementsSection.appendChild(infoIntakeSpeed);
 
-    const coordinationText = inhaler.good_coordination === 1 ? "Hyvä" : "Tavallinen";
+    const coordinationText = inhaler.good_coordination === 1 ? getTranslation("detail.coord-good") : getTranslation("detail.coord-normal");
     const infoCoordination = document.createElement("div");
     infoCoordination.classList.add("detail-info-item");
-    infoCoordination.innerHTML = `<span class="detail-info-item-label">Koordinaatiokyky:</span><span class="detail-info-item-value">${coordinationText}</span>`;
+    infoCoordination.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.coordination")}</span><span class="detail-info-item-value">${coordinationText}</span>`;
     requirementsSection.appendChild(infoCoordination);
 
     detailInfoSection.appendChild(requirementsSection);
@@ -260,16 +260,16 @@ function buildDetailInfoSection(inhaler) {
     // Purpose section
     const purposeSection = document.createElement("div");
     purposeSection.classList.add("detail-info-section");
-    purposeSection.innerHTML = `<h3>Käyttötarkoitus</h3>`;
+    purposeSection.innerHTML = `<h3>${getTranslation("detail.purpose")}</h3>`;
 
     const infoTreatment = document.createElement("div");
     infoTreatment.classList.add("detail-info-item");
-    infoTreatment.innerHTML = `<span class="detail-info-item-label">Hoitava lääke:</span><span class="detail-info-item-value">${inhaler.treatment_medicine ? "Kyllä" : "Ei"}</span>`;
+    infoTreatment.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.treatment")}</span><span class="detail-info-item-value">${inhaler.treatment_medicine ? getTranslation("detail.yes") : getTranslation("detail.no")}</span>`;
     purposeSection.appendChild(infoTreatment);
 
     const infoSymptomatic = document.createElement("div");
     infoSymptomatic.classList.add("detail-info-item");
-    infoSymptomatic.innerHTML = `<span class="detail-info-item-label">Oirelääke:</span><span class="detail-info-item-value">${inhaler.symptomatic_medicine ? "Kyllä" : "Ei"}</span>`;
+    infoSymptomatic.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.symptomatic")}</span><span class="detail-info-item-value">${inhaler.symptomatic_medicine ? getTranslation("detail.yes") : getTranslation("detail.no")}</span>`;
     purposeSection.appendChild(infoSymptomatic);
 
     detailInfoSection.appendChild(purposeSection);
@@ -277,7 +277,7 @@ function buildDetailInfoSection(inhaler) {
     // Active ingredients section
     const ingredientsSection = document.createElement("div");
     ingredientsSection.classList.add("detail-info-section");
-    ingredientsSection.innerHTML = `<h3>Vaikuttavat lääkeaineet</h3>`;
+    ingredientsSection.innerHTML = `<h3>${getTranslation("detail.ingredients")}</h3>`;
 
     const infoActiveIngredients = document.createElement("div");
     infoActiveIngredients.classList.add("detail-info-item");
@@ -304,7 +304,7 @@ function buildDetailInfoSection(inhaler) {
     if (inhaler.links.database) {
         const linkDatabase = document.createElement("a");
         linkDatabase.href = inhaler.links.database;
-        linkDatabase.textContent = "Tietokanta-linkki";
+        linkDatabase.textContent = getTranslation("detail.database-link");
         linkDatabase.target = "_blank";
         linkDatabase.classList.add("btn-primary");
         linksSection.appendChild(linkDatabase);
@@ -313,7 +313,7 @@ function buildDetailInfoSection(inhaler) {
     if (inhaler.links.tutorial) {
         const linkTutorial = document.createElement("a");
         linkTutorial.href = inhaler.links.tutorial;
-        linkTutorial.textContent = "Opetusvideo";
+        linkTutorial.textContent = getTranslation("detail.tutorial-link");
         linkTutorial.target = "_blank";
         linkTutorial.classList.add("btn-primary");
         linksSection.appendChild(linkTutorial);
