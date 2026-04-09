@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="./css/styles.css">
         <link rel="icon" href="data:,">
         <title>Tietoa sivustosta — Inhalaattorit.fi</title>
+        <script>document.documentElement.lang = localStorage.getItem("lang") || "fi";</script>
     </head>
 
     <body>
@@ -26,47 +27,43 @@
         </header>
 
         <main>
-            <article class="page-content">
-                <h2 data-i18n="about.heading">Tietoa sivustosta</h2>
+            <article class="page-content lang-fi">
+                <h2>Tietoa sivustosta</h2>
 
                 <section id="about-bg">
-                    <h3 data-i18n="about.bg-heading">Tausta ja tavoitteet</h3>
+                    <h3>Tausta ja tavoitteet</h3>
 
-                    <h4 data-i18n="about.bg-sub">Tausta</h4>
-                    <p data-i18n="about.bg-body">Astma ja keuhkoahtaumatauti koskettavat Suomessa satoja tuhansia potilaita. Hoitona käytetään hengitettäviä lääkkeitä erilaisilla hengityslaitteilla eli inhalaattoreilla. Vaikuttavia lääkeaineita ja yhdistelmiä sekä erilaisia inhalaattoreita on kymmenittäin (tällä hetkellä yli 50). Tämä moninaisuus mahdollistaa juuri sopivan lääkkeen valinnan yksilöllisesti potilaalle, mutta jos ei ole paljon näiden lääkkeiden kanssa ollut tekemisissä, voi olla vaikea tietää mitä lääkettä ja minkälainen inhalaattori kullekin potilaalle sopii mm. iän, yksilöllisten ominaisuuksien ja tarpeiden mukaan.</p>
+                    <h4>Tausta</h4>
+                    <p>Astma ja keuhkoahtaumatauti koskettavat Suomessa satoja tuhansia potilaita. Hoitona käytetään hengitettäviä lääkkeitä erilaisilla hengityslaitteilla eli inhalaattoreilla. Vaikuttavia lääkeaineita ja yhdistelmiä sekä erilaisia inhalaattoreita on kymmenittäin (tällä hetkellä yli 50). Tämä moninaisuus mahdollistaa juuri sopivan lääkkeen valinnan yksilöllisesti potilaalle, mutta jos ei ole paljon näiden lääkkeiden kanssa ollut tekemisissä, voi olla vaikea tietää mitä lääkettä ja minkälainen inhalaattori kullekin potilaalle sopii mm. iän, yksilöllisten ominaisuuksien ja tarpeiden mukaan.</p>
 
-                    <h4 data-i18n="about.goals-sub">Tavoitteet</h4>
-                    <p data-i18n="about.goals-body">Inhalaattorit.fi-sivuston tavoitteena on parantaa astmaa ja keuhkoahtaumatautia sairastavien sekä lasten että aikuisten hoitoa oikeanlaisella inhalaattorin valinnalla. Lisäksi sivusto auttaa hoito- ja apteekkihenkilökuntaa hyvin laajassa inhalaattorivalikoimassa. Tällä voidaan ehkäistä epäsopivien inhalaattorien määräämistä potilaille ja parantaa potilaiden hoitoon sitoutumista sekä helpottaa potilasohjausta ja edelleen hoitotasapainoa. Sivuston oikeellisuudesta vastaa lasten ja aikuisten astman sekä keuhkoahtaumataudin hoitoon erikoistunut asiantuntijaryhmä. Sivusto sisältää kaikki Suomessa myyntiluvalliset ja markkinoilla olevat inhaloitavat lääkkeet, mutta ei erityisluvallisia lääkkeitä.</p>
+                    <h4>Tavoitteet</h4>
+                    <p>Inhalaattorit.fi-sivuston tavoitteena on parantaa astmaa ja keuhkoahtaumatautia sairastavien sekä lasten että aikuisten hoitoa oikeanlaisella inhalaattorin valinnalla. Lisäksi sivusto auttaa hoito- ja apteekkihenkilökuntaa hyvin laajassa inhalaattorivalikoimassa. Tällä voidaan ehkäistä epäsopivien inhalaattorien määräämistä potilaille ja parantaa potilaiden hoitoon sitoutumista sekä helpottaa potilasohjausta ja edelleen hoitotasapainoa. Sivuston oikeellisuudesta vastaa lasten ja aikuisten astman sekä keuhkoahtaumataudin hoitoon erikoistunut asiantuntijaryhmä. Sivusto sisältää kaikki Suomessa myyntiluvalliset ja markkinoilla olevat inhaloitavat lääkkeet, mutta ei erityisluvallisia lääkkeitä.</p>
                 </section>
 
                 <section id="about-cite">
-                    <h3 data-i18n="about.cite-heading">Miten viittaan sivustoon</h3>
-                    <p>
-                        <span data-i18n="about.cite-pre">Rantala H, Csonka P, Lehtimäki L, ym.: Inhalaattorisivusto. Julkaistu XXX. </span>
-                        <a href="https://inhalaattorit.fi" target="_blank" rel="noopener noreferrer">https://inhalaattorit.fi</a>
-                        <span data-i18n="about.cite-post">. Viitattu [päivämäärä].</span>
-                    </p>
+                    <h3>Miten viittaan sivustoon</h3>
+                    <p>Rantala H, Csonka P, Lehtimäki L, ym.: Inhalaattorisivusto. Julkaistu XXX. <a href="https://inhalaattorit.fi" target="_blank" rel="noopener noreferrer">https://inhalaattorit.fi</a>. Viitattu [päivämäärä].</p>
                 </section>
 
                 <section id="about-authors">
-                    <h3 data-i18n="about.authors-heading">Tekijät</h3>
+                    <h3>Tekijät</h3>
 
-                    <h4 data-i18n="about.leaders-heading">Hankkeen johtajat</h4>
+                    <h4>Hankkeen johtajat</h4>
                     <ul>
-                        <li data-i18n="about.leader-1">Heidi Rantala, LT, keuhkosairauksien ja allergologian erikoislääkäri, kliininen opettaja, Tampereen yliopisto ja Tampereen yliopistollinen sairaala</li>
-                        <li data-i18n="about.leader-2">Péter Csonka, LT, lastentautiopin dosentti, lastentautien erikoislääkäri, lastenallergologi, Tampereen yliopisto ja Terveystalo</li>
+                        <li>Heidi Rantala, LT, keuhkosairauksien ja allergologian erikoislääkäri, kliininen opettaja, Tampereen yliopisto ja Tampereen yliopistollinen sairaala</li>
+                        <li>Péter Csonka, LT, lastentautiopin dosentti, lastentautien erikoislääkäri, lastenallergologi, Tampereen yliopisto ja Terveystalo</li>
                     </ul>
 
-                    <h4 data-i18n="about.medical-heading">Lääketieteen asiantuntijat</h4>
+                    <h4>Lääketieteen asiantuntijat</h4>
                     <ul>
-                        <li data-i18n="about.medical-1">Lauri Lehtimäki, LT, keuhkosairauksien ja allergologian professori, keuhkosairauksien ja allergologian erikoislääkäri, Tampereen yliopisto ja Tampereen yliopistollinen sairaala</li>
-                        <li data-i18n="about.medical-2">Lina Wistbacka, LL, keuhkosairauksien ja allergologian erikoistuva lääkäri, sisätautien erikoislääkäri, Tampereen yliopistollinen sairaala, Tampereen yliopisto</li>
-                        <li data-i18n="about.medical-3">Elina Siltanen, sairaanhoitaja, Tampereen yliopistollinen sairaala</li>
-                        <li data-i18n="about.medical-4">Tea Airenne, farmaseutti, Tampereen yliopistollinen sairaala</li>
-                        <li data-i18n="about.medical-5">Roosa Hurme, farmaseutti, Tampereen yliopistollinen sairaala</li>
+                        <li>Lauri Lehtimäki, LT, keuhkosairauksien ja allergologian professori, keuhkosairauksien ja allergologian erikoislääkäri, Tampereen yliopisto ja Tampereen yliopistollinen sairaala</li>
+                        <li>Lina Wistbacka, LL, keuhkosairauksien ja allergologian erikoistuva lääkäri, sisätautien erikoislääkäri, Tampereen yliopistollinen sairaala, Tampereen yliopisto</li>
+                        <li>Elina Siltanen, sairaanhoitaja, Tampereen yliopistollinen sairaala</li>
+                        <li>Tea Airenne, farmaseutti, Tampereen yliopistollinen sairaala</li>
+                        <li>Roosa Hurme, farmaseutti, Tampereen yliopistollinen sairaala</li>
                     </ul>
 
-                    <h4 data-i18n="about.it-heading">Tietotekniikan asiantuntijat</h4>
+                    <h4>Tietotekniikan asiantuntijat</h4>
                     <ul>
                         <li>Niina Kosonen, product owner, senior developer</li>
                         <li>Margarita Nefedova, project manager, senior developer</li>
@@ -79,24 +76,89 @@
                 </section>
 
                 <section id="about-disclaimer" class="disclaimer">
-                    <h3 data-i18n="about.disclaimer-heading">Vastuuvapauslauseke</h3>
-                    <p data-i18n="about.disclaimer-1">Inhalaattorit.fi-sivusto on tarkoitettu vain terveydenhuollon ammattilaisille (lääkäreille, hoitajille, farmaseuteille ja proviisoreille) eikä se ole lääkinnällinen laite. Sivusto on tarkoitettu yleiseen tiedottamiseen ja kuvailevaksi aineistoksi lääkeannostelijoista eikä sillä ole EU:n lääkinnällisiä laitteita koskevan asetuksen (MDR) mukaista lääketieteellistä käyttötarkoitusta (esimerkiksi sairauden diagnosointi, seuranta tai ennusteen arviointi). Sivusto ei myöskään käsittele yksittäisen käyttäjän terveystietoja. Lääkevalikoima perustuu Suomessa myyntiluvalliseen ja markkinoilla olevaan valikoimaan.</p>
-                    <p data-i18n="about.disclaimer-2">Tämä sivusto ei ole tarkoitettu sairauden diagnosointiin, hoitoon, tarkkailuun tai ennaltaehkäisyyn. Hoitopäätöksiä tehdessä lääkärin tulee jokaisen potilaan kohdalla käyttää harkintaa ja omaa ammattitaitoaan. Lääkäri vastaa itse määräämistään lääkkeistä ja siitä, että valittu lääke ja määrätty annos vastaa voimassa olevia hoitosuosituksia. Lääkäri on aina velvollinen tarkistamaan lääkevalinnan ja -annoksen. Sivuston sisältö ei korvaa terveydenhuollon ammattilaisen arviota. Sivustolla ei anneta hoito-ohjeita eikä oteta kantaa lääkeannoksiin tai valittaviin lääkeaineisiin, vaan näistä päättää hoitava lääkäri. Sivusto auttaa valitsemaan sopivan inhalaattorin riippuen halutaanko valita suihke vai jauheinhalaattori Käypä hoito -suosituksiin perustuen, huomioiden potilaan sisäänhengitysnopeus ja koordinaatio. Lisäksi sivusto auttaa konkreettisesti kuvien avulla hoito- ja apteekkihenkilökuntaa näyttämään potilaille käytössä olevat lääkkeet tai kuvien avulla päättelemään mitä lääkkeitä ja miten potilaat käyttävät ja ohjaa tarvittaessa inhalaattorien annosohjevideoihin. Sivusto ei korvaa esimerkiksi Pharmaca Fennicaa tai Fimean lääkehakua, vaan on niitä täydentävä ja tällä sivustolla lääkevalmisteista on linkit virallisiin valmisteyhteenvetoihin ja tuoteselosteisiin.</p>
-                    <p data-i18n="about.disclaimer-3">Sivuston ylläpitäjä ei pysty valvomaan, miten sivuston käyttäjä käyttää sivuston sisältöä, eikä sen vuoksi ole vastuussa mistään suorista, epäsuorista, välittömistä, välillisistä, seuraamuksellisista tai muista vahingoista, joita voi seurata sivuston tietojen käytöstä suoraan tai välillisesti. Inhalaattorit.fi-sivuston tekijät eivät ole vastuussa menetyksistä, oikeudenkäynneistä, vaateista, kanteista, vaatimuksista, tai kustannuksista taikka vahingosta, olivat ne mitä tahansa tai aiheutuivat ne sitten, miten tahansa, jotka johtuvat joko suoraan tai välillisesti yhteydestä Inhalaattorit.fi-sivuston käyttöön.</p>
+                    <h3>Vastuuvapauslauseke</h3>
+                    <p>Inhalaattorit.fi-sivusto on tarkoitettu vain terveydenhuollon ammattilaisille (lääkäreille, hoitajille, farmaseuteille ja proviisoreille) eikä se ole lääkinnällinen laite. Sivusto on tarkoitettu yleiseen tiedottamiseen ja kuvailevaksi aineistoksi lääkeannostelijoista eikä sillä ole EU:n lääkinnällisiä laitteita koskevan asetuksen (MDR) mukaista lääketieteellistä käyttötarkoitusta (esimerkiksi sairauden diagnosointi, seuranta tai ennusteen arviointi). Sivusto ei myöskään käsittele yksittäisen käyttäjän terveystietoja. Lääkevalikoima perustuu Suomessa myyntiluvalliseen ja markkinoilla olevaan valikoimaan.</p>
+                    <p>Tämä sivusto ei ole tarkoitettu sairauden diagnosointiin, hoitoon, tarkkailuun tai ennaltaehkäisyyn. Hoitopäätöksiä tehdessä lääkärin tulee jokaisen potilaan kohdalla käyttää harkintaa ja omaa ammattitaitoaan. Lääkäri vastaa itse määräämistään lääkkeistä ja siitä, että valittu lääke ja määrätty annos vastaa voimassa olevia hoitosuosituksia. Lääkäri on aina velvollinen tarkistamaan lääkevalinnan ja -annoksen. Sivuston sisältö ei korvaa terveydenhuollon ammattilaisen arviota. Sivustolla ei anneta hoito-ohjeita eikä oteta kantaa lääkeannoksiin tai valittaviin lääkeaineisiin, vaan näistä päättää hoitava lääkäri. Sivusto auttaa valitsemaan sopivan inhalaattorin riippuen halutaanko valita suihke vai jauheinhalaattori Käypä hoito -suosituksiin perustuen, huomioiden potilaan sisäänhengitysnopeus ja koordinaatio. Lisäksi sivusto auttaa konkreettisesti kuvien avulla hoito- ja apteekkihenkilökuntaa näyttämään potilaille käytössä olevat lääkkeet tai kuvien avulla päättelemään mitä lääkkeitä ja miten potilaat käyttävät ja ohjaa tarvittaessa inhalaattorien annosohjevideoihin. Sivusto ei korvaa esimerkiksi Pharmaca Fennicaa tai Fimean lääkehakua, vaan on niitä täydentävä ja tällä sivustolla lääkevalmisteista on linkit virallisiin valmisteyhteenvetoihin ja tuoteselosteisiin.</p>
+                    <p>Sivuston ylläpitäjä ei pysty valvomaan, miten sivuston käyttäjä käyttää sivuston sisältöä, eikä sen vuoksi ole vastuussa mistään suorista, epäsuorista, välittömistä, välillisistä, seuraamuksellisista tai muista vahingoista, joita voi seurata sivuston tietojen käytöstä suoraan tai välillisesti. Inhalaattorit.fi-sivuston tekijät eivät ole vastuussa menetyksistä, oikeudenkäynneistä, vaateista, kanteista, vaatimuksista, tai kustannuksista taikka vahingosta, olivat ne mitä tahansa tai aiheutuivat ne sitten, miten tahansa, jotka johtuvat joko suoraan tai välillisesti yhteydestä Inhalaattorit.fi-sivuston käyttöön.</p>
                 </section>
 
                 <section id="about-funding">
-                    <h3 data-i18n="about.funding-heading">Rahoitus</h3>
-                    <p data-i18n="about.funding-body">Inhalaattorit.fi-sivusto on riippumaton poliittisista, kaupallisista ja muista ulkopuolisista intresseistä. Sivuston ensimmäinen versio toteutettiin osana Tampereen yliopiston Software Engineering Project -kurssia. Lääketieteen asiantuntijoille ei makseta palkkioita. Ylläpidon ja jatkokehityksen kustannukset katetaan eri säätiöiltä saaduista apurahoista.</p>
+                    <h3>Rahoitus</h3>
+                    <p>Inhalaattorit.fi-sivusto on riippumaton poliittisista, kaupallisista ja muista ulkopuolisista intresseistä. Sivuston ensimmäinen versio toteutettiin osana Tampereen yliopiston Software Engineering Project -kurssia. Lääketieteen asiantuntijoille ei makseta palkkioita. Ylläpidon ja jatkokehityksen kustannukset katetaan eri säätiöiltä saaduista apurahoista.</p>
                 </section>
 
                 <section id="about-supporters">
-                    <h3 data-i18n="about.supporters-heading">Tukijat</h3>
+                    <h3>Tukijat</h3>
                     <ul>
-                        <li>
-                            <span data-i18n="about.supporter-1">Avohoidon Tutkimussäätiö: </span>
-                            <a href="https://www.avohoidontutkimussaatio.fi/" target="_blank" rel="noopener noreferrer">avohoidontutkimussaatio.fi</a>
-                        </li>
+                        <li>Avohoidon Tutkimussäätiö: <a href="https://www.avohoidontutkimussaatio.fi/" target="_blank" rel="noopener noreferrer">avohoidontutkimussaatio.fi</a></li>
+                    </ul>
+                </section>
+            </article>
+
+            <article class="page-content lang-sv">
+                <h2>Om webbplatsen</h2>
+
+                <section>
+                    <h3>Bakgrund och mål</h3>
+
+                    <h4>Bakgrund</h4>
+                    <p>Astma och kronisk obstruktiv lungsjukdom (KOL) drabbar hundratusentals patienter i Finland. Behandlingen består av inhalerade läkemedel som administreras med hjälp av olika inhalationshjälpmedel, dvs. inhalatorer. Det finns dussintals effektiva läkemedel och kombinationer av dessa, samt olika inhalatorer (för närvarande över 50). Denna mångfald gör det möjligt att välja det lämpligaste läkemedlet för varje enskild patient, men om man inte är väl förtrogen med dessa läkemedel kan det vara svårt att veta vilket av dessa och vilken typ av inhalator som är lämplig för just den enskilda patienten baserat på bl.a. ålder, individuella egenskaper och behov.</p>
+
+                    <h4>Mål</h4>
+                    <p>Målet med webbplatsen Inhalaattorit.fi är att förbättra behandlingen av astma och kronisk obstruktiv lungsjukdom hos barn och vuxna genom att hjälpa med valet av rätt typ av inhalator. Webbplatsen hjälper också vård- och apotekspersonal att navigera i det stora utbudet av inhalatorer som finns tillgängliga. Detta kan förebygga att olämpliga inhalatorer ordineras till patienter vilket i sin tur kan förbättra patienternas följsamhet till behandlingen och underlätta patienthandledningen och vårdbalansen. En grupp experter som specialiserat sig på behandling av astma och KOL hos barn och vuxna ansvarar för att innehållet på webbplatsen är korrekt. Webbplatsen innehåller alla inhalationsläkemedel som är godkända för försäljning och finns på marknaden i Finland, men inte specialtillståndsläkemedel.</p>
+                </section>
+
+                <section>
+                    <h3>Hur man citerar denna webbplats</h3>
+                    <p>Rantala H, Csonka P, Lehtimäki L, et al.: Inhalatorwebbplats. Publicerad XXX. <a href="https://inhalaattorit.fi" target="_blank" rel="noopener noreferrer">https://inhalaattorit.fi</a>. Åtkomst [datum].</p>
+                </section>
+
+                <section>
+                    <h3>Författare</h3>
+
+                    <h4>Projektledare</h4>
+                    <ul>
+                        <li>Heidi Rantala, MD, specialist i lungsjukdomar och allergologi, klinisk lärare, Tammerfors universitet och Tammerfors universitetssjukhus</li>
+                        <li>Péter Csonka, MD, docent i pediatrik, specialist i pediatrik, barnallergolog, Tammerfors universitet och Terveystalo</li>
+                    </ul>
+
+                    <h4>Medicinska experter</h4>
+                    <ul>
+                        <li>Lauri Lehtimäki, MD, professor i lungsjukdomar och allergologi, specialist i lungsjukdomar och allergologi, Tammerfors universitet och Tammerfors universitetssjukhus</li>
+                        <li>Lina Wistbacka, ML, läkare i specialistutbildning i lungsjukdomar och allergologi, specialist i allmänmedicin, Tammerfors universitetssjukhus, Tammerfors universitet</li>
+                        <li>Elina Siltanen, sjuksköterska, Tammerfors universitetssjukhus</li>
+                        <li>Tea Airenne, farmaceut, Tammerfors universitetssjukhus</li>
+                        <li>Roosa Hurme, farmaceut, Tammerfors universitetssjukhus</li>
+                    </ul>
+
+                    <h4>IT-specialister</h4>
+                    <ul>
+                        <li>Niina Kosonen, product owner, senior developer</li>
+                        <li>Margarita Nefedova, project manager, senior developer</li>
+                        <li>Olli-Pekka Aapro, junior developer</li>
+                        <li>Jarkko Lindfors, junior developer</li>
+                        <li>Ville Pola, junior developer</li>
+                        <li>Heikki Saxén, junior developer</li>
+                        <li>Juuso Toivanen, junior developer</li>
+                    </ul>
+                </section>
+
+                <section class="disclaimer">
+                    <h3>Ansvarsfriskrivning</h3>
+                    <p>Webbplatsen Inhalaattorit.fi är endast avsedd för vårdpersonal (läkare, sjuksköterskor, farmaceuter och provisorer) och är inte en medicinteknisk produkt. Webbplatsen är avsedd för allmän information och beskrivande material om medicindispensrar och har inte något medicinskt syfte i enlighet med EU:s förordning om medicintekniska produkter (MDR) (t.ex. diagnos, övervakning eller prognosbedömning av en sjukdom). Webbplatsen behandlar inte heller enskilda användares hälsoinformation. Läkemedelsutbudet baseras på det utbud som är godkänt för försäljning och finns på marknaden i Finland.</p>
+                    <p>Denna webbplats är inte avsedd för diagnos, behandling, övervakning eller förebyggande av sjukdomar. När läkare fattar beslut om behandling måste de använda sitt eget omdöme och sin professionella expertis för varje enskild patient. Läkaren är ansvarig för de läkemedel som hen ordinerar och för att säkerställa att det valda läkemedlet och den förskrivna dosen överensstämmer med gällande behandlingsrekommendationer. Läkaren är alltid skyldig att kontrollera valet av läkemedel och dosering. Innehållet på denna webbplats ersätter inte bedömningen av en vårdpersonal. Webbplatsen ger inga behandlingsinstruktioner och tar inte ställning till medicindoser eller val av medicinering utan dessa beslutar den behandlande läkaren om. Webbplatsen hjälper dig att välja rätt inhalator, beroende på om du vill välja en spray- eller pulverinhalator, baserat på gällande behandlingsrekommendationer och med hänsyn till patientens inhalationshastighet och koordination. Dessutom använder webbplatsen bilder för att hjälpa vård- och apotekspersonal att visa patienterna vilka läkemedel de använder eller för att avgöra vilka läkemedel patienterna använder och hur de använder dem, och vid behov hänvisar den dem till videor med doseringsinstruktioner för inhalatorer. Webbplatsen ersätter inte till exempel Pharmaca Fennica eller Fimeas läkemedelssökning, utan kompletterar dem, och på denna webbplats finns länkar till en webbplats där officiella sammanfattningar och produktinformation finns.</p>
+                    <p>Webbplatsadministratören kan inte kontrollera hur webbplatsanvändarna använder webbplatsens innehåll och är därför inte ansvarig för direkta, indirekta, omedelbara, följdskador, straffskador eller andra skador som direkt eller indirekt kan uppstå till följd av användningen av webbplatsens information. Inhalaattorit.fi ansvarar inte för några förluster, rättsliga förfaranden, anspråk, åtgärder, krav eller kostnader eller skador, oavsett vad de kan vara eller hur de kan uppstå, som direkt eller indirekt kan uppstå till följd av användningen av webbplatsen Inhalaattorit.fi.</p>
+                </section>
+
+                <section>
+                    <h3>Finansiering</h3>
+                    <p>Inhalaattorit.fi-webbplatsen är oberoende av politiska, kommersiella och andra externa intressen. Den första versionen av webbplatsen skapades som en del av kursen Software Engineering Project vid Tammerfors universitet. De medicinska experterna erhåller ingen ersättning. Kostnaderna för underhåll och vidareutveckling täcks av bidrag från olika stiftelser.</p>
+                </section>
+
+                <section>
+                    <h3>Supportrar</h3>
+                    <ul>
+                        <li>Avohoidon Tutkimussäätiö (Forskningsstiftelsen för öppenvård): <a href="https://www.avohoidontutkimussaatio.fi/" target="_blank" rel="noopener noreferrer">avohoidontutkimussaatio.fi</a></li>
                     </ul>
                 </section>
             </article>

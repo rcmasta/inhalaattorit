@@ -18,6 +18,13 @@ body {
     display: none !important;
 }
 
+/* Multilang content blocks. Pages with longer body text put both languages
+   side by side in the HTML; the inactive one is hidden by lang attribute. */
+html[lang="fi"] .lang-sv,
+html[lang="sv"] .lang-fi {
+    display: none;
+}
+
 /* Header */
 
 header {
