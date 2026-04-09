@@ -1,10 +1,19 @@
-const app = require('./app');
-const initFileSystem = require('./src/services/fileSystemService');
-require("./src/jobs/schedule");
+const serverInit = require('./src/init/serverInit');
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, "0.0.0.0", () => {
-    initFileSystem();
-    console.log(`Server running on port ${PORT}`);
-});
+const start = async () => {
+    try {
+        await serverInit();
+        const app = require('./app');
+
+        app.listen(PORT, "0.0.0.0", () => {
+            console.log(`Server running on port ${PORT}`);
+        });
+    } catch(err) {
+        console.log("Startup failed: ", err);
+        process.exit(1);
+    }
+};
+
+start();
