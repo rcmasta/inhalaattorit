@@ -45,7 +45,11 @@ const adminTexts = {
     "Haluatko varmasti poistaa kuvan?": "Vill du verkligen radera bilden?",
     "Haluatko varmasti poistaa inhalaattorimerkin?": "Vill du verkligen radera inhalatormärket?",
     "Haluatko varmasti poistaa lääkeaineluokan?": "Vill du verkligen radera läkemedelsgruppen?",
-    "Haluatko varmasti poistaa lääkeaineen?": "Vill du verkligen radera den aktiva substansen?"
+    "Haluatko varmasti poistaa lääkeaineen?": "Vill du verkligen radera den aktiva substansen?",
+    // toasts
+    "Tallennettu": "Sparat",
+    "Poistettu": "Raderat",
+    "Kuva poistettu": "Bilden raderad"
 };
 
 function t(text) {
@@ -96,6 +100,37 @@ function buildManagementRow(id, cellTexts) {
 function showInUseAlert(name, count, fiTpl, svTpl) {
     const tpl = getLang() === "sv" ? svTpl : fiTpl;
     alert(tpl.replace("{name}", name).replace("{count}", count));
+}
+
+// brief on-screen confirmation (auto-dismiss)
+let toastTimer = null;
+function showToast(message) {
+    let toast = document.getElementById("admin-toast");
+    if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "admin-toast";
+        toast.className = "admin-toast";
+        toast.setAttribute("role", "status");
+        toast.setAttribute("aria-live", "polite");
+        document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    // force reflow so the transition runs even if class is re-added
+    void toast.offsetWidth;
+    toast.classList.add("show");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+}
+
+// remove the editing highlight from any row in the document
+function clearEditingHighlight() {
+    document.querySelectorAll(".row-editing").forEach(r => r.classList.remove("row-editing"));
+}
+
+// mark a row as currently being edited (clears any other highlight first)
+function highlightEditingRow(row) {
+    clearEditingHighlight();
+    if (row) row.classList.add("row-editing");
 }
 
 // populate a <select> dropdown from an array of {id, name} objects
@@ -474,7 +509,12 @@ document.addEventListener("DOMContentLoaded", () => {
         hideImagePreview();
         formHeading.textContent = t("Lisää uusi inhalaattori");
         formSubmitBtn.textContent = t("Tallenna");
-        addFormWrap.style.display = addFormWrap.style.display === "none" ? "" : "none";
+        clearEditingHighlight();
+        const wasHidden = addFormWrap.style.display === "none";
+        addFormWrap.style.display = wasHidden ? "" : "none";
+        if (wasHidden) {
+            addFormWrap.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
     });
 
     // cancel
@@ -485,6 +525,7 @@ document.addEventListener("DOMContentLoaded", () => {
         formHeading.textContent = t("Lisää uusi inhalaattori");
         formSubmitBtn.textContent = t("Tallenna");
         addFormWrap.style.display = "none";
+        clearEditingHighlight();
     });
 
     // edit/delete
@@ -500,9 +541,11 @@ document.addEventListener("DOMContentLoaded", () => {
             editingId = id;
             populateForm(inhaler);
             showImagePreview(id);
-            formHeading.textContent = t("Muokkaa inhalaattoria");
+            formHeading.textContent = t("Muokkaa inhalaattoria") + ": " + (inhaler.name || "");
             formSubmitBtn.textContent = t("Tallenna muutokset");
             addFormWrap.style.display = "";
+            highlightEditingRow(row);
+            addFormWrap.scrollIntoView({ behavior: "smooth", block: "start" });
         }
 
         if (e.target.classList.contains("btn-delete")) {
@@ -512,6 +555,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (ok) {
                 row.remove();
                 inhalers = inhalers.filter(i => i.id !== id);
+                showToast(t("Poistettu"));
             }
         }
     });
@@ -521,7 +565,10 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!editingId) return;
         if (!confirm(t("Haluatko varmasti poistaa kuvan?"))) return;
         const ok = await deleteImage(editingId);
-        if (ok) hideImagePreview();
+        if (ok) {
+            hideImagePreview();
+            showToast(t("Kuva poistettu"));
+        }
     });
 
     // save (create or update)
@@ -566,6 +613,8 @@ document.addEventListener("DOMContentLoaded", () => {
             await uploadImage(savedId, imageFile);
         }
 
+        const wasEditing = editingId !== null;
+        const reloadId = savedId;
         if (savedId) await loadInhalers();
 
         editingId = null;
@@ -576,6 +625,20 @@ document.addEventListener("DOMContentLoaded", () => {
         // uncheck all checkboxes (reset doesn't always clear dynamically added ones)
         addFormWrap.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
         addFormWrap.style.display = "none";
+        clearEditingHighlight();
+
+        if (savedId) {
+            showToast(t("Tallennettu"));
+            // when editing, scroll back to the row so the user sees the result
+            if (wasEditing && reloadId) {
+                const savedRow = tableBody.querySelector(`tr[data-id="${reloadId}"]`);
+                if (savedRow) {
+                    savedRow.scrollIntoView({ behavior: "smooth", block: "center" });
+                    savedRow.classList.add("row-saved");
+                    setTimeout(() => savedRow.classList.remove("row-saved"), 1500);
+                }
+            }
+        }
     });
 
     // --- Section toggles ---
@@ -625,6 +688,7 @@ document.addEventListener("DOMContentLoaded", () => {
         dcHeading.textContent = t("Lisää lääkeaineluokka");
         dcSubmitBtn.textContent = t("Lisää");
         dcCancelBtn.style.display = "none";
+        clearEditingHighlight();
     }
 
     dcTbody.addEventListener("click", async (e) => {
@@ -637,9 +701,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!dc) return;
             editingDcId = id;
             dcNameInput.value = dc.name;
-            dcHeading.textContent = t("Muokkaa lääkeaineluokkaa");
+            dcHeading.textContent = t("Muokkaa lääkeaineluokkaa") + ": " + dc.name;
             dcSubmitBtn.textContent = t("Tallenna");
             dcCancelBtn.style.display = "";
+            highlightEditingRow(row);
+            dcForm.scrollIntoView({ behavior: "smooth", block: "center" });
+            dcNameInput.focus();
         }
 
         if (e.target.classList.contains("btn-delete")) {
@@ -659,6 +726,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (ok) {
                 await loadDrugClassList();
                 await loadFilterData();
+                showToast(t("Poistettu"));
             }
         }
     });
@@ -668,18 +736,16 @@ document.addEventListener("DOMContentLoaded", () => {
         const name = dcNameInput.value.trim();
         if (!name) return;
 
+        let ok = false;
         if (editingDcId) {
-            const ok = await updateDrugClass(editingDcId, name);
-            if (ok) {
-                await loadDrugClassList();
-                await loadFilterData();
-            }
+            ok = await updateDrugClass(editingDcId, name);
         } else {
-            const id = await createDrugClass(name);
-            if (id) {
-                await loadDrugClassList();
-                await loadFilterData();
-            }
+            ok = !!(await createDrugClass(name));
+        }
+        if (ok) {
+            await loadDrugClassList();
+            await loadFilterData();
+            showToast(t("Tallennettu"));
         }
         resetDcForm();
     });
@@ -725,6 +791,7 @@ document.addEventListener("DOMContentLoaded", () => {
         aiHeading.textContent = t("Lisää lääkeaine");
         aiSubmitBtn.textContent = t("Lisää");
         aiCancelBtn.style.display = "none";
+        clearEditingHighlight();
     }
 
     aiTbody.addEventListener("click", async (e) => {
@@ -739,9 +806,13 @@ document.addEventListener("DOMContentLoaded", () => {
             document.getElementById("ai-name-fi").value = ai.fi || "";
             document.getElementById("ai-name-sv").value = ai.sv || "";
             document.getElementById("ai-drug-class").value = ai.drug_class_id || "";
-            aiHeading.textContent = t("Muokkaa lääkeainetta");
+            const aiName = getLang() === "sv" ? (ai.sv || ai.fi || "") : (ai.fi || ai.sv || "");
+            aiHeading.textContent = t("Muokkaa lääkeainetta") + ": " + aiName;
             aiSubmitBtn.textContent = t("Tallenna");
             aiCancelBtn.style.display = "";
+            highlightEditingRow(row);
+            aiForm.scrollIntoView({ behavior: "smooth", block: "center" });
+            document.getElementById("ai-name-fi").focus();
         }
 
         if (e.target.classList.contains("btn-delete")) {
@@ -765,6 +836,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (ok) {
                 await loadIngredientList();
                 await loadFilterData();
+                showToast(t("Poistettu"));
             }
         }
     });
@@ -779,18 +851,16 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        let ok = false;
         if (editingAiId) {
-            const ok = await updateActiveIngredient(editingAiId, fi, sv, dcId);
-            if (ok) {
-                await loadIngredientList();
-                await loadFilterData();
-            }
+            ok = await updateActiveIngredient(editingAiId, fi, sv, dcId);
         } else {
-            const id = await createActiveIngredient(fi, sv, dcId);
-            if (id) {
-                await loadIngredientList();
-                await loadFilterData();
-            }
+            ok = !!(await createActiveIngredient(fi, sv, dcId));
+        }
+        if (ok) {
+            await loadIngredientList();
+            await loadFilterData();
+            showToast(t("Tallennettu"));
         }
         resetAiForm();
     });
@@ -823,6 +893,7 @@ document.addEventListener("DOMContentLoaded", () => {
         brandHeading.textContent = t("Lisää inhalaattorimerkki");
         brandSubmitBtn.textContent = t("Lisää");
         brandCancelBtn.style.display = "none";
+        clearEditingHighlight();
     }
 
     brandTbody.addEventListener("click", async (e) => {
@@ -835,9 +906,12 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!brand) return;
             editingBrandId = id;
             brandNameInput.value = brand.name;
-            brandHeading.textContent = t("Muokkaa inhalaattorimerkkiä");
+            brandHeading.textContent = t("Muokkaa inhalaattorimerkkiä") + ": " + brand.name;
             brandSubmitBtn.textContent = t("Tallenna");
             brandCancelBtn.style.display = "";
+            highlightEditingRow(row);
+            brandForm.scrollIntoView({ behavior: "smooth", block: "center" });
+            brandNameInput.focus();
         }
 
         if (e.target.classList.contains("btn-delete")) {
@@ -858,6 +932,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (ok) {
                 await loadBrandList();
                 await loadFilterData();
+                showToast(t("Poistettu"));
             }
         }
     });
@@ -867,23 +942,33 @@ document.addEventListener("DOMContentLoaded", () => {
         const name = brandNameInput.value.trim();
         if (!name) return;
 
+        let ok = false;
         if (editingBrandId) {
-            const ok = await updateBrand(editingBrandId, name);
-            if (ok) {
-                await loadBrandList();
-                await loadFilterData();
-            }
+            ok = await updateBrand(editingBrandId, name);
         } else {
-            const id = await createBrand(name);
-            if (id) {
-                await loadBrandList();
-                await loadFilterData();
-            }
+            ok = !!(await createBrand(name));
+        }
+        if (ok) {
+            await loadBrandList();
+            await loadFilterData();
+            showToast(t("Tallennettu"));
         }
         resetBrandForm();
     });
 
     brandCancelBtn.addEventListener("click", resetBrandForm);
+
+    // Esc closes whichever edit form is currently open
+    document.addEventListener("keydown", (e) => {
+        if (e.key !== "Escape") return;
+        if (addFormWrap.style.display !== "none") {
+            cancelBtn.click();
+            return;
+        }
+        if (editingDcId) { resetDcForm(); return; }
+        if (editingAiId) { resetAiForm(); return; }
+        if (editingBrandId) { resetBrandForm(); return; }
+    });
 
     // reload page on language change so all dynamic content updates
     const langBtn = document.querySelector(".lang-toggle");

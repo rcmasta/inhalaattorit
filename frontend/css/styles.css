@@ -720,6 +720,17 @@ main {
     flex-shrink: 0;
 }
 
+.panel-hint {
+    margin: 0 0 1rem 0;
+    padding: 0.6rem 0.9rem;
+    background: #eef3f8;
+    border-left: 3px solid #6c8ba8;
+    border-radius: 4px;
+    color: #34495e;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
 .btn-add {
     padding: 0.5rem 1.2rem;
     background: #2c3e50;
@@ -949,6 +960,44 @@ main {
     background: #fdf0ef;
 }
 
+.panel-table tr.row-editing td,
+.management-table tr.row-editing td {
+    background: #fff7d6;
+    border-bottom-color: #e8d77a;
+}
+
+.panel-table tr.row-saved td,
+.management-table tr.row-saved td {
+    background: #d8efd8;
+    transition: background 1.2s ease;
+}
+
+/* Toast (success confirmation) */
+
+.admin-toast {
+    position: fixed;
+    bottom: 5rem; /* clears the privacy banner if still visible */
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: #2c3e50;
+    color: #fff;
+    padding: 0.7rem 1.4rem;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+    font-size: 0.9rem;
+    opacity: 0;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    z-index: 1100;
+    pointer-events: none;
+    max-width: calc(100vw - 2rem);
+    text-align: center;
+}
+
+.admin-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
 /* Management sections */
 
 .management-section {
@@ -1168,6 +1217,17 @@ footer {
         flex-direction: column;
         align-items: flex-start;
         gap: 0.8rem;
+    }
+
+    .panel-hint {
+        font-size: 0.8rem;
+        padding: 0.5rem 0.7rem;
+    }
+
+    .admin-toast {
+        bottom: 6rem;
+        font-size: 0.85rem;
+        padding: 0.6rem 1.1rem;
     }
 
     .management-form-row {
