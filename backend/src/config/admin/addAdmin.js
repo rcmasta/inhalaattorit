@@ -1,21 +1,22 @@
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const genPassword = require('./genPassword');
+const args = require('args-parser')(process.argv);
 
 let admins = require('../../../data/admindata/admins.json');
 
-const username = process.argv[2]
-const passwordLen = parseInt(process.argv[3]);
+const username = args.username;
+const password = args.password;
+const passwordLen = parseInt(args.generate);
 
-if (!username || !passwordLen) {
-    console.log('Username and password length required! (npm run add_admin {username} {password length})');
+if (!username || (!password && !passwordLen)) {
+    console.log('Invalid arguments!');
+    console.log('Use: npm run add_admin username={username} password={password}');
+    console.log(' or: npm run add_admin username={username} generate={password length}');
     return;
 }
 
-// generate cryptographically secure random password
-genPassword(passwordLen, (err, pw) => {
-    if (err) throw err;
-
+const addAdmin = (pw) => {
     // salt and hash the generated password
     bcrypt.hash(pw, 10, (err, hash) => {
         if (err) throw err;
@@ -29,4 +30,17 @@ genPassword(passwordLen, (err, pw) => {
         fs.writeFileSync('./data/admindata/admins.json', JSON.stringify(admins, null, 2));
         console.log(`Successfully generated admin '${username}' with password '${pw}'`);
     });
-});
+}
+
+if (passwordLen) {
+    // generate cryptographically secure random password
+    genPassword(passwordLen, (err, pw) => {
+        if (err) throw err;
+
+        addAdmin(pw);
+    });
+
+} else {
+    addAdmin(password);
+}
+

@@ -1,11 +1,12 @@
 const fs = require('fs');
+const args = require('args-parser')(process.argv);
 
 let admins = require('../../../data/admindata/admins.json');
 
-const username = process.argv[2]
+const username = args.username;
 
 if (!username) {
-    console.log('Username required! (npm run delete_admin {username})');
+    console.log('Username required! (npm run delete_admin username={username})');
     return;
 }
 
