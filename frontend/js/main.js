@@ -6,6 +6,7 @@ import { openButtonId, closeButtonId, toggleGuidePanel } from './guide.js';
 
 var currentInhalers = 0;
 var totalInhalers = 0;
+var savedScrollPosition = 0;
 
 function updateCounter() {
   const counterStr = getCounterString()
@@ -226,6 +227,8 @@ document.addEventListener("DOMContentLoaded", () => {
     setElementVisibility(backButtonID, false);
     setElementVisibility(detailID, false);
     filterData();
+    // Restore scroll position after making grid visible
+    setTimeout(() => window.scrollTo(0, savedScrollPosition), 0);
   });
 
     // Language button
@@ -258,3 +261,10 @@ currentInhalers = totalInhalers = inhalers.length;
 populateFilters(filters);
 renderInhalerGrid(inhalers);
 updateCounter();
+
+// Save scroll position before navigating to detail view
+document.getElementById(gridID).addEventListener("click", (event) => {
+  if (event.target.closest("." + "card")) {
+    savedScrollPosition = window.scrollY;
+  }
+});

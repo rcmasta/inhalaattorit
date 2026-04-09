@@ -77,10 +77,11 @@ function renderInhalerDetails(inhaler) {
         inhalerDetails.appendChild(inhalerView);
         renderTarget.replaceChildren(inhalerDetails);
     }
-
+   
     setElementVisibility(backButtonID, true);
     setElementVisibility(detailID, true);
-    setElementVisibility(gridID, false);
+    setTimeout(() => setElementVisibility(gridID, false), 0);
+    
 }
 
 /**
