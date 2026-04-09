@@ -115,6 +115,7 @@ var sv = {
 
     // Card and detail page
     "card.extension-badge": " + Spacer",
+
     "card.recommended-age": "Rekommenderad åldergräns: ",
     "card.active-ingredients": "Aktiva substanser:\n",
     "detail.extension-badge": " + Spacer",

@@ -189,6 +189,10 @@ main {
     border-radius: 10px;
     padding: 1.2rem 1.5rem;
     align-self: start;
+    position: sticky;
+    top: 1.5rem;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
 }
 
 .search-filter h2 {
@@ -1125,6 +1129,10 @@ footer {
     .search-filter {
         grid-column: 1;
         grid-row: auto;
+        position: static;
+        top: auto;
+        max-height: none;
+        overflow-y: visible;
     }
 
     .results {

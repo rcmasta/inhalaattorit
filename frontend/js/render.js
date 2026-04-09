@@ -77,10 +77,11 @@ function renderInhalerDetails(inhaler) {
         inhalerDetails.appendChild(inhalerView);
         renderTarget.replaceChildren(inhalerDetails);
     }
-
+   
     setElementVisibility(backButtonID, true);
     setElementVisibility(detailID, true);
-    setElementVisibility(gridID, false);
+    setTimeout(() => setElementVisibility(gridID, false), 0);
+    
 }
 
 /**
@@ -175,6 +176,31 @@ function buildDetailInfoSection(inhaler) {
     const detailInfoSection = document.createElement(inhalerSection);
     detailInfoSection.classList.add(detailInfoClass);
 
+    const appendInfoItem = (section, labelText, valueText) => {
+        const item = document.createElement("div");
+        item.classList.add("detail-info-item");
+
+        if (labelText) {
+            const label = document.createElement("span");
+            label.classList.add("detail-info-item-label");
+            label.textContent = labelText;
+            item.appendChild(label);
+        }
+
+        const value = document.createElement("span");
+        value.classList.add("detail-info-item-value");
+        value.textContent = valueText;
+        item.appendChild(value);
+
+        section.appendChild(item);
+    };
+
+    const appendSectionHeading = (section, headingText) => {
+        const heading = document.createElement("h3");
+        heading.textContent = headingText;
+        section.appendChild(heading);
+    };
+
     // Header from inhaler name
     const infoHeader = document.createElement("h2");
     infoHeader.textContent = inhaler.name;
@@ -203,86 +229,84 @@ function buildDetailInfoSection(inhaler) {
     basicSection.classList.add("detail-info-section");
 
     if ("inhaler_brand" in inhaler) {
-        const infoBrand = document.createElement("div");
-        infoBrand.classList.add("detail-info-item");
-        infoBrand.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.inhaler")}</span><span class="detail-info-item-value">${inhaler.inhaler_brand.name}</span>`;
-        basicSection.appendChild(infoBrand);
+        appendInfoItem(basicSection, getTranslation("detail.inhaler"), inhaler.inhaler_brand.name);
     }
 
-    const infoIntakeStyles = document.createElement("div");
-    infoIntakeStyles.classList.add("detail-info-item");
-    infoIntakeStyles.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.form")}</span><span class="detail-info-item-value">${inhaler.intake_styles.map(s => s.name).join(', ')}</span>`;
-    basicSection.appendChild(infoIntakeStyles);
+    appendInfoItem(
+        basicSection,
+        getTranslation("detail.form"),
+        inhaler.intake_styles.map(s => s.name).join(', ')
+    );
 
     detailInfoSection.appendChild(basicSection);
 
     // Age and dosage section
     const ageSection = document.createElement("div");
     ageSection.classList.add("detail-info-section");
-    ageSection.innerHTML = `<h3>${getTranslation("detail.age-dosage")}</h3>`;
+    appendSectionHeading(ageSection, getTranslation("detail.age-dosage"));
 
-    const infoOfficialAge = document.createElement("div");
-    infoOfficialAge.classList.add("detail-info-item");
-    infoOfficialAge.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.official-age")}</span><span class="detail-info-item-value">${inhaler.official_min_age}${getTranslation("detail.years")}</span>`;
-    ageSection.appendChild(infoOfficialAge);
+    appendInfoItem(
+        ageSection,
+        getTranslation("detail.official-age"),
+        inhaler.official_min_age + getTranslation("detail.years")
+    );
 
-    const infoRecommendedAge = document.createElement("div");
-    infoRecommendedAge.classList.add("detail-info-item");
-    infoRecommendedAge.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.recommended-age")}</span><span class="detail-info-item-value">${inhaler.recommended_min_age}${getTranslation("detail.years")}</span>`;
-    ageSection.appendChild(infoRecommendedAge);
+    appendInfoItem(
+        ageSection,
+        getTranslation("detail.recommended-age"),
+        inhaler.recommended_min_age + getTranslation("detail.years")
+    );
 
-    const infoTimesADay = document.createElement("div");
-    infoTimesADay.classList.add("detail-info-item");
-    infoTimesADay.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.dosage")}</span><span class="detail-info-item-value">${inhaler.times_a_day}${getTranslation("detail.times-day")}</span>`;
-    ageSection.appendChild(infoTimesADay);
+    appendInfoItem(
+        ageSection,
+        getTranslation("detail.dosage"),
+        inhaler.times_a_day + getTranslation("detail.times-day")
+    );
 
     detailInfoSection.appendChild(ageSection);
 
     // Requirements section
     const requirementsSection = document.createElement("div");
     requirementsSection.classList.add("detail-info-section");
-    requirementsSection.innerHTML = `<h3>${getTranslation("detail.requirements")}</h3>`;
+    appendSectionHeading(requirementsSection, getTranslation("detail.requirements"));
 
     const intakeSpeedText = inhaler.good_intake_speed === 1 ? getTranslation("detail.speed-high") : getTranslation("detail.speed-low");
-    const infoIntakeSpeed = document.createElement("div");
-    infoIntakeSpeed.classList.add("detail-info-item");
-    infoIntakeSpeed.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.intake-speed")}</span><span class="detail-info-item-value">${intakeSpeedText}</span>`;
-    requirementsSection.appendChild(infoIntakeSpeed);
+    appendInfoItem(requirementsSection, getTranslation("detail.intake-speed"), intakeSpeedText);
 
     const coordinationText = inhaler.good_coordination === 1 ? getTranslation("detail.coord-good") : getTranslation("detail.coord-normal");
-    const infoCoordination = document.createElement("div");
-    infoCoordination.classList.add("detail-info-item");
-    infoCoordination.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.coordination")}</span><span class="detail-info-item-value">${coordinationText}</span>`;
-    requirementsSection.appendChild(infoCoordination);
+    appendInfoItem(requirementsSection, getTranslation("detail.coordination"), coordinationText);
 
     detailInfoSection.appendChild(requirementsSection);
 
     // Purpose section
     const purposeSection = document.createElement("div");
     purposeSection.classList.add("detail-info-section");
-    purposeSection.innerHTML = `<h3>${getTranslation("detail.purpose")}</h3>`;
+    appendSectionHeading(purposeSection, getTranslation("detail.purpose"));
 
-    const infoTreatment = document.createElement("div");
-    infoTreatment.classList.add("detail-info-item");
-    infoTreatment.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.treatment")}</span><span class="detail-info-item-value">${inhaler.treatment_medicine ? getTranslation("detail.yes") : getTranslation("detail.no")}</span>`;
-    purposeSection.appendChild(infoTreatment);
+    appendInfoItem(
+        purposeSection,
+        getTranslation("detail.treatment"),
+        inhaler.treatment_medicine ? getTranslation("detail.yes") : getTranslation("detail.no")
+    );
 
-    const infoSymptomatic = document.createElement("div");
-    infoSymptomatic.classList.add("detail-info-item");
-    infoSymptomatic.innerHTML = `<span class="detail-info-item-label">${getTranslation("detail.symptomatic")}</span><span class="detail-info-item-value">${inhaler.symptomatic_medicine ? getTranslation("detail.yes") : getTranslation("detail.no")}</span>`;
-    purposeSection.appendChild(infoSymptomatic);
+    appendInfoItem(
+        purposeSection,
+        getTranslation("detail.symptomatic"),
+        inhaler.symptomatic_medicine ? getTranslation("detail.yes") : getTranslation("detail.no")
+    );
 
     detailInfoSection.appendChild(purposeSection);
 
     // Active ingredients section
     const ingredientsSection = document.createElement("div");
     ingredientsSection.classList.add("detail-info-section");
-    ingredientsSection.innerHTML = `<h3>${getTranslation("detail.ingredients")}</h3>`;
+    appendSectionHeading(ingredientsSection, getTranslation("detail.ingredients"));
 
-    const infoActiveIngredients = document.createElement("div");
-    infoActiveIngredients.classList.add("detail-info-item");
-    infoActiveIngredients.innerHTML = `<span class="detail-info-item-value">${inhaler.active_ingredients.map(ing => ing.name).join(', ')}</span>`;
-    ingredientsSection.appendChild(infoActiveIngredients);
+    appendInfoItem(
+        ingredientsSection,
+        "",
+        inhaler.active_ingredients.map(ing => ing.name).join(', ')
+    );
 
     detailInfoSection.appendChild(ingredientsSection);
 
