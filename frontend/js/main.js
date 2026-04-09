@@ -267,4 +267,5 @@ document.getElementById(gridID).addEventListener("click", (event) => {
   if (event.target.closest("." + "card")) {
     savedScrollPosition = window.scrollY;
   }
+  window.scrollTo(0, 0);
 });
