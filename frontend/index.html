@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="./css/styles.css">
         <link rel="icon" href="data:,">
         <title>Inhalaattorit.fi</title>
+        <script>document.documentElement.lang = localStorage.getItem("lang") || "fi";</script>
     </head>
 
     <body>
@@ -28,55 +29,132 @@
 
         <!-- Guide on how to use the inhaler search -->
         <aside id="guide-panel" role="complementary" aria-labelledby="guide-heading" hidden>
-            <h2 id="guide-heading" data-i18n="guide.heading">Ohjeita sivuston käyttämiseen</h2>
-            <button id="guide-button-close" data-i18n="guide.close">Sulje ohje</button>
-            <p><span data-i18n="guide.intro-1">Sivusto on kehitetty oikean ja turvallisen käytön edistämiseen. Sivusto ei ota kantaa potilaan diagnoosiin eikä siihen mitä lääkeaineita potilaalle pitäisi määrätä, vaan jokainen lääkäri tekee itse hoitopäätöksen perustuen</span> <a href="https://www.kaypahoito.fi/suositukset" id="guide-url" data-i18n="guide.intro-link">Käypä hoito -suosituksiin</a>. <span data-i18n="guide.intro-2">Tuotteista on linkit lääketietoihin ja inhalaattorikohtaiset lääkkeenottotekniikan ohjausvideoihin, mikäli tällainen saatavilla.</span></p>
-            <h3 data-i18n="guide.medform-heading">Lääkemuoto</h3>
-            <ul>
-                <li><span class="bold" data-i18n="guide.powder">Jauheinhalaattori</span>: <span data-i18n="guide.powder-body">lääke hengitetään jauheena suoraan laitteesta omalla sisäänhengityksellä.</span></li>
-                <li><span class="bold" data-i18n="guide.powder-capsule">Jauhekapseli-inhalaattori</span>: <span data-i18n="guide.powder-capsule-body">lääke on kapselissa, joka asetetaan laitteeseen ennen käyttöä, minkä jälkeen jauhe hengitetään sisään.</span></li>
-                <li><span class="bold" data-i18n="guide.spray">Suihkeinhalaattori</span>: <span data-i18n="guide.spray-body">lääke vapautuu suihkeena heti, kun laitetta painetaan; tarvittaessa sitä voidaan käyttää tilanjatkeen kanssa.</span></li>
-                <li><span class="bold" data-i18n="guide.autohaler">Sisäänhengityksellä laukeava suihkeinhalaattori (Autohaler&reg;)</span>: <span data-i18n="guide.autohaler-body">lääke vapautuu automaattisesti sisäänhengityksen alkaessa.</span></li>
-                <li><span class="bold" data-i18n="guide.mist">Lääkesumuinhalaattori (Soft Mist Inhalator l. Respimat&reg;)</span>: <span data-i18n="guide.mist-body">inhalaattori ladataan, jonka jälkeen laitteen painiketta painamalla hidas annoksen vapautuminen suihkeena; tarvittaessa sitä voidaan käyttää tilanjatkeen kanssa.</span></li>
-            </ul>
-            <h3 data-i18n="guide.age-heading">Ikä</h3>
-            <ul>
-                <li><span class="bold" data-i18n="guide.age-official">Virallinen ikäraja</span>: <span data-i18n="guide.age-official-body">lääkevalmistajan ilmoittama hyväksytty käyttöikä</span></li>
-                <li><span class="bold" data-i18n="guide.age-recommended">Suositeltu ikä</span>: <span data-i18n="guide.age-recommended-body">ikä, jossa lääkkeen ja inhalaattorin käyttö on käytännössä tarkoituksenmukaista potilaan kehitystaso, sisäänhengitysvoima, koordinaatio ja hoitosuositukset huomioon ottaen.</span></li>
-            </ul>
-            <h3 data-i18n="guide.dosage-heading">Annostus</h3>
-            <ul>
-                <li><span data-i18n="guide.dosage-body">Annostelu 1 tai 2 kertaa päivässä</span></li>
-            </ul>
-            <h3 data-i18n="guide.inhalation-heading">Sisäänhengitysnopeus ja koordinaatio</h3>
-            <ul>
-                <li><span class="bold" data-i18n="guide.inhalation">Sisäänhengitysnopeus</span> <span data-i18n="guide.inhalation-body">l/min yksikkönä. Raja-arvona 30 l/min. Tämän alle jääville soveltuu paremmin suihkeinhalaattori tilanjatkeella. Mikäli sisäänhengitysnopeus on > 30 l/min voi tämän osalta valita minkä tahansa inhalaattorin.</span></li>
-                <li><span class="bold" data-i18n="guide.coordination">Koordinaatio</span> <span data-i18n="guide.coordination-body">lääkärin arvioimana. Riittääkö kognitio ja esim. käsien koordinaatio inhalaatiolääkkeen ottoon?</span></li>
-            </ul>
-            <h3 data-i18n="guide.inhaler-heading">Inhalaattori</h3>
-            <ul>
-                <li><span data-i18n="guide.inhaler-body">Tuotteiden haku markkinoilla olevan inhalaattorin mukaan</span></li>
-            </ul>
-            <h3 data-i18n="guide.purpose-heading">Lääkkeen käyttötarkoitus</h3>
-            <ul>
-                <li><span data-i18n="guide.purpose-body">Hoitava vai tarvittaessa otettava lääke</span></li>
-            </ul>
-            <h3 data-i18n="guide.medgroup-heading"></h3>
-            <ul>
-                <li><span class="bold" data-i18n="guide.ics">ICS</span>: <span data-i18n="guide.ics-body">hengitettävä glukokortikoidi, inhaled corticosteroids</span></li>
-                <li><span class="bold" data-i18n="guide.lama">LAMA</span>: <span data-i18n="guide.lama-body">pitkävaikutteinen antikolinergi, long acting muscarinic antagonist</span></li>
-                <li><span class="bold" data-i18n="guide.laba">LABA</span>: <span data-i18n="guide.laba-body">pitkävaikutteinen β2-agonisti, long acting β2-agonist</span></li>
-                <li><span class="bold" data-i18n="guide.saba">SABA</span>: <span data-i18n="guide.saba-body">lyhytvaikutteinen β2-agonisti, short acting β2-agonist</span></li>
-                <li><span class="bold" data-i18n="guide.sama">SAMA</span>: <span data-i18n="guide.sama-body">lyhytvaikutteinen antikolinergi, short acting muscarinic antagonist</span></li>
-            </ul>
-            <h3 data-i18n="guide.substance-heading">Vaikuttava aine</h3>
-            <ul>
-                <li><span data-i18n="guide.substance-body">Lääkkeen vaikuttava/vaikuttavat lääkeaineet</span></li>
-            </ul>
-            <h3 data-i18n="guide.color-heading">Väri</h3>
-            <ul>
-                <li><span data-i18n="guide.color-body">Inhalaattorissa olevat värit, mahdollistaa haun inhalaattorin värin mukaan</span></li>
-            </ul>
+            <h2 id="guide-heading">
+                <span class="lang-fi">Ohjeita sivuston käyttämiseen</span>
+                <span class="lang-sv">Anvisningar för användning av webbplatsen</span>
+            </h2>
+            <button id="guide-button-close">
+                <span class="lang-fi">Sulje ohje</span>
+                <span class="lang-sv">Stäng anvisningarna</span>
+            </button>
+
+            <div class="lang-fi">
+                <p>Sivusto on kehitetty oikean ja turvallisen käytön edistämiseen. Sivusto ei ota kantaa potilaan diagnoosiin eikä siihen mitä lääkeaineita potilaalle pitäisi määrätä, vaan jokainen lääkäri tekee itse hoitopäätöksen perustuen <a href="https://www.kaypahoito.fi/suositukset" target="_blank" rel="noopener noreferrer">Käypä hoito -suosituksiin</a>. Tuotteista on linkit lääketietoihin ja inhalaattorikohtaiset lääkkeenottotekniikan ohjausvideoihin, mikäli tällainen saatavilla.</p>
+
+                <h3>Lääkemuoto</h3>
+                <ul>
+                    <li><span class="bold">Jauheinhalaattori</span>: lääke hengitetään jauheena suoraan laitteesta omalla sisäänhengityksellä.</li>
+                    <li><span class="bold">Jauhekapseli-inhalaattori</span>: lääke on kapselissa, joka asetetaan laitteeseen ennen käyttöä, minkä jälkeen jauhe hengitetään sisään.</li>
+                    <li><span class="bold">Suihkeinhalaattori</span>: lääke vapautuu suihkeena heti, kun laitetta painetaan; tarvittaessa sitä voidaan käyttää tilanjatkeen kanssa.</li>
+                    <li><span class="bold">Sisäänhengityksellä laukeava suihkeinhalaattori (Autohaler&reg;)</span>: lääke vapautuu automaattisesti sisäänhengityksen alkaessa.</li>
+                    <li><span class="bold">Lääkesumuinhalaattori (Soft Mist Inhalator l. Respimat&reg;)</span>: inhalaattori ladataan, jonka jälkeen laitteen painiketta painamalla hidas annoksen vapautuminen suihkeena; tarvittaessa sitä voidaan käyttää tilanjatkeen kanssa.</li>
+                </ul>
+
+                <h3>Ikä</h3>
+                <ul>
+                    <li><span class="bold">Virallinen ikäraja</span>: lääkevalmistajan ilmoittama hyväksytty käyttöikä</li>
+                    <li><span class="bold">Suositeltu ikä</span>: ikä, jossa lääkkeen ja inhalaattorin käyttö on käytännössä tarkoituksenmukaista potilaan kehitystaso, sisäänhengitysvoima, koordinaatio ja hoitosuositukset huomioon ottaen.</li>
+                </ul>
+
+                <h3>Annostus</h3>
+                <ul>
+                    <li>Annostelu 1 tai 2 kertaa päivässä</li>
+                </ul>
+
+                <h3>Sisäänhengitysnopeus ja koordinaatio</h3>
+                <ul>
+                    <li><span class="bold">Sisäänhengitysnopeus</span> l/min yksikkönä. Raja-arvona 30 l/min. Tämän alle jääville soveltuu paremmin suihkeinhalaattori tilanjatkeella. Mikäli sisäänhengitysnopeus on > 30 l/min voi tämän osalta valita minkä tahansa inhalaattorin.</li>
+                    <li><span class="bold">Koordinaatio</span> lääkärin arvioimana. Riittääkö kognitio ja esim. käsien koordinaatio inhalaatiolääkkeen ottoon?</li>
+                </ul>
+
+                <h3>Inhalaattori</h3>
+                <ul>
+                    <li>Tuotteiden haku markkinoilla olevan inhalaattorin mukaan</li>
+                </ul>
+
+                <h3>Lääkkeen käyttötarkoitus</h3>
+                <ul>
+                    <li>Hoitava vai tarvittaessa otettava lääke</li>
+                </ul>
+
+                <h3>Lääkeaineryhmä</h3>
+                <ul>
+                    <li><span class="bold">ICS</span>: hengitettävä glukokortikoidi, inhaled corticosteroids</li>
+                    <li><span class="bold">LAMA</span>: pitkävaikutteinen antikolinergi, long acting muscarinic antagonist</li>
+                    <li><span class="bold">LABA</span>: pitkävaikutteinen β2-agonisti, long acting β2-agonist</li>
+                    <li><span class="bold">SABA</span>: lyhytvaikutteinen β2-agonisti, short acting β2-agonist</li>
+                    <li><span class="bold">SAMA</span>: lyhytvaikutteinen antikolinergi, short acting muscarinic antagonist</li>
+                </ul>
+
+                <h3>Vaikuttava aine</h3>
+                <ul>
+                    <li>Lääkkeen vaikuttava/vaikuttavat lääkeaineet</li>
+                </ul>
+
+                <h3>Väri</h3>
+                <ul>
+                    <li>Inhalaattorissa olevat värit, mahdollistaa haun inhalaattorin värin mukaan</li>
+                </ul>
+            </div>
+
+            <div class="lang-sv">
+                <p>Webbplatsen har utvecklats för att främja korrekt och säker användning. Webbplatsen tar inte ställning till patientdiagnoser eller till vilka läkemedel som ska förskrivas till patienter utan varje läkare fattar sina egna vårdbeslut baserat på rekommendationer från <a href="https://www.kaypahoito.fi/sv/rekommendationer" target="_blank" rel="noopener noreferrer">God medicinsk praxis</a>. Vid produkterna finns länkar till läkemedelsinformation och instruktionsvideor om inhalatorspecifik läkemedelsintagsteknik, om sådana finns tillgängliga.</p>
+
+                <h3>Form av läkemedel</h3>
+                <ul>
+                    <li><span class="bold">Pulverinhalator</span>: läkemedlet inhaleras i pulverform direkt från enheten genom egen inandning.</li>
+                    <li><span class="bold">Pulverkapselinhalator</span>: läkemedlet finns i en kapsel som sätts in i enheten före användning, varefter pulvret inhaleras.</li>
+                    <li><span class="bold">Sprayinhalator</span>: läkemedlet frigörs som en spray så snart enheten trycks ned; vid behov kan den användas med en spacer.</li>
+                    <li><span class="bold">Inhalationsaktiverad sprayinhalator (Autohaler&reg;)</span>: läkemedlet frigörs automatiskt när du börjar andas in.</li>
+                    <li><span class="bold">Soft Mist -Inhalator (Respimat&reg;)</span>: inhalatorn laddas, varefter enheten trycks in för att frigöra en långsam dos som en spray; vid behov kan den användas med en spacer.</li>
+                </ul>
+
+                <h3>Ålder</h3>
+                <ul>
+                    <li><span class="bold">Officiell åldersgräns</span>: den av läkemedelstillverkaren meddelade godkända användningsåldern</li>
+                    <li><span class="bold">Rekommenderad ålder</span>: ålder vid vilken användning av läkemedlet och inhalatorn är praktiskt ändamålsenlig, med hänsyn till patientens utvecklingsnivå, inhalationskraft, koordination och behandlingsrekommendationer</li>
+                </ul>
+
+                <h3>Dosering</h3>
+                <ul>
+                    <li>Dosering 1 eller 2 gånger om dagen</li>
+                </ul>
+
+                <h3>Inhalationshastighet och koordination</h3>
+                <ul>
+                    <li><span class="bold">Inhalationshastighet</span> i l/min. Gränsvärde 30 l/min. För dem som ligger under detta värde är en dosinhalator med inhalationsspacer mer lämplig. Om inhalationshastigheten är > 30 l/min kan valfri inhalator användas för detta ändamål.</li>
+                    <li><span class="bold">Koordination</span> enligt läkares bedömning. Är kognitionen och exempelvis handkoordinationen tillräcklig för att ta inhalationsmedicin?</li>
+                </ul>
+
+                <h3>Inhalator</h3>
+                <ul>
+                    <li>Sök efter produkter efter inhalatorer som finns på marknaden</li>
+                </ul>
+
+                <h3>Avsedd användning av läkemedlet</h3>
+                <ul>
+                    <li>Läkemedel för behandling eller att tas vid behov</li>
+                </ul>
+
+                <h3>Läkemedelsgrupp</h3>
+                <ul>
+                    <li><span class="bold">ICS</span>: inhalationskortikosteroid, inhaled corticosteroid</li>
+                    <li><span class="bold">LAMA</span>: långverkande antikolinergikum, long acting muscarinic antagonist</li>
+                    <li><span class="bold">LABA</span>: långverkande β2-agonist, long acting β2-agonist</li>
+                    <li><span class="bold">SABA</span>: kortverkande β2-agonist, short acting β2-agonist</li>
+                    <li><span class="bold">SAMA</span>: kortverkande antikolinergikum, short acting muscarinic antagonist</li>
+                </ul>
+
+                <h3>Aktiv substans</h3>
+                <ul>
+                    <li>Den aktiv substansen/aktiva substanserna i läkemedlet</li>
+                </ul>
+
+                <h3>Färg</h3>
+                <ul>
+                    <li>Inhalatorns färger, möjliggör sökning på basen av inhalatorns färg</li>
+                </ul>
+            </div>
         </aside>
 
         <!-- Inhaler search -->
@@ -166,6 +244,7 @@
         <script type="module" src="./js/lang.js"></script>
         <script type="module" src="./js/guide.js"></script>
         <script type="module" src="./js/main.js"></script>
+        <script type="module" src="./js/privacy-banner.js"></script>
         <script data-goatcounter="https://kermajuuso.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
     </body>

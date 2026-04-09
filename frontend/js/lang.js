@@ -48,60 +48,8 @@ var sv = {
     "filter.treatment": "Behandlingsläkemedel",
     "filter.symptomatic": "Symtomläkemedel",
     "results.heading": "Inhalatorer",
-    "about.heading": "Om webbplatsen",
-    "feedback.heading": "Kontakt",
-    "feedback.intro": "Vill du ge feedback om webbplatsen eller rapportera ett fel? Kontakta oss via e-post:",
-    "privacy.heading": "Dataskyddsbeskrivning",
     "privacy.link": "Dataskyddsbeskrivning",
     "search.placeholder": "Sök efter namn...",
-    "guide.close": "Stäng anvisningarna",
-    "guide.heading": "Anvisningar för användning av webbplatsen",
-    "guide.intro-1": "Webbplatsen har utvecklats för att främja korrekt och säker användning. Webbplatsen tar inte ställning till patientdiagnoser eller till vilka läkemedel som ska förskrivas till patienter utan varje läkare fattar sina egna vårdbeslut baserat på rekommendationer från",
-    "guide.intro-link": "God medicinsk praxis",
-    "guide.intro-link-url": "https://www.kaypahoito.fi/sv/rekommendationer", // TODO: Update URL also
-    "guide.intro-2": "Vid produkterna finns länkar till läkemedelsinformation och instruktionsvideor om inhalatorspecifik läkemedelsintagsteknik, om sådana finns tillgängliga.",
-    "guide.medform-heading": "Form av läkemedel",
-    "guide.powder": "Pulverinhalator",
-    "guide.powder-body": "läkemedlet inhaleras i pulverform direkt från enheten genom egen inandning.",
-    "guide.powder-capsule": "Pulverkapselinhalator",
-    "guide.powder-capsule-body": "läkemedlet finns i en kapsel som sätts in i enheten före användning, varefter pulvret inhaleras.",
-    "guide.spray": "Sprayinhalator",
-    "guide.spray-body": "läkemedlet frigörs som en spray så snart enheten trycks ned; vid behov kan den användas med en spacer.",
-    "guide.autohaler": "Inhalationsaktiverad sprayinhalator (Autohaler&reg;)",
-    "guide.autohaler-body": "läkemedlet frigörs automatiskt när du börjar andas in.",
-    "guide.mist": "Soft Mist -Inhalator (Respimat&reg;)",
-    "guide.mist-body": "inhalatorn laddas, varefter enheten trycks in för att frigöra en långsam dos som en spray; vid behov kan den användas med en spacer.",
-    "guide.age-heading": "Ålder",
-    "guide.age-official": "Officiell åldersgräns",
-    "guide.age-official-body": "den av läkemedelstillverkaren meddelade godkända användningsåldern",
-    "guide.age-recommended": "Rekommenderad ålder",
-    "guide.age-recommended-body": "ålder vid vilken användning av läkemedlet och inhalatorn är praktiskt ändamålsenlig, med hänsyn till patientens utvecklingsnivå, inhalationskraft, koordination och behandlingsrekommendationer",
-    "guide.dosage-heading": "Dosering",
-    "guide.dosage-body": "Dosering 1 eller 2 gånger om dagen",
-    "guide.inhalation-heading": "Inhalationshastighet och koordination",
-    "guide.inhalation": "Inhalationshastighet",
-    "guide.inhalation-body": "i l/min. Gränsvärde 30 l/min. För dem som ligger under detta värde är en dosinhalator med inhalationsspacer mer lämplig. Om inhalationshastigheten är > 30 l/min kan valfri inhalator användas för detta ändamål.",
-    "guide.coordination": "Koordination",
-    "guide.coordination-body": "enligt läkares bedömning. Är kognitionen och exempelvis handkoordinationen tillräcklig för att ta inhalationsmedicin?",
-    "guide.inhaler-heading": "Inhalator",
-    "guide.inhaler-body": "Sök efter produkter efter inhalatorer som finns på marknaden",
-    "guide.purpose-heading": "Avsedd användning av läkemedlet",
-    "guide.purpose-body": "Läkemedel för behandling eller att tas vid behov",
-    "guide.medgroup-heading": "Läkemedelsgrupp",
-    "guide.ics": "ICS",
-    "guide.ics-body": "inhalationskortikosteroid, inhaled corticosteroid",
-    "guide.lama": "LAMA",
-    "guide.lama-body": "långverkande antikolinergikum, long acting muscarinic antagonist",
-    "guide.laba": "LABA",
-    "guide.laba-body": "långverkande β2-agonist, long acting β2-agonist",
-    "guide.saba": "SABA",
-    "guide.saba-body": "kortverkande β2-agonist, short acting β2-agonist",
-    "guide.sama": "SAMA",
-    "guide.sama-body": "kortverkande antikolinergikum, short acting muscarinic antagonist",
-    "guide.substance-heading": "Aktiv substans",
-    "guide.substance-body": "Den aktiv substansen/aktiva substanserna i läkemedlet",
-    "guide.color-heading": "Färg",
-    "guide.color-body": "Inhalatorns färger, möjliggör sökning på basen av inhalatorns färg",
 
     // Admin
     "admin.login-heading": "Logga in",
@@ -117,15 +65,15 @@ var sv = {
     "admin.desc-fi": "Beskrivning (finska)",
     "admin.desc-fi-ph": "Beskrivning på finska",
     "admin.desc-sv": "Beskrivning (svenska)",
-    "admin.min-age": "Officiell åldersgräns (år)",
-    "admin.rec-age": "Rekommenderad åldersgräns (år)",
+    "admin.min-age": "Officiell åldergräns (år)",
+    "admin.rec-age": "Rekommenderad åldergräns (år)",
     "admin.times-day": "Dosering (gånger per dag)",
     "admin.intake-speed": "Inandningshastighet",
     "admin.unknown": "Okänt",
-    "admin.speed-good": "God (> 30 l/min)",
+    "admin.speed-good": "Bra (> 30 l/min)",
     "admin.speed-poor": "Dålig (< 30 l/min)",
     "admin.coordination": "Koordination",
-    "admin.good": "God",
+    "admin.good": "Bra",
     "admin.poor": "Dålig",
     "admin.treatment": "Behandlingsläkemedel",
     "admin.symptomatic": "Symtomläkemedel",
@@ -143,7 +91,7 @@ var sv = {
     "admin.delete-image": "Radera bild",
     "admin.save": "Spara",
     "admin.cancel": "Avbryt",
-    "admin.th-age": "Åldersgräns",
+    "admin.th-age": "Åldergräns",
     "admin.th-dosage": "Ggr/dag",
     "admin.th-purpose": "Användning",
     "admin.th-actions": "Åtgärder",
@@ -159,21 +107,22 @@ var sv = {
     "admin.ai-sv-ph": "Namn (svenska)",
     "admin.class": "Grupp",
     "admin.class-select": "Grupp...",
-    "admin.name-fi": "Namn (fi)",
-    "admin.name-sv": "Namn (sv)",
+    "admin.name-primary": "Namn (sv)",
+    "admin.name-secondary": "Namn (fi)",
     "admin.btn-add": "Lägg till",
     "admin.btn-edit": "Redigera",
     "admin.btn-delete": "Radera",
 
     // Card and detail page
     "card.extension-badge": " + Spacer",
-    "card.recommended-age": "Rekommenderad ålder: ",
+
+    "card.recommended-age": "Rekommenderad åldergräns: ",
     "card.active-ingredients": "Aktiva substanser:\n",
     "detail.extension-badge": " + Spacer",
     "detail.inhaler": "Inhalator:",
     "detail.form": "Läkemedelsform:",
     "detail.age-dosage": "Ålder och dosering",
-    "detail.official-age": "Officiell åldersgräns:",
+    "detail.official-age": "Officiell åldergräns:",
     "detail.recommended-age": "Rekommenderad åldergräns:",
     "detail.dosage": "Dosering:",
     "detail.years": " år",
@@ -197,14 +146,14 @@ var sv = {
 
 var fi = {
     "card.extension-badge": " + Tilanjatke",
-    "card.recommended-age": "Suositeltu ikäraja: ",
+    "card.recommended-age": "Suositeltu ikä: ",
     "card.active-ingredients": "Vaikuttavat lääkeaineet:\n",
     "detail.extension-badge": " + Tilanjatke",
     "detail.inhaler": "Inhalaattori:",
     "detail.form": "Lääkemuoto:",
     "detail.age-dosage": "Ikä ja annostelu",
     "detail.official-age": "Virallinen ikäraja:",
-    "detail.recommended-age": "Suositeltu ikäraja:",
+    "detail.recommended-age": "Suositeltu ikä:",
     "detail.dosage": "Annostelu:",
     "detail.years": " vuotta",
     "detail.times-day": "x päivässä",
@@ -242,9 +191,6 @@ var fi = {
 };
 
 const fiCounter = "Näytetään {current}/{total}";
-const fiGuideUrl = "https://www.kaypahoito.fi/suositukset";
-
-const guideUrlId = "guide-url";
 
 export function getCounterString() {
     const el = document.getElementById("result-count");
@@ -284,22 +230,22 @@ function applyTranslations(lang) {
         }
     });
 
-    // Guide URL (only exists on index.html)
-    const guideUrl = document.getElementById(guideUrlId);
-
     document.documentElement.lang = lang;
-    if (guideUrl) {
-        if (lang === "fi") {
-            guideUrl.href = fiGuideUrl;
-        } else {
-            guideUrl.href = sv["guide.intro-link-url"];
-        }
-    }
 }
+
+// Inline SVG flags as data URIs (small, decorative — no external files needed)
+const flagFi = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'><rect width='18' height='11' fill='%23fff'/><rect y='4' width='18' height='3' fill='%23003580'/><rect x='5' width='3' height='11' fill='%23003580'/></svg>";
+const flagSv = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'><rect width='16' height='10' fill='%23006AA7'/><rect y='4' width='16' height='2' fill='%23FECC00'/><rect x='5' width='2' height='10' fill='%23FECC00'/></svg>";
 
 function updateToggle(lang) {
     var btn = document.querySelector(".lang-toggle");
-    if (btn) btn.textContent = lang === "fi" ? "FI" : "SV";
+    if (!btn) return;
+    var img = document.createElement("img");
+    img.className = "lang-flag";
+    img.alt = "";
+    img.src = lang === "fi" ? flagFi : flagSv;
+    var label = document.createTextNode(lang === "fi" ? "FI" : "SV");
+    btn.replaceChildren(img, label);
 }
 
 document.addEventListener("DOMContentLoaded", function() {

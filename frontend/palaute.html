@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="./css/styles.css">
         <link rel="icon" href="data:,">
         <title>Ota yhteyttä — Inhalaattorit.fi</title>
+        <script>document.documentElement.lang = localStorage.getItem("lang") || "fi";</script>
     </head>
 
     <body>
@@ -26,9 +27,14 @@
         </header>
 
         <main>
-            <section class="page-content">
-                <h2 data-i18n="feedback.heading">Ota yhteyttä</h2>
-                <p><span data-i18n="feedback.intro">Haluatko antaa palautetta sivustosta tai ilmoittaa virheestä? Ota meihin yhteyttä sähköpostitse:</span> <a href="mailto:palaute@inhalaattorit.fi">palaute@inhalaattorit.fi</a></p>
+            <section class="page-content lang-fi">
+                <h2>Ota yhteyttä</h2>
+                <p>Haluatko antaa palautetta sivustosta tai ilmoittaa virheestä? Ota meihin yhteyttä sähköpostitse: <a href="mailto:palaute@inhalaattorit.fi">palaute@inhalaattorit.fi</a></p>
+            </section>
+
+            <section class="page-content lang-sv">
+                <h2>Kontakt</h2>
+                <p>Vill du ge feedback om webbplatsen eller rapportera ett fel? Kontakta oss via e-post: <a href="mailto:palaute@inhalaattorit.fi">palaute@inhalaattorit.fi</a></p>
             </section>
         </main>
 
@@ -37,5 +43,6 @@
         </footer>
         <script src="./js/navigation.js"></script>
         <script type="module" src="./js/lang.js"></script>
+        <script type="module" src="./js/privacy-banner.js"></script>
     </body>
 </html>

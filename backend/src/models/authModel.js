@@ -2,12 +2,19 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const fs = require('file-system');
 
+const admins_path = '../../data/admindata/admins.json';
+
 // assuming there will be only one or maybe even two admins,
 // having them in a json file should be sufficient.
-const admins = require('../../data/admindata/admins.json');
+// note let instead of const as this needs to be reloaded
+let admins = require(admins_path);
 
 // returns an admin ({username, password}) with the given username (or null if not found)
 const getAdmin = async (username) => {
+    // delete admins.json from require cache and reload admins.json
+    delete require.cache[require.resolve(admins_path)];
+    admins = require(admins_path);
+
     // find admin with the given username
     return await admins.find(a => a.username === username);
 };
