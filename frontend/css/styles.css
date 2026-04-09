@@ -458,6 +458,9 @@ main {
 /* Lang toggle */
 
 .lang-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
     padding: 0.2rem 0.6rem;
     border: 1px solid #aab;
     border-radius: 4px;
@@ -471,6 +474,13 @@ main {
 
 .lang-toggle:hover {
     background: #f0f0f0;
+}
+
+.lang-flag {
+    width: 18px;
+    height: auto;
+    display: block;
+    border: 1px solid #ccc;
 }
 
 /* Nav toggle */
@@ -496,33 +506,76 @@ main {
 .page-content {
     background: #fff;
     border-radius: 10px;
-    padding: 2rem;
+    padding: 2.5rem;
 }
 
 .page-content h2 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #2c3e50;
     margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #d5dde5;
 }
 
 .page-content h3 {
-    font-size: 0.95rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-top: 2rem;
+    margin-bottom: 0.6rem;
+}
+
+.page-content h4 {
+    font-size: 1.05rem;
     font-weight: 600;
     color: #333;
     margin-top: 1.2rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.4rem;
 }
 
 .page-content p {
-    font-size: 0.9rem;
-    color: #555;
+    font-size: 0.95rem;
+    color: #444;
+    line-height: 1.7;
+    margin-bottom: 0.8rem;
+}
+
+.page-content section {
+    margin-bottom: 2.5rem;
+}
+
+.page-content ul {
+    padding-left: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.page-content li {
+    font-size: 0.95rem;
+    color: #444;
     line-height: 1.6;
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.4rem;
 }
 
 .page-content a {
     color: #2c3e50;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+.page-content a:hover {
+    text-decoration: none;
+}
+
+/* Disclaimer section: visually distinct but readable */
+.page-content section.disclaimer {
+    border-left: 4px solid #aab;
+    padding-left: 1.2rem;
+}
+
+.page-content section.disclaimer p {
+    font-size: 0.9rem;
+    color: #555;
 }
 
 .page-content label {
@@ -551,21 +604,6 @@ main {
 
 .page-content textarea {
     resize: vertical;
-}
-
-.btn-send {
-    margin-top: 1rem;
-    padding: 0.7rem 1.5rem;
-    background: #2c3e50;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    cursor: pointer;
-}
-
-.btn-send:hover {
-    background: #3a5068;
 }
 
 /* Admin login */
@@ -949,6 +987,11 @@ main {
     flex-wrap: wrap;
 }
 
+/* in sv mode, show ingredient sv input first */
+html[lang="sv"] #ai-name-sv {
+    order: -1;
+}
+
 .management-form-row input,
 .management-form-row select {
     padding: 0.4rem 0.6rem;
@@ -985,6 +1028,57 @@ footer {
     text-align: center;
     font-size: 0.85rem;
     color: #555;
+}
+
+/* Privacy banner */
+
+.privacy-banner {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #2c3e50;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem 1rem;
+    font-size: 0.85rem;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 100;
+}
+
+.privacy-banner__link {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.privacy-banner__link:hover {
+    text-decoration: none;
+}
+
+.privacy-banner__dismiss {
+    background: #fff;
+    color: #2c3e50;
+    border: none;
+    border-radius: 4px;
+    padding: 0.35rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.privacy-banner__dismiss:hover {
+    background: #e8edf2;
+}
+
+@media (max-width: 600px) {
+    .privacy-banner {
+        padding: 0.6rem 1rem;
+        font-size: 0.8rem;
+    }
 }
 
 /* Tablet */
@@ -1080,6 +1174,18 @@ footer {
     .panel-actions {
         flex-direction: column;
         gap: 0.3rem;
+    }
+
+    .page-content {
+        padding: 1.5rem;
+    }
+
+    .page-content h2 {
+        font-size: 1.4rem;
+    }
+
+    .page-content h3 {
+        font-size: 1.15rem;
     }
 }
 

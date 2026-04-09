@@ -23,7 +23,7 @@ const adminTexts = {
     "Poista": "Radera",
     "Hoitava": "Behandling",
     "Oirelääke": "Symtom",
-    "Hyvä": "God",
+    "Hyvä": "Bra",
     "Huono": "Dålig",
     "Lisää inhalaattorimerkki": "Lägg till inhalatormärke",
     "Muokkaa inhalaattorimerkkiä": "Redigera inhalatormärke",
@@ -38,6 +38,9 @@ const adminTexts = {
     // alerts and confirmations
     "Virheellinen käyttäjänimi tai salasana": "Felaktigt användarnamn eller lösenord",
     "Nimi on pakollinen kenttä.": "Namn är ett obligatoriskt fält.",
+    "Sisäänhengitysnopeus ja koordinaatio: anna molemmat tai jätä molemmat tyhjäksi.": "Inandningshastighet och koordination: ange båda eller lämna båda tomma.",
+    "Linkki ei kelpaa. Sallitut: http, https, mailto.": "Länken är ogiltig. Tillåtna: http, https, mailto.",
+    "Täytä kaikki kentät.": "Fyll i alla fält.",
     "Haluatko varmasti poistaa inhalaattorin?": "Vill du verkligen radera inhalatorn?",
     "Haluatko varmasti poistaa kuvan?": "Vill du verkligen radera bilden?",
     "Haluatko varmasti poistaa inhalaattorimerkin?": "Vill du verkligen radera inhalatormärket?",
@@ -50,11 +53,56 @@ function t(text) {
     return text;
 }
 
+// sort items alphabetically by name (locale-aware, fi)
+function sortByName(items) {
+    return [...items].sort((a, b) => String(a.name).localeCompare(String(b.name), "fi"));
+}
+
+// allow only http/https/mailto urls (blocks javascript:, data:, file:, ...)
+function isSafeUrl(value) {
+    if (!value) return true; // empty is fine
+    try {
+        const proto = new URL(value).protocol;
+        return proto === "http:" || proto === "https:" || proto === "mailto:";
+    } catch {
+        return false;
+    }
+}
+
+// build a management table row: cells from text array + edit/delete buttons
+function buildManagementRow(id, cellTexts) {
+    const row = document.createElement("tr");
+    row.dataset.id = id;
+    cellTexts.forEach(text => {
+        const td = document.createElement("td");
+        td.textContent = text;
+        row.appendChild(td);
+    });
+    const tdActions = document.createElement("td");
+    tdActions.className = "panel-actions";
+    const editBtn = document.createElement("button");
+    editBtn.className = "btn-edit";
+    editBtn.textContent = t("Muokkaa");
+    const delBtn = document.createElement("button");
+    delBtn.className = "btn-delete";
+    delBtn.textContent = t("Poista");
+    tdActions.append(editBtn, delBtn);
+    row.appendChild(tdActions);
+    return row;
+}
+
+// show "can't delete, in use by N items" alert with fi/sv templates
+// templates use {name} and {count} placeholders
+function showInUseAlert(name, count, fiTpl, svTpl) {
+    const tpl = getLang() === "sv" ? svTpl : fiTpl;
+    alert(tpl.replace("{name}", name).replace("{count}", count));
+}
+
 // populate a <select> dropdown from an array of {id, name} objects
 function populateSelect(selectEl, items) {
     // keep first option ("Valitse...")
     while (selectEl.options.length > 1) selectEl.remove(1);
-    items.forEach(item => {
+    sortByName(items).forEach(item => {
         const opt = document.createElement("option");
         opt.value = item.id;
         opt.textContent = item.name;
@@ -71,7 +119,7 @@ function populateCheckboxes(fieldsetEl, items, namePrefix) {
         fieldsetEl.appendChild(wrap);
     }
     wrap.replaceChildren();
-    items.forEach(item => {
+    sortByName(items).forEach(item => {
         const label = document.createElement("label");
         const cb = document.createElement("input");
         cb.type = "checkbox";
@@ -143,8 +191,8 @@ async function loadFilterData() {
 
     if (adminFilters) {
         filterData = adminFilters;
-        const toOpts = (arr) => arr.map(i => ({ id: i.id, name: getFilterName(i) }))
-            .sort((a, b) => a.name.localeCompare(b.name, "fi"));
+        // sorting handled centrally in populateSelect/populateCheckboxes
+        const toOpts = (arr) => arr.map(i => ({ id: i.id, name: getFilterName(i) }));
 
         populateSelect(document.getElementById("add-brand"), toOpts(adminFilters.inhaler_brands || []));
         populateCheckboxes(document.getElementById("add-intake-styles"), toOpts(adminFilters.intake_styles || []), "intake_styles");
@@ -372,7 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
     async function loadInhalers() {
         inhalers = await getInhalersBothLangs();
         tableBody.replaceChildren();
-        inhalers.forEach(inhaler => {
+        sortByName(inhalers).forEach(inhaler => {
             tableBody.appendChild(buildRow(inhaler));
         });
     }
@@ -487,6 +535,22 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
+        // intake speed and coordination must be set together (or both left empty)
+        const speedVal = document.getElementById("add-intake-speed").value;
+        const coordVal = document.getElementById("add-coordination").value;
+        if ((speedVal === "") !== (coordVal === "")) {
+            alert(t("Sisäänhengitysnopeus ja koordinaatio: anna molemmat tai jätä molemmat tyhjäksi."));
+            return;
+        }
+
+        // url scheme check for link fields (block javascript:, data:, etc.)
+        const linkDb = document.getElementById("add-link-db").value.trim();
+        const linkTut = document.getElementById("add-link-tutorial").value.trim();
+        if (!isSafeUrl(linkDb) || !isSafeUrl(linkTut)) {
+            alert(t("Linkki ei kelpaa. Sallitut: http, https, mailto."));
+            return;
+        }
+
         const data = getFormData();
         const imageFile = document.getElementById("add-image").files[0];
         let savedId = null;
@@ -533,27 +597,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const dcNameInput = document.getElementById("dc-name");
 
     function buildDcRow(dc) {
-        const row = document.createElement("tr");
-        row.dataset.id = dc.id;
-        const tdName = document.createElement("td");
-        tdName.textContent = dc.name;
-        const tdActions = document.createElement("td");
-        tdActions.className = "panel-actions";
-        const editBtn = document.createElement("button");
-        editBtn.className = "btn-edit";
-        editBtn.textContent = t("Muokkaa");
-        const delBtn = document.createElement("button");
-        delBtn.className = "btn-delete";
-        delBtn.textContent = t("Poista");
-        tdActions.append(editBtn, delBtn);
-        row.append(tdName, tdActions);
-        return row;
+        return buildManagementRow(dc.id, [dc.name]);
     }
 
     async function loadDrugClassList() {
         drugClasses = await getDrugClasses();
         dcTbody.replaceChildren();
-        drugClasses.forEach(dc => dcTbody.appendChild(buildDcRow(dc)));
+        sortByName(drugClasses).forEach(dc => dcTbody.appendChild(buildDcRow(dc)));
         // also update the drug class dropdown in ingredient form
         populateDcDropdown();
     }
@@ -561,7 +611,7 @@ document.addEventListener("DOMContentLoaded", () => {
     function populateDcDropdown() {
         const sel = document.getElementById("ai-drug-class");
         while (sel.options.length > 1) sel.remove(1);
-        drugClasses.forEach(dc => {
+        sortByName(drugClasses).forEach(dc => {
             const opt = document.createElement("option");
             opt.value = dc.id;
             opt.textContent = dc.name;
@@ -596,11 +646,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const dc = drugClasses.find(d => d.id === id);
             const usedBy = ingredients.filter(a => a.drug_class_id === id);
             if (usedBy.length > 0) {
-                const dcName = dc ? dc.name : "";
-                const dcMsg = getLang() === "sv"
-                    ? "Läkemedelsgruppen \"" + dcName + "\" kan inte raderas eftersom den har " + usedBy.length + " aktiva substanser. Radera eller flytta substanserna först."
-                    : "Lääkeaineluokkaa \"" + dcName + "\" ei voi poistaa, koska siihen kuuluu " + usedBy.length + " lääkeainetta. Poista tai siirrä lääkeaineet ensin.";
-                alert(dcMsg);
+                showInUseAlert(
+                    dc ? dc.name : "",
+                    usedBy.length,
+                    "Lääkeaineluokkaa \"{name}\" ei voi poistaa, koska siihen kuuluu {count} lääkeainetta. Poista tai siirrä lääkeaineet ensin.",
+                    "Läkemedelsgruppen \"{name}\" kan inte raderas eftersom den har {count} aktiva substanser. Radera eller flytta substanserna först."
+                );
                 return;
             }
             if (!confirm(t("Haluatko varmasti poistaa lääkeaineluokan?"))) return;
@@ -645,32 +696,27 @@ document.addEventListener("DOMContentLoaded", () => {
     const aiCancelBtn = document.getElementById("ai-cancel-btn");
 
     function buildAiRow(ai) {
-        const row = document.createElement("tr");
-        row.dataset.id = ai.id;
-        const tdFi = document.createElement("td");
-        tdFi.textContent = ai.fi || "";
-        const tdSv = document.createElement("td");
-        tdSv.textContent = ai.sv || "";
-        const tdClass = document.createElement("td");
         const dc = drugClasses.find(d => d.id === ai.drug_class_id);
-        tdClass.textContent = dc ? dc.name : "-";
-        const tdActions = document.createElement("td");
-        tdActions.className = "panel-actions";
-        const editBtn = document.createElement("button");
-        editBtn.className = "btn-edit";
-        editBtn.textContent = t("Muokkaa");
-        const delBtn = document.createElement("button");
-        delBtn.className = "btn-delete";
-        delBtn.textContent = t("Poista");
-        tdActions.append(editBtn, delBtn);
-        row.append(tdFi, tdSv, tdClass, tdActions);
-        return row;
+        // primary column shows current language, secondary shows the other
+        const lang = getLang();
+        const primary = lang === "sv" ? (ai.sv || "") : (ai.fi || "");
+        const secondary = lang === "sv" ? (ai.fi || "") : (ai.sv || "");
+        return buildManagementRow(ai.id, [
+            primary,
+            secondary,
+            dc ? dc.name : "-"
+        ]);
     }
 
     async function loadIngredientList() {
         ingredients = await getActiveIngredients();
         aiTbody.replaceChildren();
-        ingredients.forEach(ai => aiTbody.appendChild(buildAiRow(ai)));
+        // sort by current language name (active ingredients have {fi, sv} not {name})
+        const lang = getLang();
+        const sorted = [...ingredients].sort((a, b) =>
+            String(a[lang] || "").localeCompare(String(b[lang] || ""), lang)
+        );
+        sorted.forEach(ai => aiTbody.appendChild(buildAiRow(ai)));
     }
 
     function resetAiForm() {
@@ -706,11 +752,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 )
             );
             if (usedBy.length > 0) {
-                const aiName = ai ? ai.fi : "";
-                const aiMsg = getLang() === "sv"
-                    ? "Den aktiva substansen \"" + aiName + "\" kan inte raderas eftersom den används av " + usedBy.length + " inhalatorer."
-                    : "Lääkeainetta \"" + aiName + "\" ei voi poistaa, koska se on käytössä " + usedBy.length + " inhalaattorilla.";
-                alert(aiMsg);
+                showInUseAlert(
+                    ai ? ai.fi : "",
+                    usedBy.length,
+                    "Lääkeainetta \"{name}\" ei voi poistaa, koska se on käytössä {count} inhalaattorilla.",
+                    "Den aktiva substansen \"{name}\" kan inte raderas eftersom den används av {count} inhalatorer."
+                );
                 return;
             }
             if (!confirm(t("Haluatko varmasti poistaa lääkeaineen?"))) return;
@@ -727,7 +774,10 @@ document.addEventListener("DOMContentLoaded", () => {
         const fi = document.getElementById("ai-name-fi").value.trim();
         const sv = document.getElementById("ai-name-sv").value.trim();
         const dcId = Number(document.getElementById("ai-drug-class").value);
-        if (!fi || !sv || !dcId) return;
+        if (!fi || !sv || !dcId) {
+            alert(t("Täytä kaikki kentät."));
+            return;
+        }
 
         if (editingAiId) {
             const ok = await updateActiveIngredient(editingAiId, fi, sv, dcId);
@@ -758,27 +808,13 @@ document.addEventListener("DOMContentLoaded", () => {
     const brandNameInput = document.getElementById("brand-name");
 
     function buildBrandRow(brand) {
-        const row = document.createElement("tr");
-        row.dataset.id = brand.id;
-        const tdName = document.createElement("td");
-        tdName.textContent = brand.name;
-        const tdActions = document.createElement("td");
-        tdActions.className = "panel-actions";
-        const editBtn = document.createElement("button");
-        editBtn.className = "btn-edit";
-        editBtn.textContent = t("Muokkaa");
-        const delBtn = document.createElement("button");
-        delBtn.className = "btn-delete";
-        delBtn.textContent = t("Poista");
-        tdActions.append(editBtn, delBtn);
-        row.append(tdName, tdActions);
-        return row;
+        return buildManagementRow(brand.id, [brand.name]);
     }
 
     async function loadBrandList() {
         brands = await getBrands();
         brandTbody.replaceChildren();
-        brands.forEach(b => brandTbody.appendChild(buildBrandRow(b)));
+        sortByName(brands).forEach(b => brandTbody.appendChild(buildBrandRow(b)));
     }
 
     function resetBrandForm() {
@@ -809,11 +845,12 @@ document.addEventListener("DOMContentLoaded", () => {
             const usedBy = inhalers.filter(i => i.inhaler_brand && i.inhaler_brand.id === id);
             if (usedBy.length > 0) {
                 const brand = brands.find(b => b.id === id);
-                const brandName = brand ? brand.name : "";
-                const brandMsg = getLang() === "sv"
-                    ? "Inhalatormärket \"" + brandName + "\" kan inte raderas eftersom det används av " + usedBy.length + " inhalatorer."
-                    : "Inhalaattorimerkkiä \"" + brandName + "\" ei voi poistaa, koska se on käytössä " + usedBy.length + " inhalaattorilla.";
-                alert(brandMsg);
+                showInUseAlert(
+                    brand ? brand.name : "",
+                    usedBy.length,
+                    "Inhalaattorimerkkiä \"{name}\" ei voi poistaa, koska se on käytössä {count} inhalaattorilla.",
+                    "Inhalatormärket \"{name}\" kan inte raderas eftersom det används av {count} inhalatorer."
+                );
                 return;
             }
             if (!confirm(t("Haluatko varmasti poistaa inhalaattorimerkin?"))) return;

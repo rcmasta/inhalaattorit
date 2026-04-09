@@ -49,10 +49,62 @@ var sv = {
     "filter.symptomatic": "Symtomläkemedel",
     "results.heading": "Inhalatorer",
     "about.heading": "Om webbplatsen",
+    "about.bg-heading": "Bakgrund och mål",
+    "about.bg-sub": "Bakgrund",
+    "about.bg-body": "Astma och kronisk obstruktiv lungsjukdom (KOL) drabbar hundratusentals patienter i Finland. Behandlingen består av inhalerade läkemedel som administreras med hjälp av olika inhalationshjälpmedel, dvs. inhalatorer. Det finns dussintals effektiva läkemedel och kombinationer av dessa, samt olika inhalatorer (för närvarande över 50). Denna mångfald gör det möjligt att välja det lämpligaste läkemedlet för varje enskild patient, men om man inte är väl förtrogen med dessa läkemedel kan det vara svårt att veta vilket av dessa och vilken typ av inhalator som är lämplig för just den enskilda patienten baserat på bl.a. ålder, individuella egenskaper och behov.",
+    "about.goals-sub": "Mål",
+    "about.goals-body": "Målet med webbplatsen Inhalaattorit.fi är att förbättra behandlingen av astma och kronisk obstruktiv lungsjukdom hos barn och vuxna genom att hjälpa med valet av rätt typ av inhalator. Webbplatsen hjälper också vård- och apotekspersonal att navigera i det stora utbudet av inhalatorer som finns tillgängliga. Detta kan förebygga att olämpliga inhalatorer ordineras till patienter vilket i sin tur kan förbättra patienternas följsamhet till behandlingen och underlätta patienthandledningen och vårdbalansen. En grupp experter som specialiserat sig på behandling av astma och KOL hos barn och vuxna ansvarar för att innehållet på webbplatsen är korrekt. Webbplatsen innehåller alla inhalationsläkemedel som är godkända för försäljning och finns på marknaden i Finland, men inte specialtillståndsläkemedel.",
+    "about.cite-heading": "Hur man citerar denna webbplats",
+    "about.cite-pre": "Rantala H, Csonka P, Lehtimäki L, et al.: Inhalatorwebbplats. Publicerad XXX. ",
+    "about.cite-post": ". Åtkomst [datum].",
+    "about.authors-heading": "Författare",
+    "about.leaders-heading": "Projektledare",
+    "about.leader-1": "Heidi Rantala, MD, specialist i lungsjukdomar och allergologi, klinisk lärare, Tammerfors universitet och Tammerfors universitetssjukhus",
+    "about.leader-2": "Péter Csonka, MD, docent i pediatrik, specialist i pediatrik, barnallergolog, Tammerfors universitet och Terveystalo",
+    "about.medical-heading": "Medicinska experter",
+    "about.medical-1": "Lauri Lehtimäki, MD, professor i lungsjukdomar och allergologi, specialist i lungsjukdomar och allergologi, Tammerfors universitet och Tammerfors universitetssjukhus",
+    "about.medical-2": "Lina Wistbacka, ML, läkare i specialistutbildning i lungsjukdomar och allergologi, specialist i allmänmedicin, Tammerfors universitetssjukhus, Tammerfors universitet",
+    "about.medical-3": "Elina Siltanen, sjuksköterska, Tammerfors universitetssjukhus",
+    "about.medical-4": "Tea Airenne, farmaceut, Tammerfors universitetssjukhus",
+    "about.medical-5": "Roosa Hurme, farmaceut, Tammerfors universitetssjukhus",
+    "about.it-heading": "IT-specialister",
+    "about.disclaimer-heading": "Ansvarsfriskrivning",
+    "about.disclaimer-1": "Webbplatsen Inhalaattorit.fi är endast avsedd för vårdpersonal (läkare, sjuksköterskor, farmaceuter och provisorer) och är inte en medicinteknisk produkt. Webbplatsen är avsedd för allmän information och beskrivande material om medicindispensrar och har inte något medicinskt syfte i enlighet med EU:s förordning om medicintekniska produkter (MDR) (t.ex. diagnos, övervakning eller prognosbedömning av en sjukdom). Webbplatsen behandlar inte heller enskilda användares hälsoinformation. Läkemedelsutbudet baseras på det utbud som är godkänt för försäljning och finns på marknaden i Finland.",
+    "about.disclaimer-2": "Denna webbplats är inte avsedd för diagnos, behandling, övervakning eller förebyggande av sjukdomar. När läkare fattar beslut om behandling måste de använda sitt eget omdöme och sin professionella expertis för varje enskild patient. Läkaren är ansvarig för de läkemedel som hen ordinerar och för att säkerställa att det valda läkemedlet och den förskrivna dosen överensstämmer med gällande behandlingsrekommendationer. Läkaren är alltid skyldig att kontrollera valet av läkemedel och dosering. Innehållet på denna webbplats ersätter inte bedömningen av en vårdpersonal. Webbplatsen ger inga behandlingsinstruktioner och tar inte ställning till medicindoser eller val av medicinering utan dessa beslutar den behandlande läkaren om. Webbplatsen hjälper dig att välja rätt inhalator, beroende på om du vill välja en spray- eller pulverinhalator, baserat på gällande behandlingsrekommendationer och med hänsyn till patientens inhalationshastighet och koordination. Dessutom använder webbplatsen bilder för att hjälpa vård- och apotekspersonal att visa patienterna vilka läkemedel de använder eller för att avgöra vilka läkemedel patienterna använder och hur de använder dem, och vid behov hänvisar den dem till videor med doseringsinstruktioner för inhalatorer. Webbplatsen ersätter inte till exempel Pharmaca Fennica eller Fimeas läkemedelssökning, utan kompletterar dem, och på denna webbplats finns länkar till en webbplats där officiella sammanfattningar och produktinformation finns.",
+    "about.disclaimer-3": "Webbplatsadministratören kan inte kontrollera hur webbplatsanvändarna använder webbplatsens innehåll och är därför inte ansvarig för direkta, indirekta, omedelbara, följdskador, straffskador eller andra skador som direkt eller indirekt kan uppstå till följd av användningen av webbplatsens information. Inhalaattorit.fi ansvarar inte för några förluster, rättsliga förfaranden, anspråk, åtgärder, krav eller kostnader eller skador, oavsett vad de kan vara eller hur de kan uppstå, som direkt eller indirekt kan uppstå till följd av användningen av webbplatsen Inhalaattorit.fi.",
+    "about.funding-heading": "Finansiering",
+    "about.funding-body": "Inhalaattorit.fi-webbplatsen är oberoende av politiska, kommersiella och andra externa intressen. Den första versionen av webbplatsen skapades som en del av kursen Software Engineering Project vid Tammerfors universitet. De medicinska experterna erhåller ingen ersättning. Kostnaderna för underhåll och vidareutveckling täcks av bidrag från olika stiftelser.",
+    "about.supporters-heading": "Supportrar",
+    "about.supporter-1": "Avohoidon Tutkimussäätiö (Forskningsstiftelsen för öppenvård): ",
     "feedback.heading": "Kontakt",
     "feedback.intro": "Vill du ge feedback om webbplatsen eller rapportera ett fel? Kontakta oss via e-post:",
     "privacy.heading": "Dataskyddsbeskrivning",
     "privacy.link": "Dataskyddsbeskrivning",
+    "privacy.intro": "Denna beskrivning förklarar hur uppgifter behandlas på webbplatsen Inhalaattorit.fi. Webbplatsen är utformad så att den inte samlar in identifierande personuppgifter. Beskrivningen följer principerna i EU:s allmänna dataskyddsförordning (GDPR).",
+    "privacy.controller-heading": "Personuppgiftsansvarig",
+    "privacy.controller-body": "Personuppgiftsansvarig preciseras senare (t.ex. Tammerfors universitet eller den forskningsgrupp som ansvarar för webbplatsen).",
+    "privacy.contact-heading": "Kontaktuppgifter i dataskyddsfrågor",
+    "privacy.contact-body": "Kontakter som rör dataskydd kan skickas till en e-postadress som preciseras senare.",
+    "privacy.data-heading": "Behandlade uppgifter",
+    "privacy.data-body": "Webbplatsen samlar inte in eller behandlar identifierande personuppgifter. Endast anonym användningsstatistik samlas in: besöksantal, använd webbläsartyp, använd enhet samt besökarens ungefärliga land. IP-adresser lagras inte och enskilda besökare kan inte identifieras personligen.",
+    "privacy.purpose-heading": "Ändamål och rättslig grund för behandlingen",
+    "privacy.purpose-body": "Anonym statistik används för att följa upp och utveckla webbplatsens funktion. Den rättsliga grunden för behandlingen är den personuppgiftsansvariges berättigade intresse (GDPR artikel 6.1 f).",
+    "privacy.source-heading": "Uppgiftskälla",
+    "privacy.source-body": "Statistiken samlas automatiskt in från användarnas webbläsare när de besöker webbplatsen. Inga uppgifter begärs separat av användaren.",
+    "privacy.retention-heading": "Lagringstid",
+    "privacy.retention-body": "Anonym statistik lagras så länge den är användbar för uppföljning och utveckling av webbplatsen. Den exakta lagringstiden preciseras senare.",
+    "privacy.recipients-heading": "Mottagare och utlämning av uppgifter",
+    "privacy.recipients-body": "Uppgifterna lämnas inte ut till tredje part för marknadsföring eller annan användning. Webbplatsen använder följande tjänsteleverantörer för det tekniska genomförandet: GoatCounter (integritetsvänlig analys) och Railway (webbhotell).",
+    "privacy.transfer-heading": "Överföring av uppgifter utanför EU eller EES",
+    "privacy.transfer-body": "Eventuell överföring av uppgifter utanför EU och EES beror på var de använda tjänsteleverantörernas servrar är placerade. Preciseras senare.",
+    "privacy.cookies-heading": "Cookies",
+    "privacy.cookies-body": "Webbplatsen använder inte spårningscookies eller andra spårningstekniker i användarens webbläsare. Det använda analysverktyget (GoatCounter) samlar in uppgifter utan cookies.",
+    "privacy.security-heading": "Datasäkerhet",
+    "privacy.security-body": "Webbplatsens trafik är skyddad med HTTPS-kryptering. Eftersom webbplatsen inte behandlar identifierande personuppgifter finns inga egentliga registeruppgifter som behöver skyddas separat.",
+    "privacy.rights-heading": "Den registrerades rättigheter",
+    "privacy.rights-body": "Enligt EU:s dataskyddsförordning har den registrerade rätt att granska sina egna uppgifter, begära rättelse eller radering, begränsa eller motsätta sig behandling samt överföra uppgifterna till en annan tjänsteleverantör. Den registrerade har också rätt att lämna in ett klagomål till dataskyddsmyndigheten. Eftersom webbplatsen inte behandlar identifierande personuppgifter kan dessa rättigheter i praktiken inte riktas mot några lagrade uppgifter.",
+    "privacy.updates-heading": "Uppdatering av beskrivningen",
+    "privacy.updates-body": "Dataskyddsbeskrivningen uppdateras vid behov om webbplatsens databehandling förändras. Senast uppdaterad: april 2026.",
     "search.placeholder": "Sök efter namn...",
     "guide.close": "Stäng anvisningarna",
     "guide.heading": "Anvisningar för användning av webbplatsen",
@@ -117,15 +169,15 @@ var sv = {
     "admin.desc-fi": "Beskrivning (finska)",
     "admin.desc-fi-ph": "Beskrivning på finska",
     "admin.desc-sv": "Beskrivning (svenska)",
-    "admin.min-age": "Officiell åldersgräns (år)",
-    "admin.rec-age": "Rekommenderad åldersgräns (år)",
+    "admin.min-age": "Officiell åldergräns (år)",
+    "admin.rec-age": "Rekommenderad åldergräns (år)",
     "admin.times-day": "Dosering (gånger per dag)",
     "admin.intake-speed": "Inandningshastighet",
     "admin.unknown": "Okänt",
-    "admin.speed-good": "God (> 30 l/min)",
+    "admin.speed-good": "Bra (> 30 l/min)",
     "admin.speed-poor": "Dålig (< 30 l/min)",
     "admin.coordination": "Koordination",
-    "admin.good": "God",
+    "admin.good": "Bra",
     "admin.poor": "Dålig",
     "admin.treatment": "Behandlingsläkemedel",
     "admin.symptomatic": "Symtomläkemedel",
@@ -143,7 +195,7 @@ var sv = {
     "admin.delete-image": "Radera bild",
     "admin.save": "Spara",
     "admin.cancel": "Avbryt",
-    "admin.th-age": "Åldersgräns",
+    "admin.th-age": "Åldergräns",
     "admin.th-dosage": "Ggr/dag",
     "admin.th-purpose": "Användning",
     "admin.th-actions": "Åtgärder",
@@ -159,21 +211,21 @@ var sv = {
     "admin.ai-sv-ph": "Namn (svenska)",
     "admin.class": "Grupp",
     "admin.class-select": "Grupp...",
-    "admin.name-fi": "Namn (fi)",
-    "admin.name-sv": "Namn (sv)",
+    "admin.name-primary": "Namn (sv)",
+    "admin.name-secondary": "Namn (fi)",
     "admin.btn-add": "Lägg till",
     "admin.btn-edit": "Redigera",
     "admin.btn-delete": "Radera",
 
     // Card and detail page
     "card.extension-badge": " + Spacer",
-    "card.recommended-age": "Rekommenderad ålder: ",
+    "card.recommended-age": "Rekommenderad åldergräns: ",
     "card.active-ingredients": "Aktiva substanser:\n",
     "detail.extension-badge": " + Spacer",
     "detail.inhaler": "Inhalator:",
     "detail.form": "Läkemedelsform:",
     "detail.age-dosage": "Ålder och dosering",
-    "detail.official-age": "Officiell åldersgräns:",
+    "detail.official-age": "Officiell åldergräns:",
     "detail.recommended-age": "Rekommenderad åldergräns:",
     "detail.dosage": "Dosering:",
     "detail.years": " år",
@@ -297,9 +349,19 @@ function applyTranslations(lang) {
     }
 }
 
+// Inline SVG flags as data URIs (small, decorative — no external files needed)
+const flagFi = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 11'><rect width='18' height='11' fill='%23fff'/><rect y='4' width='18' height='3' fill='%23003580'/><rect x='5' width='3' height='11' fill='%23003580'/></svg>";
+const flagSv = "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 10'><rect width='16' height='10' fill='%23006AA7'/><rect y='4' width='16' height='2' fill='%23FECC00'/><rect x='5' width='2' height='10' fill='%23FECC00'/></svg>";
+
 function updateToggle(lang) {
     var btn = document.querySelector(".lang-toggle");
-    if (btn) btn.textContent = lang === "fi" ? "FI" : "SV";
+    if (!btn) return;
+    var img = document.createElement("img");
+    img.className = "lang-flag";
+    img.alt = "";
+    img.src = lang === "fi" ? flagFi : flagSv;
+    var label = document.createTextNode(lang === "fi" ? "FI" : "SV");
+    btn.replaceChildren(img, label);
 }
 
 document.addEventListener("DOMContentLoaded", function() {
