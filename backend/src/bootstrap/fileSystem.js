@@ -23,7 +23,7 @@ const initFiles = async () => {
 
     const filePath = path.join(DATA_FOLDER, "admindata", "admins.json");
 
-    await fs.writeFile(filePath, JSON.stringify(null, null, 2), "utf-8");
+    await fs.writeFile(filePath, JSON.stringify([], null, 2), "utf-8");
     console.log('Ensured file: ', filePath);
 };
 
