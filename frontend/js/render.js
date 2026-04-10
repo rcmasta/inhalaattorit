@@ -1,7 +1,7 @@
 export const gridID = "results-grid";
 export const detailID = "detail-view";
 export const backButtonID = "return-to-gridview";
-import { getTranslation } from './lang.js';
+import { getLang, getTranslation } from './lang.js';
 
 const missingImg = "img/missing.png";
 
@@ -22,6 +22,8 @@ const hiddenClass = "hidden";
 const ariaHiddenAttribute = "aria-hidden"
 const ariaStateVisible = "false"
 const ariaStateHidden = "true"
+
+const arraySeparator = ", ";
 
 /**
  * Renders given inhalers
@@ -379,5 +381,32 @@ function buildImage(inhaler, parent, isThumbnail) {
         this.src = missingImg;
     };
 
+    image.alt = generateAltText(inhaler);
+
     parent.appendChild(image);
+}
+
+/**
+ * Generates localized alt text for images for accessibility
+ * @param {*} inhaler Inhaler JSON object 
+ * @returns Localized alt text string
+ */
+function generateAltText(inhaler) {
+    var altText = "";
+    var intakeStyles = [];
+    var colors = [];
+
+    // Intake styles
+    for (const intakeStyle of inhaler.intake_styles) { intakeStyles.push(intakeStyle.name); }
+
+    // Colors
+    for (const color of inhaler.colors) { colors.push(color.name); }
+
+    if (getLang() === "fi") { // Finnish string
+        altText = `${inhaler.name} inhalaattori, ${intakeStyles.join(arraySeparator)}, ${colors.join(arraySeparator)}`;
+    } else if (getLang() === "sv") { // Swedish string
+        altText = `${inhaler.name} inhalator, ${intakeStyles.join(arraySeparator)}, ${colors.join(arraySeparator)}`;
+    }
+
+    return altText;
 }
