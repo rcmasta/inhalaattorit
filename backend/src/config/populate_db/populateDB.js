@@ -1,7 +1,4 @@
 const xlsx = require('xlsx');
-const path = require("path");
-const fs = require("fs");
-
 const parseRow = require('./parseRow');
 const insertRow = require('./insertRow');
 
@@ -22,28 +19,6 @@ const runPopulation = (db, filename) => {
 
     console.log("Database populated!");
 };
-
-const populateDatabase = (filename) => {
-
-    const dbPath = path.join(__dirname, "../../../data/db/inhalers.db");
-
-    if (fs.existsSync(dbPath)) { 
-        console.log('Database already exists. Skipping generation.');
-
-    } else {
-        const db = require('../db');
-
-        if (fs.existsSync(filename)) {
-             runPopulation(db, filename); 
-        } else { 
-            console.log('Database populating .xlsx file is missing. Skipping population.'); 
-        } 
-    }
-    
-    console.log('');
-};
-
-module.exports = populateDatabase;
 
 // CLI wrapper
 if (require.main === module) {
