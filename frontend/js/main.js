@@ -1,6 +1,6 @@
 import { getFilteredIds } from './filter.js';
 import { getInhalers, getFilters } from './api.js';
-import { gridID, detailID, backButtonID, renderInhalerGrid, setElementVisibility } from './render.js'
+import { gridID, detailID, backButtonID, resultCountID, renderInhalerGrid, setElementVisibility, getLastFocusedCard } from './render.js'
 import { getCounterString, getTranslation } from './lang.js'
 import { openButtonId, closeButtonId, toggleGuidePanel } from './guide.js';
 
@@ -226,9 +226,13 @@ document.addEventListener("DOMContentLoaded", () => {
     setElementVisibility(gridID, true);
     setElementVisibility(backButtonID, false);
     setElementVisibility(detailID, false);
+    setElementVisibility(resultCountID, true);
     filterData();
     // Restore scroll position after making grid visible
-    setTimeout(() => window.scrollTo(0, savedScrollPosition), 0);
+    setTimeout(() => {
+      window.scrollTo(0, savedScrollPosition);
+      document.getElementById(getLastFocusedCard()).focus();
+    }, 0);
   });
 
     // Language button
@@ -238,14 +242,13 @@ document.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => location.reload(), 50);
             updateCounter();
             renderInhalerGrid(inhalers);
-            
         });
     }
 
     // Guide panel
     const guideButtonOpen = document.getElementById(openButtonId);
-    guideButtonOpen.addEventListener("click", function () {
-        toggleGuidePanel(true);
+    guideButtonOpen.addEventListener("click", function() {
+      toggleGuidePanel(true);
     });
 
     const guideButtonClose = document.getElementById(closeButtonId);

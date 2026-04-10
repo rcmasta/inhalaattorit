@@ -1,11 +1,13 @@
 export const gridID = "results-grid";
 export const detailID = "detail-view";
 export const backButtonID = "return-to-gridview";
+export const resultCountID = "result-count";
 import { getLang, getTranslation } from './lang.js';
 
 const missingImg = "img/missing.png";
 
-const inhalerTag = "article";
+const inhalerInputTag = "button";
+const inhalerCardTag = "article";
 const inhalerSection = "section";
 const imageTag = "img";
 const nameTag = "h3";
@@ -15,15 +17,13 @@ const detailClass = "detail-view";
 const detailImgClass = "detail-view-img";
 const detailInfoClass = "detail-view-info";
 const cardClass = "card";
+const cardInputClass = "card-button";
 const cardImgClass = "card-img";
 const cardInfoClass = "card-info";
-const hiddenClass = "hidden";
-
-const ariaHiddenAttribute = "aria-hidden"
-const ariaStateVisible = "false"
-const ariaStateHidden = "true"
 
 const arraySeparator = ", ";
+
+let lastFocusedCard = "";
 
 /**
  * Renders given inhalers
@@ -44,15 +44,20 @@ export function renderInhalerGrid(data) {
             inhalerCard.id = inhaler.id;
             inhalerCard.addEventListener("click", (event) => {
                 renderInhalerDetails(inhaler);
+                lastFocusedCard = inhalerCard.id;
             });
             inhalerList.appendChild(inhalerCard);
         }
     }
+
+    renderTarget.replaceChildren(inhalerList);
     
     setElementVisibility(backButtonID, false);
     setElementVisibility(detailID, false);
-    setElementVisibility(gridID, true);
-    renderTarget.replaceChildren(inhalerList);
+    setTimeout(() => {
+        setElementVisibility(resultCountID, true);
+        setElementVisibility(gridID, true);
+    }, 0);
 }
 
 /**
@@ -63,6 +68,14 @@ export function renderInhalerGrid(data) {
 export function setElementVisibility(elementId, visible) {
     const element = document.getElementById(elementId);
     element.hidden = !visible;
+}
+
+/**
+ * Returns the id of last focused card
+ * @returns id of last focused card
+ */
+export function getLastFocusedCard() {
+    return lastFocusedCard;
 }
 
 /**
@@ -82,8 +95,11 @@ function renderInhalerDetails(inhaler) {
    
     setElementVisibility(backButtonID, true);
     setElementVisibility(detailID, true);
-    setTimeout(() => setElementVisibility(gridID, false), 0);
-    
+    setTimeout(() => {
+        setElementVisibility(resultCountID, false);
+        setElementVisibility(gridID, false);    
+        document.getElementById(backButtonID).focus();
+    }, 0);
 }
 
 /**
@@ -92,8 +108,12 @@ function renderInhalerDetails(inhaler) {
  * @returns HTML element containing the inhaler card
  */
 function buildCard(inhaler) {
+    // Button for the card
+    const inhalerButton = document.createElement(inhalerInputTag);
+    inhalerButton.classList.add(cardInputClass);
+
     // Article for the card
-    const inhalerCard = document.createElement(inhalerTag);
+    const inhalerCard = document.createElement(inhalerCardTag);
     inhalerCard.classList.add(cardClass);
 
     // Create card sections
@@ -103,7 +123,9 @@ function buildCard(inhaler) {
     const cardInfo = buildCardInfoSection(inhaler);
     inhalerCard.appendChild(cardInfo);
 
-    return inhalerCard;
+    inhalerButton.appendChild(inhalerCard);
+
+    return inhalerButton;
 }
 
 /**
@@ -156,7 +178,7 @@ function buildCardInfoSection(inhaler) {
  * @returns HTML element containing the inhaler information
  */
 function buildDetailView(inhaler) {
-    const detailView = document.createElement(inhalerTag);
+    const detailView = document.createElement(inhalerCardTag);
     detailView.classList.add(detailClass);
 
     // Create detail view sections
