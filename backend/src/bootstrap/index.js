@@ -5,7 +5,7 @@ const bootstrapApp = async () => {
     console.log(`\n[Bootstrap] ${new Date().toLocaleString()}`);
 
     await initFileSystem();
-    initJwtKey();
+    await initJwtKey();
 
     // start schedhuled jobs
     require('../jobs/schedule');
