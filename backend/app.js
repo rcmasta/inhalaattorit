@@ -29,7 +29,7 @@ app.use('/api/admin', limiterBasic, authMiddleware, adminRoutes);
 app.use('/uploads', express.static(path.join(__dirname, './data/uploads')));
 
 // redirect requests to unused routes to index
-app.all('/*splat', (req, res) => {res.redirect('/index.html')});
+app.all('/*splat', (req, res) => {res.redirect('/')});
 
 // Error handling middleware
 app.use(errorMiddleware);
