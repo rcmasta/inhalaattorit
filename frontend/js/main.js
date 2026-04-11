@@ -200,14 +200,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultsBox = document.querySelector(".result-box");
   if (clearBtn && searchInput && resultsBox) {
     clearBtn.addEventListener("click", () => {
-      resultsBox.innerHTML = "";
+      resultsBox.replaceChildren();
       searchInput.value = "";
       searchInput.focus();
-      filterData();
+      autoCompleteSearch();
     });
 
     searchInput.addEventListener("input", filterByName);
     searchInput.addEventListener("input", autoCompleteSearch);
+    // Click outside to close resultbox
+    document.addEventListener("click", (event) => {
+      if (event.target !== searchInput && event.target !== resultsBox) {
+        resultsBox.replaceChildren();
+      }
+    });
   }
 
   // Drop-down filters
@@ -237,6 +243,8 @@ document.addEventListener("DOMContentLoaded", () => {
     filterData();
     // Restore scroll position after making grid visible
     setTimeout(() => window.scrollTo(0, savedScrollPosition), 0);
+    // Retain search results after going back from detail view
+    filterByName();
   });
 
   // Language button
