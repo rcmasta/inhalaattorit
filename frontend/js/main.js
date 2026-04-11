@@ -1,8 +1,21 @@
-import { getFilteredIds } from './filter.js';
-import { getInhalers, getFilters } from './api.js';
-import { gridID, detailID, backButtonID, renderInhalerGrid, setElementVisibility } from './render.js'
-import { getCounterString, getTranslation } from './lang.js'
-import { openButtonId, closeButtonId, toggleGuidePanel } from './guide.js';
+import { getFilteredIds } from "./filter.js";
+import { getInhalers, getFilters } from "./api.js";
+import {
+  gridID,
+  detailID,
+  backButtonID,
+  renderInhalerGrid,
+  setElementVisibility,
+} from "./render.js";
+import { getCounterString, getTranslation } from "./lang.js";
+import { openButtonId, closeButtonId, toggleGuidePanel } from "./guide.js";
+import {
+  getSearchName,
+  autoCompleteSearch,
+  clearSuggestions,
+  getCombinedFilteredIds,
+  renderAutoCompleteResults,
+} from "./search.js";
 
 var currentInhalers = 0;
 var totalInhalers = 0;
@@ -28,9 +41,13 @@ function getFilterObject() {
   return filters;
 }
 
-function filterData() {
+function updateResults() {
+  const searchInput = document.getElementById("inhaler-name");
+
+  const name = getSearchName(searchInput);
   const filters = getFilterObject();
-  const filterIds = getFilteredIds(inhalers, filters);
+  const filterIds = getCombinedFilteredIds(inhalers, filters, name);
+  //const filterIds = getFilteredIds(inhalers, filters);
   const renderTarget = document.getElementById(gridID);
 
   currentInhalers = filterIds.size;
@@ -39,8 +56,6 @@ function filterData() {
   [...renderTarget.children].forEach((card) => {
     setElementVisibility(card.id, filterIds.has(card.id));
   });
-
-  //renderInhalerGrid(filtered);
 }
 
 // Add <option> elements to a <select>
@@ -101,74 +116,18 @@ function populateFilters(filters) {
   addOptions("inhaler-color-select", filters.colors);
 }
 
-function getSearchName() {
+// Update autocomplete suggestions based on current input
+function updateAutoComplete() {
   const searchInput = document.getElementById("inhaler-name");
-  return searchInput ? searchInput.value.trim() : "";
-}
+  const resultBox = document.querySelector(".result-box");
 
-function filterByName() {
-  const name = getSearchName();
-
-  const nameFiltered = inhalers.filter((inhaler) =>
-    inhaler.name.toLowerCase().includes(name.toLowerCase()),
-  );
-
-  const renderTarget = document.getElementById(gridID);
-  currentInhalers = nameFiltered.length;
-  updateCounter();
-
-  [...renderTarget.children].forEach((card) => {
-    setElementVisibility(
-      card.id,
-      nameFiltered.some((inhaler) => inhaler.id.toString() === card.id),
-    );
+  const name = getSearchName(searchInput);
+  const results = autoCompleteSearch(inhalers, name, 5);
+  renderAutoCompleteResults(resultBox, results, (item) => {
+    searchInput.value = item.name;
+    clearSuggestions(resultBox);
+    updateResults();
   });
-}
-
-function selectInputText(inputEl) {
-  const searchInput = document.getElementById("inhaler-name");
-  const resultsBox = document.querySelector(".result-box");
-  if (!searchInput || !resultsBox) return;
-
-  searchInput.value = inputEl.textContent;
-  resultsBox.innerHTML = "";
-  searchInput.focus();
-  filterByName();
-}
-
-function autoCompleteSearch() {
-  const name = getSearchName();
-  const resultsBox = document.querySelector(".result-box");
-  if (!resultsBox) return;
-
-  const results =
-    name.length > 0
-      ? inhalers.filter((inhaler) =>
-          inhaler.name.toLowerCase().includes(name.toLowerCase()),
-        )
-      : [];
-
-  if (results.length === 0) {
-    resultsBox.innerHTML = "";
-    return;
-  }
-
-  const ul = document.createElement("ul");
-
-  results.forEach((inhaler) => {
-    const li = document.createElement("li");
-    li.dataset.id = inhaler.id;
-    li.textContent = inhaler.name;
-
-    li.addEventListener("click", () => {
-      selectInputText(li);
-    });
-
-    ul.appendChild(li);
-  });
-
-  resultsBox.innerHTML = "";
-  resultsBox.appendChild(ul);
 }
 
 // Event listeners
@@ -182,9 +141,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  
+
   // Age filter
-  document.getElementById("inhaler-age-select").addEventListener("input", filterData);
+  document
+    .getElementById("inhaler-age-select")
+    .addEventListener("input", updateResults);
 
   // Name search
   const clearBtn = document.querySelector(".btn-clear");
@@ -192,21 +153,29 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultsBox = document.querySelector(".result-box");
   if (clearBtn && searchInput && resultsBox) {
     clearBtn.addEventListener("click", () => {
-      resultsBox.innerHTML = "";
       searchInput.value = "";
       searchInput.focus();
-      filterData();
+      clearSuggestions(resultsBox);
+      updateResults();
     });
-
-    searchInput.addEventListener("input", filterByName);
-    searchInput.addEventListener("input", autoCompleteSearch);
+    // Update search suggestions on input
+    searchInput.addEventListener("input", () => {
+      updateResults();
+      updateAutoComplete();
+    });
+    // Click outside to close resultbox
+    document.addEventListener("click", (event) => {
+      if (event.target !== searchInput && event.target !== resultsBox) {
+        clearSuggestions(resultsBox);
+      }
+    });
   }
 
   // Drop-down filters
   const dropDownFilters = document.querySelectorAll(".inhaler-filter");
   if (dropDownFilters) {
     dropDownFilters.forEach((dropdown) =>
-      dropdown.addEventListener("change", filterData),
+      dropdown.addEventListener("change", updateResults),
     );
   }
 
@@ -216,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clearFiltersBtn.addEventListener("click", () => {
       const selects = document.querySelectorAll(".search-filter select");
       selects.forEach((s) => (s.selectedIndex = 0));
-      filterData();
+      updateResults();
     });
   }
 
@@ -226,32 +195,33 @@ document.addEventListener("DOMContentLoaded", () => {
     setElementVisibility(gridID, true);
     setElementVisibility(backButtonID, false);
     setElementVisibility(detailID, false);
-    filterData();
+    updateResults();
     // Restore scroll position after making grid visible
     setTimeout(() => window.scrollTo(0, savedScrollPosition), 0);
+    // Retain search results after going back from detail view
+    updateResults();
   });
 
-    // Language button
-    const langBtn = document.querySelector(".lang-toggle");
-    if (langBtn) {
-        langBtn.addEventListener("click", function() {
-            setTimeout(() => location.reload(), 50);
-            updateCounter();
-            renderInhalerGrid(inhalers);
-            
-        });
-    }
-
-    // Guide panel
-    const guideButtonOpen = document.getElementById(openButtonId);
-    guideButtonOpen.addEventListener("click", function () {
-        toggleGuidePanel(true);
+  // Language button
+  const langBtn = document.querySelector(".lang-toggle");
+  if (langBtn) {
+    langBtn.addEventListener("click", function () {
+      setTimeout(() => location.reload(), 50);
+      updateCounter();
+      renderInhalerGrid(inhalers);
     });
+  }
 
-    const guideButtonClose = document.getElementById(closeButtonId);
-    guideButtonClose.addEventListener("click", function() {
-        toggleGuidePanel(false);
-    });
+  // Guide panel
+  const guideButtonOpen = document.getElementById(openButtonId);
+  guideButtonOpen.addEventListener("click", function () {
+    toggleGuidePanel(true);
+  });
+
+  const guideButtonClose = document.getElementById(closeButtonId);
+  guideButtonClose.addEventListener("click", function () {
+    toggleGuidePanel(false);
+  });
 });
 
 // Load data
