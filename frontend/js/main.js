@@ -9,6 +9,13 @@ import {
 } from "./render.js";
 import { getCounterString, getTranslation } from "./lang.js";
 import { openButtonId, closeButtonId, toggleGuidePanel } from "./guide.js";
+import {
+  getSearchName,
+  autoCompleteSearch,
+  clearSuggestions,
+  getCombinedFilteredIds,
+  renderAutoCompleteResults,
+} from "./search.js";
 
 var currentInhalers = 0;
 var totalInhalers = 0;
@@ -35,8 +42,12 @@ function getFilterObject() {
 }
 
 function filterData() {
+  const searchInput = document.getElementById("inhaler-name");
+
+  const name = getSearchName(searchInput);
   const filters = getFilterObject();
-  const filterIds = getFilteredIds(inhalers, filters);
+  const filterIds = getCombinedFilteredIds(inhalers, filters, name);
+  //const filterIds = getFilteredIds(inhalers, filters);
   const renderTarget = document.getElementById(gridID);
 
   currentInhalers = filterIds.size;
@@ -45,8 +56,6 @@ function filterData() {
   [...renderTarget.children].forEach((card) => {
     setElementVisibility(card.id, filterIds.has(card.id));
   });
-
-  //renderInhalerGrid(filtered);
 }
 
 // Add <option> elements to a <select>
@@ -107,74 +116,18 @@ function populateFilters(filters) {
   addOptions("inhaler-color-select", filters.colors);
 }
 
-function getSearchName() {
+// Update autocomplete suggestions based on current input
+function updateAutoComplete() {
   const searchInput = document.getElementById("inhaler-name");
-  return searchInput ? searchInput.value.trim() : "";
-}
+  const resultBox = document.querySelector(".result-box");
 
-function filterByName() {
-  const name = getSearchName();
-
-  const nameFiltered = inhalers.filter((inhaler) =>
-    inhaler.name.toLowerCase().includes(name.toLowerCase()),
-  );
-
-  const renderTarget = document.getElementById(gridID);
-  currentInhalers = nameFiltered.length;
-  updateCounter();
-
-  [...renderTarget.children].forEach((card) => {
-    setElementVisibility(
-      card.id,
-      nameFiltered.some((inhaler) => inhaler.id.toString() === card.id),
-    );
+  const name = getSearchName(searchInput);
+  const results = autoCompleteSearch(inhalers, name, 5);
+  renderAutoCompleteResults(resultBox, results, (item) => {
+    searchInput.value = item.name;
+    clearSuggestions(resultBox);
+    filterData();
   });
-}
-
-function selectInputText(inputEl) {
-  const searchInput = document.getElementById("inhaler-name");
-  const resultsBox = document.querySelector(".result-box");
-  if (!searchInput || !resultsBox) return;
-
-  searchInput.value = inputEl.textContent;
-  resultsBox.replaceChildren(); // Clear results
-  searchInput.focus();
-  filterByName();
-}
-
-function autoCompleteSearch() {
-  const name = getSearchName();
-  const resultsBox = document.querySelector(".result-box");
-  if (!resultsBox) return;
-
-  const results =
-    name.length > 0
-      ? inhalers.filter((inhaler) =>
-          inhaler.name.toLowerCase().includes(name.toLowerCase()),
-        )
-      : [];
-
-  if (results.length === 0) {
-    resultsBox.replaceChildren();
-    return;
-  }
-
-  const ul = document.createElement("ul");
-
-  results.forEach((inhaler) => {
-    const li = document.createElement("li");
-    li.dataset.id = inhaler.id;
-    li.textContent = inhaler.name;
-
-    li.addEventListener("click", () => {
-      selectInputText(li);
-    });
-
-    ul.appendChild(li);
-  });
-
-  resultsBox.replaceChildren();
-  resultsBox.appendChild(ul);
 }
 
 // Event listeners
@@ -200,18 +153,20 @@ document.addEventListener("DOMContentLoaded", () => {
   const resultsBox = document.querySelector(".result-box");
   if (clearBtn && searchInput && resultsBox) {
     clearBtn.addEventListener("click", () => {
-      resultsBox.replaceChildren();
       searchInput.value = "";
       searchInput.focus();
-      autoCompleteSearch();
+      clearSuggestions(resultsBox);
+      filterData();
     });
-
-    searchInput.addEventListener("input", filterByName);
-    searchInput.addEventListener("input", autoCompleteSearch);
+    // Update search suggestions on input
+    searchInput.addEventListener("input", () => {
+      filterData();
+      updateAutoComplete();
+    });
     // Click outside to close resultbox
     document.addEventListener("click", (event) => {
       if (event.target !== searchInput && event.target !== resultsBox) {
-        resultsBox.replaceChildren();
+        clearSuggestions(resultsBox);
       }
     });
   }
@@ -244,7 +199,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Restore scroll position after making grid visible
     setTimeout(() => window.scrollTo(0, savedScrollPosition), 0);
     // Retain search results after going back from detail view
-    filterByName();
+    filterData();
   });
 
   // Language button
