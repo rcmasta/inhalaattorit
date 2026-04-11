@@ -20,10 +20,17 @@ const initFolders = async () => {
 };
 
 const initFiles = async () => {
-
     const filePath = path.join(DATA_FOLDER, "admindata", "admins.json");
 
-    await fs.writeFile(filePath, JSON.stringify([], null, 2), "utf-8");
+    // check if admins.json exists before initializing it.
+    // done by fs.access throwing an error if the file doesn't exist,
+    // pretty silly but this seems to be the only way to check this with fs promises.
+    try {
+        await fs.access(filePath);
+    } catch {
+        await fs.writeFile(filePath, JSON.stringify([], null, 2), "utf-8");
+    }
+
     console.log('Ensured file: ', filePath);
 };
 
