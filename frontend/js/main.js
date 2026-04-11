@@ -41,7 +41,7 @@ function getFilterObject() {
   return filters;
 }
 
-function filterData() {
+function updateResults() {
   const searchInput = document.getElementById("inhaler-name");
 
   const name = getSearchName(searchInput);
@@ -126,7 +126,7 @@ function updateAutoComplete() {
   renderAutoCompleteResults(resultBox, results, (item) => {
     searchInput.value = item.name;
     clearSuggestions(resultBox);
-    filterData();
+    updateResults();
   });
 }
 
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Age filter
   document
     .getElementById("inhaler-age-select")
-    .addEventListener("input", filterData);
+    .addEventListener("input", updateResults);
 
   // Name search
   const clearBtn = document.querySelector(".btn-clear");
@@ -156,11 +156,11 @@ document.addEventListener("DOMContentLoaded", () => {
       searchInput.value = "";
       searchInput.focus();
       clearSuggestions(resultsBox);
-      filterData();
+      updateResults();
     });
     // Update search suggestions on input
     searchInput.addEventListener("input", () => {
-      filterData();
+      updateResults();
       updateAutoComplete();
     });
     // Click outside to close resultbox
@@ -175,7 +175,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const dropDownFilters = document.querySelectorAll(".inhaler-filter");
   if (dropDownFilters) {
     dropDownFilters.forEach((dropdown) =>
-      dropdown.addEventListener("change", filterData),
+      dropdown.addEventListener("change", updateResults),
     );
   }
 
@@ -185,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     clearFiltersBtn.addEventListener("click", () => {
       const selects = document.querySelectorAll(".search-filter select");
       selects.forEach((s) => (s.selectedIndex = 0));
-      filterData();
+      updateResults();
     });
   }
 
@@ -195,11 +195,11 @@ document.addEventListener("DOMContentLoaded", () => {
     setElementVisibility(gridID, true);
     setElementVisibility(backButtonID, false);
     setElementVisibility(detailID, false);
-    filterData();
+    updateResults();
     // Restore scroll position after making grid visible
     setTimeout(() => window.scrollTo(0, savedScrollPosition), 0);
     // Retain search results after going back from detail view
-    filterData();
+    updateResults();
   });
 
   // Language button
