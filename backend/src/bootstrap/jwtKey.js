@@ -10,14 +10,19 @@ const initJwtKey = async () => {
         await fs.access(jwtKeyFilename);
 
     } catch {
-        genPrivateKey(async (err, key) => {
-            // consider if an error should prevent the launch of the application;
-            // missing JWT private key won't affect the normal use of the site, but admins won't be able to login.
-            if (err) return console.log('Failed to generate a JWT private key!');
+        const key = await genPrivateKey();
 
+        if (key) {
             await fs.writeFile(jwtKeyFilename, key);
             console.log('JWT private key generated');
-        });
+
+        } else {
+            // consider if this should prevent the application from launching;
+            // missing JWT private key won't affect the normal use of the site, but admins won't be able to login.
+            console.log('Failed to generate a JWT private key!');
+        }
+
+        console.log('');
     }
 };
 
