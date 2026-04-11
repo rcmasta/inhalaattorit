@@ -1,8 +1,14 @@
-import { getFilteredIds } from './filter.js';
-import { getInhalers, getFilters } from './api.js';
-import { gridID, detailID, backButtonID, renderInhalerGrid, setElementVisibility } from './render.js'
-import { getCounterString, getTranslation } from './lang.js'
-import { openButtonId, closeButtonId, toggleGuidePanel } from './guide.js';
+import { getFilteredIds } from "./filter.js";
+import { getInhalers, getFilters } from "./api.js";
+import {
+  gridID,
+  detailID,
+  backButtonID,
+  renderInhalerGrid,
+  setElementVisibility,
+} from "./render.js";
+import { getCounterString, getTranslation } from "./lang.js";
+import { openButtonId, closeButtonId, toggleGuidePanel } from "./guide.js";
 
 var currentInhalers = 0;
 var totalInhalers = 0;
@@ -131,7 +137,7 @@ function selectInputText(inputEl) {
   if (!searchInput || !resultsBox) return;
 
   searchInput.value = inputEl.textContent;
-  resultsBox.innerHTML = "";
+  resultsBox.replaceChildren(); // Clear results
   searchInput.focus();
   filterByName();
 }
@@ -149,7 +155,7 @@ function autoCompleteSearch() {
       : [];
 
   if (results.length === 0) {
-    resultsBox.innerHTML = "";
+    resultsBox.replaceChildren();
     return;
   }
 
@@ -167,7 +173,7 @@ function autoCompleteSearch() {
     ul.appendChild(li);
   });
 
-  resultsBox.innerHTML = "";
+  resultsBox.replaceChildren();
   resultsBox.appendChild(ul);
 }
 
@@ -182,9 +188,11 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  
+
   // Age filter
-  document.getElementById("inhaler-age-select").addEventListener("input", filterData);
+  document
+    .getElementById("inhaler-age-select")
+    .addEventListener("input", filterData);
 
   // Name search
   const clearBtn = document.querySelector(".btn-clear");
@@ -231,27 +239,26 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => window.scrollTo(0, savedScrollPosition), 0);
   });
 
-    // Language button
-    const langBtn = document.querySelector(".lang-toggle");
-    if (langBtn) {
-        langBtn.addEventListener("click", function() {
-            setTimeout(() => location.reload(), 50);
-            updateCounter();
-            renderInhalerGrid(inhalers);
-            
-        });
-    }
-
-    // Guide panel
-    const guideButtonOpen = document.getElementById(openButtonId);
-    guideButtonOpen.addEventListener("click", function () {
-        toggleGuidePanel(true);
+  // Language button
+  const langBtn = document.querySelector(".lang-toggle");
+  if (langBtn) {
+    langBtn.addEventListener("click", function () {
+      setTimeout(() => location.reload(), 50);
+      updateCounter();
+      renderInhalerGrid(inhalers);
     });
+  }
 
-    const guideButtonClose = document.getElementById(closeButtonId);
-    guideButtonClose.addEventListener("click", function() {
-        toggleGuidePanel(false);
-    });
+  // Guide panel
+  const guideButtonOpen = document.getElementById(openButtonId);
+  guideButtonOpen.addEventListener("click", function () {
+    toggleGuidePanel(true);
+  });
+
+  const guideButtonClose = document.getElementById(closeButtonId);
+  guideButtonClose.addEventListener("click", function () {
+    toggleGuidePanel(false);
+  });
 });
 
 // Load data
