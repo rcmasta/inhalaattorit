@@ -161,10 +161,9 @@
         <main class="search-main">
             <!-- Name search -->
             <section class="search-name">
-                <h2 data-i18n="search.heading">Hae lääke / inhalaattori nimellä</h2>
+                <h2 id="search-name-heading" data-i18n="search.heading">Hae lääke / inhalaattori nimellä</h2>
                 <div class="search-bar">
-                    <label for="inhaler-name" data-i18n="search.label">Nimi</label>
-                    <input type="search" id="inhaler-name" name="search" placeholder="Hae nimellä..." data-i18n-placeholder="search.placeholder"/>
+                    <input type="search" id="inhaler-name" name="search" placeholder="Hae nimellä..." data-i18n-placeholder="search.placeholder" aria-labelledby="search-name-heading"/>
                     <button class="btn-clear" data-i18n="search.clear">Tyhjennä</button>
                 </div>
                 <div id="search-suggestions" class="result-box">
