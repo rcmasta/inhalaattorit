@@ -124,6 +124,7 @@ main {
 
 .search-bar {
     display: flex;
+    flex-wrap: wrap;
     gap: 0.8rem;
 }
 
@@ -261,6 +262,7 @@ main {
 }
 
 #results-grid {
+    min-width: 0;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
@@ -366,26 +368,6 @@ main {
     text-align: center;
 }
 
-
-@media (max-width: 768px) {
-    .detail-view {
-        gap: 1.5rem;
-        padding: 1.5rem;
-    }
-
-    .detail-view-img {
-        min-height: 250px;
-    }
-
-    .detail-action-buttons {
-        flex-direction: column;
-    }
-
-    .btn-primary {
-        width: 100%;
-    }
-}
-
 #return-to-gridview {
     background: #f0f0f0;
     color: #2c3e50;
@@ -432,8 +414,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #8a9bb5;
-    font-size: 0.9rem;
+    overflow: hidden;
 }
 
 .card-img img {
@@ -1143,6 +1124,27 @@ footer {
 /* Tablet */
 
 @media (max-width: 768px) {
+
+    body {
+        grid-template-columns: 1fr;
+    }
+
+    .detail-view {
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+
+    .detail-view-img {
+        min-height: 250px;
+    }
+
+    .detail-action-buttons {
+        flex-direction: column;
+    }
+
+    .btn-primary {
+        width: 100%;
+    }
     .nav-toggle {
         display: block;
     }
@@ -1167,11 +1169,13 @@ footer {
     }
 
     main {
+        grid-column: 1;
         padding: 1rem;
     }
 
     .search-main {
         grid-template-columns: 1fr;
+        min-width: 0;
     }
 
     .search-filter {
@@ -1186,6 +1190,7 @@ footer {
     .results {
         grid-column: 1;
         grid-row: auto;
+        min-width: 0;
     }
 
     .filter-toggle {
@@ -1208,8 +1213,9 @@ footer {
         display: none;
     }
 
-    .results-grid {
+    #results-grid {
         grid-template-columns: repeat(2, 1fr);
+        min-width: 0;
     }
 
     .panel-header {
@@ -1283,11 +1289,12 @@ footer {
         padding: 1rem;
     }
 
-    .results-grid {
+    #results-grid {
         grid-template-columns: 1fr;
     }
 
     .card-img {
-        height: 100px;
+        max-height: 100%;
+        width: auto;
     }
 }
