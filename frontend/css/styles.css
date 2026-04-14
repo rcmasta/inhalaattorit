@@ -665,7 +665,7 @@ main {
     border: none;
     cursor: pointer;
     font-size: 1rem;
-    color: #888;
+    color: #666;
     padding: 0;
 }
 
@@ -692,7 +692,7 @@ main {
 .forgot-password {
     margin-top: 1rem;
     font-size: 0.78rem;
-    color: #888;
+    color: #666;
     text-align: center;
 }
 

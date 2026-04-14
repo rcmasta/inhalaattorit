@@ -175,7 +175,7 @@
                         <form id="brand-form" class="management-form">
                             <h4 id="brand-form-heading" data-i18n="admin.brand-add">Lisää inhalaattorimerkki</h4>
                             <div class="management-form-row">
-                                <input type="text" id="brand-name" placeholder="Nimi (esim. Ellipta)" data-i18n-placeholder="admin.brand-ph" required/>
+                                <input type="text" id="brand-name" placeholder="Nimi (esim. Ellipta)" data-i18n-placeholder="admin.brand-ph" aria-labelledby="brand-form-heading" required/>
                                 <button type="submit" class="btn-add" id="brand-submit-btn" data-i18n="admin.btn-add">Lisää</button>
                                 <button type="button" class="btn-cancel" id="brand-cancel-btn" style="display:none" data-i18n="admin.cancel">Peruuta</button>
                             </div>
@@ -198,7 +198,7 @@
                         <form id="drug-class-form" class="management-form">
                             <h4 id="drug-class-form-heading" data-i18n="admin.dc-add">Lisää lääkeaineluokka</h4>
                             <div class="management-form-row">
-                                <input type="text" id="dc-name" placeholder="Nimi (esim. ICS)" data-i18n-placeholder="admin.dc-ph" required/>
+                                <input type="text" id="dc-name" placeholder="Nimi (esim. ICS)" data-i18n-placeholder="admin.dc-ph" aria-labelledby="drug-class-form-heading" required/>
                                 <button type="submit" class="btn-add" id="dc-submit-btn" data-i18n="admin.btn-add">Lisää</button>
                                 <button type="button" class="btn-cancel" id="dc-cancel-btn" style="display:none" data-i18n="admin.cancel">Peruuta</button>
                             </div>
@@ -223,8 +223,8 @@
                         <form id="ingredient-form" class="management-form">
                             <h4 id="ingredient-form-heading" data-i18n="admin.ai-add">Lisää lääkeaine</h4>
                             <div class="management-form-row">
-                                <input type="text" id="ai-name-fi" placeholder="Nimi (suomi)" data-i18n-placeholder="admin.ai-fi-ph" required/>
-                                <input type="text" id="ai-name-sv" placeholder="Namn (svenska)" data-i18n-placeholder="admin.ai-sv-ph" required/>
+                                <input type="text" id="ai-name-fi" placeholder="Nimi (suomi)" data-i18n-placeholder="admin.ai-fi-ph" aria-labelledby="ingredient-form-heading" required/>
+                                <input type="text" id="ai-name-sv" placeholder="Namn (svenska)" data-i18n-placeholder="admin.ai-sv-ph" aria-labelledby="ingredient-form-heading" required/>
                                 <select id="ai-drug-class" required>
                                     <option value="" data-i18n="admin.class-select">Luokka...</option>
                                 </select>
