@@ -9,6 +9,7 @@
     </head>
 
     <body>
+        <!-- Navigation and localisation header -->
         <header>
             <div class="header-content">
                 <h1 data-i18n="site.title">Inhalaattorit.fi</h1>
@@ -25,7 +26,9 @@
             </div>
         </header>
 
+        <!-- Admin portal -->
         <main>
+            <!-- Login -->
             <div class="admin-login" id="login-view">
                 <h2 data-i18n="admin.login-heading">Kirjaudu sisään</h2>
                 <form id="admin-login-form">
@@ -43,6 +46,7 @@
                 <p class="forgot-password" data-i18n="admin.forgot-pw">Unohditko salasanan? Ota yhteyttä ylläpitoon.</p>
             </div>
 
+            <!-- Admin panel -->
             <div class="admin-panel" id="panel-view" style="display: none;">
                 <div class="panel-header">
                     <h2 data-i18n="admin.panel-heading">Hallintapaneeli</h2>
@@ -54,6 +58,7 @@
 
                 <p class="panel-hint" data-i18n="admin.scroll-hint">Vihje: inhalaattorilistan alapuolelta löydät myös inhalaattorimerkkien, lääkeaineluokkien ja vaikuttavien lääkeaineiden hallinnan.</p>
 
+                <!-- Add inhaler form -->
                 <div class="add-form-wrap" id="add-form" style="display: none;">
                     <h3 data-i18n="admin.form-heading">Lisää uusi inhalaattori</h3>
                     <form id="add-inhaler-form">
@@ -143,6 +148,7 @@
                     </form>
                 </div>
 
+                <!-- Inhaler table -->
                 <div class="panel-table-wrap">
                     <table class="panel-table">
                         <thead>
@@ -160,6 +166,8 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Inhaler brands -->
                 <div class="management-section" id="brand-section">
                     <button class="btn-toggle-section" type="button" data-i18n="admin.brands-heading">Inhalaattorimerkit (Ellipta, Turbuhaler...)</button>
                     <div class="section-content" style="display:none">
@@ -183,6 +191,7 @@
                     </div>
                 </div>
 
+                <!-- Drug classes -->
                 <div class="management-section" id="drug-class-section">
                     <button class="btn-toggle-section" type="button" data-i18n="admin.dc-heading">Lääkeaineluokat (ICS, LABA...)</button>
                     <div class="section-content" style="display:none">
@@ -206,6 +215,7 @@
                     </div>
                 </div>
 
+                <!-- Ingredients -->
                 <div class="management-section" id="ingredient-section">
                     <button class="btn-toggle-section" type="button" data-i18n="admin.ai-heading">Vaikuttavat lääkeaineet</button>
                     <div class="section-content" style="display:none">
@@ -237,8 +247,9 @@
             </div>
         </main>
 
+        <!-- Footer -->
         <footer>
-            <p>&copy; Inhalaattorit.fi | <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a></p>
+            <p>&copy; 2026 Inhalaattorit.fi | <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a> | <a href="saavutettavuus.html" data-i18n="accessibility.link">Saavutettavuusseloste</a></p>
         </footer>
         <script src="./js/navigation.js"></script>
         <script type="module" src="./js/lang.js"></script>
