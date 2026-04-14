@@ -1,1 +1,0 @@
-This file is to prevent data/db/ folder from not existing.
