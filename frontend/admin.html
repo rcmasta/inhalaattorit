@@ -9,9 +9,10 @@
     </head>
 
     <body>
+        <!-- Navigation and localisation header -->
         <header>
             <div class="header-content">
-                <h1><a href="/" data-i18n="site.title">Inhalaattorit.fi</a></h1>
+                <h1 data-i18n="site.title">Inhalaattorit.fi</h1>
                 <button class="nav-toggle" aria-label="Avaa valikko">&#9776;</button>
                 <nav>
                     <ul>
@@ -19,13 +20,15 @@
                         <li><a href="tietoa.html" class="nav-link" data-i18n="nav.about">Tietoa sivustosta</a></li>
                         <li><a href="palaute.html" class="nav-link" data-i18n="nav.feedback">Ota yhteyttä</a></li>
                         <li><a href="admin.html" class="nav-link" data-i18n="nav.admin">Admin</a></li>
-                        <li><button class="lang-toggle" aria-label="Vaihda kieli">FI</button></li>
+                        <li><button class="lang-toggle" aria-label="FI - Vaihda kieli">FI</button></li>
                     </ul>
                 </nav>
             </div>
         </header>
 
+        <!-- Admin portal -->
         <main>
+            <!-- Login -->
             <div class="admin-login" id="login-view">
                 <h2 data-i18n="admin.login-heading">Kirjaudu sisään</h2>
                 <form id="admin-login-form">
@@ -43,6 +46,7 @@
                 <p class="forgot-password" data-i18n="admin.forgot-pw">Unohditko salasanan? Ota yhteyttä ylläpitoon.</p>
             </div>
 
+            <!-- Admin panel -->
             <div class="admin-panel" id="panel-view" style="display: none;">
                 <div class="panel-header">
                     <h2 data-i18n="admin.panel-heading">Hallintapaneeli</h2>
@@ -54,6 +58,7 @@
 
                 <p class="panel-hint" data-i18n="admin.scroll-hint">Vihje: inhalaattorilistan alapuolelta löydät myös inhalaattorimerkkien, lääkeaineluokkien ja vaikuttavien lääkeaineiden hallinnan.</p>
 
+                <!-- Add inhaler form -->
                 <div class="add-form-wrap" id="add-form" style="display: none;">
                     <h3 data-i18n="admin.form-heading">Lisää uusi inhalaattori</h3>
                     <form id="add-inhaler-form">
@@ -143,6 +148,7 @@
                     </form>
                 </div>
 
+                <!-- Inhaler table -->
                 <div class="panel-table-wrap">
                     <table class="panel-table">
                         <thead>
@@ -160,6 +166,8 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Inhaler brands -->
                 <div class="management-section" id="brand-section">
                     <button class="btn-toggle-section" type="button" data-i18n="admin.brands-heading">Inhalaattorimerkit (Ellipta, Turbuhaler...)</button>
                     <div class="section-content" style="display:none">
@@ -175,7 +183,7 @@
                         <form id="brand-form" class="management-form">
                             <h4 id="brand-form-heading" data-i18n="admin.brand-add">Lisää inhalaattorimerkki</h4>
                             <div class="management-form-row">
-                                <input type="text" id="brand-name" placeholder="Nimi (esim. Ellipta)" data-i18n-placeholder="admin.brand-ph" required/>
+                                <input type="text" id="brand-name" placeholder="Nimi (esim. Ellipta)" data-i18n-placeholder="admin.brand-ph" aria-labelledby="brand-form-heading" required/>
                                 <button type="submit" class="btn-add" id="brand-submit-btn" data-i18n="admin.btn-add">Lisää</button>
                                 <button type="button" class="btn-cancel" id="brand-cancel-btn" style="display:none" data-i18n="admin.cancel">Peruuta</button>
                             </div>
@@ -183,6 +191,7 @@
                     </div>
                 </div>
 
+                <!-- Drug classes -->
                 <div class="management-section" id="drug-class-section">
                     <button class="btn-toggle-section" type="button" data-i18n="admin.dc-heading">Lääkeaineluokat (ICS, LABA...)</button>
                     <div class="section-content" style="display:none">
@@ -198,7 +207,7 @@
                         <form id="drug-class-form" class="management-form">
                             <h4 id="drug-class-form-heading" data-i18n="admin.dc-add">Lisää lääkeaineluokka</h4>
                             <div class="management-form-row">
-                                <input type="text" id="dc-name" placeholder="Nimi (esim. ICS)" data-i18n-placeholder="admin.dc-ph" required/>
+                                <input type="text" id="dc-name" placeholder="Nimi (esim. ICS)" data-i18n-placeholder="admin.dc-ph" aria-labelledby="drug-class-form-heading" required/>
                                 <button type="submit" class="btn-add" id="dc-submit-btn" data-i18n="admin.btn-add">Lisää</button>
                                 <button type="button" class="btn-cancel" id="dc-cancel-btn" style="display:none" data-i18n="admin.cancel">Peruuta</button>
                             </div>
@@ -206,6 +215,7 @@
                     </div>
                 </div>
 
+                <!-- Ingredients -->
                 <div class="management-section" id="ingredient-section">
                     <button class="btn-toggle-section" type="button" data-i18n="admin.ai-heading">Vaikuttavat lääkeaineet</button>
                     <div class="section-content" style="display:none">
@@ -223,8 +233,8 @@
                         <form id="ingredient-form" class="management-form">
                             <h4 id="ingredient-form-heading" data-i18n="admin.ai-add">Lisää lääkeaine</h4>
                             <div class="management-form-row">
-                                <input type="text" id="ai-name-fi" placeholder="Nimi (suomi)" data-i18n-placeholder="admin.ai-fi-ph" required/>
-                                <input type="text" id="ai-name-sv" placeholder="Namn (svenska)" data-i18n-placeholder="admin.ai-sv-ph" required/>
+                                <input type="text" id="ai-name-fi" placeholder="Nimi (suomi)" data-i18n-placeholder="admin.ai-fi-ph" aria-labelledby="ingredient-form-heading" required/>
+                                <input type="text" id="ai-name-sv" placeholder="Namn (svenska)" data-i18n-placeholder="admin.ai-sv-ph" aria-labelledby="ingredient-form-heading" required/>
                                 <select id="ai-drug-class" required>
                                     <option value="" data-i18n="admin.class-select">Luokka...</option>
                                 </select>
@@ -237,8 +247,9 @@
             </div>
         </main>
 
+        <!-- Footer -->
         <footer>
-            <p>&copy; Inhalaattorit.fi | <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a></p>
+            <p>&copy; 2026 Inhalaattorit.fi | <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a> | <a href="saavutettavuus.html" data-i18n="accessibility.link">Saavutettavuusseloste</a></p>
         </footer>
         <script src="./js/navigation.js"></script>
         <script type="module" src="./js/lang.js"></script>

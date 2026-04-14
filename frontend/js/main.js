@@ -1,11 +1,14 @@
+
 import { getFilteredIds } from "./filter.js";
 import { getInhalers, getFilters } from "./api.js";
 import {
   gridID,
   detailID,
   backButtonID,
+  resultCountID,
   renderInhalerGrid,
   setElementVisibility,
+  getLastFocusedCard
 } from "./render.js";
 import { getCounterString, getTranslation } from "./lang.js";
 import { openButtonId, closeButtonId, toggleGuidePanel } from "./guide.js";
@@ -197,7 +200,10 @@ document.addEventListener("DOMContentLoaded", () => {
     setElementVisibility(detailID, false);
     updateResults();
     // Restore scroll position after making grid visible
-    setTimeout(() => window.scrollTo(0, savedScrollPosition), 0);
+    setTimeout(() => {
+      window.scrollTo(0, savedScrollPosition);
+      document.getElementById(getLastFocusedCard()).focus();
+    }, 0);
     // Retain search results after going back from detail view
     updateResults();
   });

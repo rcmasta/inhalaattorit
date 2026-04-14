@@ -13,6 +13,7 @@ var sv = {
     "nav.about": "Om denna webbplats",
     "nav.feedback": "Kontakt",
     "nav.admin": "Admin",
+    "nav.lang-label": "SV - Byt språk",
     "site.title": "Inhalaattorit.fi",
     "search.heading": "Sök efter ett läkemedel / en inhalator med namn",
     "search.clear": "Rensa",
@@ -49,6 +50,7 @@ var sv = {
     "filter.symptomatic": "Symtomläkemedel",
     "results.heading": "Inhalatorer",
     "privacy.link": "Dataskyddsbeskrivning",
+    "accessibility.link": "Tillgänglighetsutlåtande",
     "search.placeholder": "Sök efter namn...",
 
     // Admin
@@ -192,6 +194,7 @@ var fi = {
 };
 
 const fiCounter = "Näytetään {current}/{total}";
+const fiLangLabel = "FI - Vaihda kieli";
 
 export function getCounterString() {
     const el = document.getElementById("result-count");
@@ -247,6 +250,7 @@ function updateToggle(lang) {
     img.src = lang === "fi" ? flagFi : flagSv;
     var label = document.createTextNode(lang === "fi" ? "FI" : "SV");
     btn.replaceChildren(img, label);
+    btn.ariaLabel = lang === "fi" ? fiLangLabel : sv["nav.lang-label"];
 }
 
 document.addEventListener("DOMContentLoaded", function() {
