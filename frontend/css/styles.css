@@ -151,6 +151,10 @@ main {
     font-size: 0.9rem;
 }
 
+.full-width {
+    width: 100%;
+}
+
 .btn-clear:hover {
     background: #f0f0f0;
 }
@@ -556,6 +560,10 @@ main {
 
 .page-content a:hover {
     text-decoration: none;
+}
+
+.with-margin {
+    margin: 1.5rem 0.8rem 1.5rem;
 }
 
 /* Disclaimer section: visually distinct but readable */
@@ -1142,7 +1150,7 @@ footer {
         flex-direction: column;
     }
 
-    .btn-primary {
+    .btn-primary, .btn-clear {
         width: 100%;
     }
     .nav-toggle {
@@ -1267,6 +1275,10 @@ footer {
     .page-content h3 {
         font-size: 1.15rem;
     }
+
+    .with-margin {
+    margin: 0.8rem 0.8rem 0;
+}
 }
 
 /* Mobile */
