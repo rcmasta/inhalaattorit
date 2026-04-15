@@ -196,6 +196,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const backButton = document.getElementById(backButtonID);
   backButton.addEventListener("click", () => {
     setElementVisibility(gridID, true);
+    setElementVisibility(resultCountID, true);
     setElementVisibility(backButtonID, false);
     setElementVisibility(detailID, false);
     updateResults();
