@@ -159,9 +159,12 @@ function buildCardInfoSection(inhaler) {
         cardInfoSection.appendChild(infoBrand);
     }    
 
-    const infoRecommendedAge = document.createElement(lineTag);
-    infoRecommendedAge.textContent = getTranslation("card.recommended-age") + inhaler.recommended_min_age;
-    cardInfoSection.appendChild(infoRecommendedAge);
+    // If null do not show age
+    if (inhaler.recommended_min_age) {
+        const infoRecommendedAge = document.createElement(lineTag);
+        infoRecommendedAge.textContent = getTranslation("card.recommended-age") + inhaler.recommended_min_age;
+        cardInfoSection.appendChild(infoRecommendedAge);
+    } 
 
     const infoActiveIngrediend = document.createElement(lineTag);
     infoActiveIngrediend.style.whiteSpace = "pre-line";
@@ -271,14 +274,14 @@ function buildDetailInfoSection(inhaler) {
 
     appendInfoItem(
         ageSection,
-        getTranslation("detail.official-age"),
-        inhaler.official_min_age + getTranslation("detail.years")
+        getTranslation("detail.official-age"), 
+        inhaler.official_min_age !== null ? inhaler.official_min_age + getTranslation("detail.years") : ""
     );
 
     appendInfoItem(
         ageSection,
         getTranslation("detail.recommended-age"),
-        inhaler.recommended_min_age + getTranslation("detail.years")
+        inhaler.recommended_min_age !== null ? inhaler.recommended_min_age + getTranslation("detail.years") : ""
     );
 
     appendInfoItem(
@@ -335,7 +338,7 @@ function buildDetailInfoSection(inhaler) {
     detailInfoSection.appendChild(ingredientsSection);
 
     // Description section
-    if (inhaler.description) {
+    if (inhaler.description != null) {
         const descSection = document.createElement("div");
         descSection.classList.add("detail-info-section");
         const descContent = document.createElement("p");
@@ -346,31 +349,34 @@ function buildDetailInfoSection(inhaler) {
     }
 
     // Links section
-    const linksSection = document.createElement("div");
-    linksSection.classList.add("detail-action-buttons");
+    if (inhaler.links != null) {
+        const linksSection = document.createElement("div");
+        linksSection.classList.add("detail-action-buttons");
 
-    if (inhaler.links.database) {
-        const linkDatabase = document.createElement("a");
-        linkDatabase.href = inhaler.links.database;
-        linkDatabase.textContent = getTranslation("detail.database-link");
-        linkDatabase.target = "_blank";
-        linkDatabase.classList.add("btn-primary");
-        linksSection.appendChild(linkDatabase);
+        if (inhaler.links.database != null) {
+            const linkDatabase = document.createElement("a");
+            linkDatabase.href = inhaler.links.database;
+            linkDatabase.textContent = getTranslation("detail.database-link");
+            linkDatabase.target = "_blank";
+            linkDatabase.classList.add("btn-primary");
+            linksSection.appendChild(linkDatabase);
+        }
+
+        if (inhaler.links.tutorial != null) {
+            const linkTutorial = document.createElement("a");
+            linkTutorial.href = inhaler.links.tutorial;
+            linkTutorial.textContent = getTranslation("detail.tutorial-link");
+            linkTutorial.target = "_blank";
+            linkTutorial.classList.add("btn-primary");
+            linksSection.appendChild(linkTutorial);
+        }
+
+        detailInfoSection.appendChild(linksSection);
     }
 
-    if (inhaler.links.tutorial) {
-        const linkTutorial = document.createElement("a");
-        linkTutorial.href = inhaler.links.tutorial;
-        linkTutorial.textContent = getTranslation("detail.tutorial-link");
-        linkTutorial.target = "_blank";
-        linkTutorial.classList.add("btn-primary");
-        linksSection.appendChild(linkTutorial);
+        return detailInfoSection;
     }
 
-    detailInfoSection.appendChild(linksSection);
-
-    return detailInfoSection;
-}
 
 /**
  * Builds the image section for inhaler cards and detail view
