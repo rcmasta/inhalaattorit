@@ -10,7 +10,7 @@ export function getFilteredIds(data, filters) {
     data.forEach(item => {
         var addToSet = true;
         for (const [key, value] of Object.entries(filters)) {
-            if (value === "" || value === null) continue;
+            if (value === "" || value === null || (Array.isArray(value) && value.length === 0)) continue;
             if (!matchesFilter(item, key, value)) {
                 addToSet = false;
                 break;
@@ -23,43 +23,49 @@ export function getFilteredIds(data, filters) {
 }
 
 function matchesFilter(item, key, value) {
+    const values = Array.isArray(value) ? value : [value];
+
     // Purpose maps to two separate boolean fields
     if (key === "purpose") {
-        if (value === "treatment") return item.treatment_medicine === 1;
-        if (value === "symptomatic") return item.symptomatic_medicine === 1;
-        return true;
+        return values.every(selectedValue => {
+            if (selectedValue === "treatment") return item.treatment_medicine === 1;
+            if (selectedValue === "symptomatic") return item.symptomatic_medicine === 1;
+            return true;
+        });
     }
 
     // Drug class is nested inside active_ingredients
     if (key === "drug_class_name") {
         if (!item.active_ingredients) return false;
-        return item.active_ingredients.some(ai => ai.drug_class_name === value);
+        const drugClassNames = item.active_ingredients.map(ai => ai.drug_class_name);
+        return values.every(selectedValue => drugClassNames.includes(selectedValue));
     }
 
     // Boolean fields (0/1 in backend)
     if (key === "good_intake_speed" || key === "good_coordination") {
-        return item[key] === Number(value);
+        return values.some(selectedValue => item[key] === Number(selectedValue));
     }
 
     // Number fields
     // After
     if (key === "recommended_min_age") {
-        return item[key] <= Number(value);
+        return item[key] <= Number(values[0]);
     }
     if (key === "times_a_day") {
-        return item[key] === Number(value);
+        return values.some(selectedValue => item[key] === Number(selectedValue));
     }
 
     // Object with name (inhaler_brand: {id, name})
     if (key === "inhaler_brand") {
-        return item.inhaler_brand && item.inhaler_brand.name === value;
+        return item.inhaler_brand && values.includes(item.inhaler_brand.name);
     }
 
     // Array of objects with name (intake_styles, active_ingredients, colors)
     if (Array.isArray(item[key])) {
-        return item[key].some(obj => obj.name === value);
+        const itemNames = item[key].map(obj => obj.name);
+        return values.every(selectedValue => itemNames.includes(selectedValue));
     }
 
     // Fallback: simple string match
-    return item[key] === value;
+    return values.includes(item[key]);
 }

@@ -82,9 +82,6 @@ nav ul {
 }
 
 /* Guide */
-aside {
-
-}
 
 aside ul {
     list-style-type: none;
@@ -204,15 +201,6 @@ main {
     margin-bottom: 0.3rem;
 }
 
-.search-filter select {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 0.9rem;
-    margin-bottom: 0.8rem;
-    background: #fff;
-}
 
 .btn-clear-filters {
     width: 100%;
@@ -231,23 +219,117 @@ main {
 
 
 .search-filter select {
+    appearance: none;
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.5rem 1.5rem 0.5rem 0.75rem;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 0.9rem;
     margin-bottom: 0.8rem;
     background: #fff;
+    color: #2b3642;
+    line-height: 1.4;
+    cursor: pointer;
+    background-image: linear-gradient(45deg, transparent 50%, #666 50%), linear-gradient(135deg, #666 50%, transparent 50%);
+    background-position: calc(100% - 1rem) calc(50% - 0.1rem), calc(100% - 0.7rem) calc(50% - 0.1rem);
+    background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+}
+
+.search-filter select option {
+    margin: 0;
+    padding: 0;
+    line-height: 1.2;
+}
+
+
+.search-filter select.inhaler-filter-native {
+    display: none;
 }
 
 #inhaler-age-select {
     width: 100%;
-    padding: 0.5rem;
+    padding: 0.5rem 0.75rem;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 0.9rem;
     margin-bottom: 0.8rem;
     background: #fff;
+    color: #2b3642;
+}
+
+.inhaler-multiselect {
+    position: relative;
+    margin-bottom: 0.8rem;
+}
+
+.inhaler-multiselect-trigger {
+    width: 100%;
+    padding: 0.5rem 2.2rem 0.5rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 0.9rem;
+    color: #2b3642;
+    text-align: left;
+    cursor: pointer;
+    line-height: 1.4;
+    background-image: linear-gradient(45deg, transparent 50%, #666 50%), linear-gradient(135deg, #666 50%, transparent 50%);
+    background-position: calc(100% - 1rem) calc(50% - 0.1rem), calc(100% - 0.7rem) calc(50% - 0.1rem);
+    background-size: 0.35rem 0.35rem, 0.35rem 0.35rem;
+    background-repeat: no-repeat;
+}
+
+.inhaler-multiselect-trigger::after {
+    content: none;
+}
+
+.inhaler-multiselect.open .inhaler-multiselect-trigger {
+    border-color: #7ba0c4;
+    box-shadow: 0 0 0 2px rgba(123, 160, 196, 0.18);
+}
+
+.inhaler-multiselect-panel {
+    position: absolute;
+    top: calc(100% + 0.3rem);
+    left: 0;
+    right: 0;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-height: 220px;
+    overflow-y: auto;
+    border: 1px solid #a8a8a8;
+    border-radius: 0px;
+    background: #fff;
+    
+}
+
+.inhaler-multiselect-option {
+    display: flex;
+    align-items: center;
+    padding: 0.35rem 0.45rem;
+    font-size: 0.95rem;
+    color: #22303c;
+    cursor: pointer;
+}
+
+.inhaler-multiselect-option span {
+    margin-left: 0.2rem;
+    position: relative;
+    top: -0.06rem;
+}
+
+.inhaler-multiselect-option:hover {
+    background: rgb(25, 103, 210);
+    color: white;
+}
+
+.inhaler-multiselect-option input[type="checkbox"] {
+    width: auto;
+    margin: 0;
+    accent-color: #2c3e50;
 }
 
 
@@ -291,8 +373,9 @@ main {
     align-items: center;
     background: #f8f9fa;
     border-radius: 10px;
-    padding: 2rem;
+    padding: 0rem;
     min-height: 300px;
+    position: relative;
 }
 
 .detail-view-img img {
@@ -411,6 +494,7 @@ main {
 .card-img {
     background: #e4ecf4;
     max-height: 245px;
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -420,6 +504,17 @@ main {
 .card-img img {
     max-width: 100%;
     object-fit: contain;
+}
+
+.card-img .inhaler-image-badge,
+.detail-view-img .inhaler-image-badge {
+    position: absolute;
+    top: 0.65rem;
+    right: 0.65rem;
+    width: 2.5rem;
+    height: auto;
+    max-height: 2.5rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.18);
 }
 
 .card-info {
@@ -1209,6 +1304,8 @@ footer {
 
     .search-filter.collapsed label,
     .search-filter.collapsed select,
+    .search-filter.collapsed .inhaler-multiselect,
+    .search-filter.collapsed #inhaler-age-select,
     .search-filter.collapsed .btn-clear-filters {
         display: none;
     }

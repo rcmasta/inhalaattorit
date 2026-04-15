@@ -7,6 +7,7 @@ import {
   backButtonID,
   resultCountID,
   renderInhalerGrid,
+  refreshInhalerCardImageBadges,
   setElementVisibility,
   getLastFocusedCard
 } from "./render.js";
@@ -23,6 +24,14 @@ import {
 var currentInhalers = 0;
 var totalInhalers = 0;
 var savedScrollPosition = 0;
+const multiSelectClass = "inhaler-multiselect";
+const multiSelectFilterIds = new Set([
+  "inhaler-form-select",
+  "inhaler-purpose-select",
+  "inhaler-drug-group-select",
+  "inhaler-active-substance-select",
+  "inhaler-color-select",
+]);
 
 function updateCounter() {
   const counterStr = getCounterString()
@@ -34,11 +43,22 @@ function updateCounter() {
 }
 
 function getFilterObject() {
-  const selects = document.querySelectorAll(".inhaler-filter");
   const filters = {};
 
-  selects.forEach((select) => {
-    filters[select.name] = select.value;
+  document.querySelectorAll("input.inhaler-filter").forEach((input) => {
+    filters[input.name] = input.value;
+  });
+
+  document
+    .querySelectorAll(".search-filter select.inhaler-filter:not(.inhaler-filter-native)")
+    .forEach((select) => {
+      filters[select.name] = select.value;
+    });
+
+  document.querySelectorAll(`.${multiSelectClass}`).forEach((multiSelect) => {
+    const selectedValues = getSelectedMultiSelectValues(multiSelect);
+    filters[multiSelect.dataset.name] =
+      selectedValues.length > 0 ? selectedValues : "";
   });
 
   return filters;
@@ -59,6 +79,8 @@ function updateResults() {
   [...renderTarget.children].forEach((card) => {
     setElementVisibility(card.id, filterIds.has(card.id));
   });
+
+  refreshInhalerCardImageBadges();
 }
 
 // Add <option> elements to a <select>
@@ -72,6 +94,142 @@ function addOptions(selectId, values, labelFn) {
     opt.textContent = labelFn ? labelFn(val) : String(val);
     select.appendChild(opt);
   }
+}
+
+function initializeMultiSelectFilters() {
+  const selects = document.querySelectorAll(".search-filter select.inhaler-filter");
+
+  selects.forEach((select) => {
+    if (!multiSelectFilterIds.has(select.id)) return;
+    if (select.dataset.multiselectReady === "true") return;
+
+    const placeholder =
+      select.options.length > 0 ? select.options[0].textContent : "";
+    const options = [...select.options]
+      .filter((option) => option.value !== "")
+      .map((option) => ({
+        label: option.textContent,
+        value: option.value,
+      }));
+
+    const multiSelect = buildMultiSelect(select.name, placeholder, options);
+    select.insertAdjacentElement("afterend", multiSelect);
+    select.classList.add("inhaler-filter-native");
+    select.dataset.multiselectReady = "true";
+  });
+}
+
+function buildMultiSelect(name, placeholder, options) {
+  const wrapper = document.createElement("div");
+  wrapper.classList.add(multiSelectClass);
+  wrapper.dataset.name = name;
+  wrapper.dataset.placeholder = placeholder;
+
+  const trigger = document.createElement("button");
+  trigger.type = "button";
+  trigger.classList.add("inhaler-multiselect-trigger");
+  trigger.setAttribute("aria-expanded", "false");
+  trigger.textContent = placeholder;
+  trigger.addEventListener("click", (event) => {
+    event.stopPropagation();
+    toggleMultiSelect(wrapper);
+  });
+
+  const panel = document.createElement("div");
+  panel.classList.add("inhaler-multiselect-panel");
+  panel.hidden = true;
+
+  options.forEach((option) => {
+    const optionLabel = document.createElement("label");
+    optionLabel.classList.add("inhaler-multiselect-option");
+
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = option.value;
+    checkbox.addEventListener("change", () => {
+      updateMultiSelectTrigger(wrapper);
+      updateResults();
+    });
+
+    const text = document.createElement("span");
+    text.textContent = option.label;
+
+    optionLabel.appendChild(checkbox);
+    optionLabel.appendChild(text);
+    panel.appendChild(optionLabel);
+  });
+
+  wrapper.appendChild(trigger);
+  wrapper.appendChild(panel);
+
+  return wrapper;
+}
+
+function toggleMultiSelect(targetMultiSelect) {
+  document.querySelectorAll(`.${multiSelectClass}`).forEach((multiSelect) => {
+    const isTarget = multiSelect === targetMultiSelect;
+    setMultiSelectOpen(multiSelect, isTarget ? !isMultiSelectOpen(multiSelect) : false);
+  });
+}
+
+function setMultiSelectOpen(multiSelect, isOpen) {
+  const trigger = multiSelect.querySelector(".inhaler-multiselect-trigger");
+  const panel = multiSelect.querySelector(".inhaler-multiselect-panel");
+
+  if (!trigger || !panel) return;
+
+  trigger.setAttribute("aria-expanded", String(isOpen));
+  panel.hidden = !isOpen;
+  multiSelect.classList.toggle("open", isOpen);
+}
+
+function isMultiSelectOpen(multiSelect) {
+  return multiSelect.classList.contains("open");
+}
+
+function getSelectedMultiSelectValues(multiSelect) {
+  return [...multiSelect.querySelectorAll('input[type="checkbox"]:checked')].map(
+    (checkbox) => checkbox.value,
+  );
+}
+
+function updateMultiSelectTrigger(multiSelect) {
+  const trigger = multiSelect.querySelector(".inhaler-multiselect-trigger");
+  if (!trigger) return;
+
+  const checkedOptions = [
+    ...multiSelect.querySelectorAll('input[type="checkbox"]:checked'),
+  ];
+
+  if (checkedOptions.length === 0) {
+    trigger.textContent = multiSelect.dataset.placeholder || "";
+    return;
+  }
+
+  const selectedLabels = checkedOptions.map(
+    (checkbox) => checkbox.nextElementSibling?.textContent || checkbox.value,
+  );
+
+  trigger.textContent =
+    selectedLabels.length <= 2
+      ? selectedLabels.join(", ")
+      : `${selectedLabels.slice(0, 2).join(", ")} +${selectedLabels.length - 2}`;
+}
+
+function resetMultiSelectFilters() {
+  document.querySelectorAll(`.${multiSelectClass}`).forEach((multiSelect) => {
+    multiSelect
+      .querySelectorAll('input[type="checkbox"]')
+      .forEach((checkbox) => (checkbox.checked = false));
+    updateMultiSelectTrigger(multiSelect);
+    setMultiSelectOpen(multiSelect, false);
+  });
+}
+
+function closeAllMultiSelects() {
+  document.querySelectorAll(`.${multiSelectClass}`).forEach((multiSelect) => {
+    setMultiSelectOpen(multiSelect, false);
+  });
 }
 
 // Populate all filter dropdowns from backend data
@@ -171,26 +329,32 @@ document.addEventListener("DOMContentLoaded", () => {
       if (event.target !== searchInput && event.target !== resultsBox) {
         clearSuggestions(resultsBox);
       }
-    });
-  }
 
-  // Drop-down filters
-  const dropDownFilters = document.querySelectorAll(".inhaler-filter");
-  if (dropDownFilters) {
-    dropDownFilters.forEach((dropdown) =>
-      dropdown.addEventListener("change", updateResults),
-    );
+      if (!event.target.closest(`.${multiSelectClass}`)) {
+        closeAllMultiSelects();
+      }
+    });
   }
 
   // Clear dropdown filters
   const clearFiltersBtn = document.querySelector(".btn-clear-filters");
   if (clearFiltersBtn) {
     clearFiltersBtn.addEventListener("click", () => {
-      const selects = document.querySelectorAll(".search-filter select");
-      selects.forEach((s) => (s.selectedIndex = 0));
+      resetMultiSelectFilters();
+      document
+        .querySelectorAll(".search-filter select.inhaler-filter:not(.inhaler-filter-native)")
+        .forEach((select) => (select.selectedIndex = 0));
+      document.getElementById("inhaler-age-select").value = "";
       updateResults();
     });
   }
+
+  const singleSelectFilters = document.querySelectorAll(
+    ".search-filter select.inhaler-filter:not(.inhaler-filter-native)",
+  );
+  singleSelectFilters.forEach((select) => {
+    select.addEventListener("change", updateResults);
+  });
 
   // Back to grid view button
   const backButton = document.getElementById(backButtonID);
@@ -235,6 +399,7 @@ const [inhalers, filters] = await Promise.all([getInhalers(), getFilters()]);
 currentInhalers = totalInhalers = inhalers.length;
 
 populateFilters(filters);
+initializeMultiSelectFilters();
 renderInhalerGrid(inhalers);
 updateCounter();
 
