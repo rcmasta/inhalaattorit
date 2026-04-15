@@ -28,7 +28,7 @@
         </header>
 
         <!-- Guide on how to use the inhaler search -->
-        <aside id="guide-panel" class="page-content with-margin" role="complementary" aria-labelledby="guide-heading" hidden>
+        <aside id="guide-panel" class="page-content" role="complementary" aria-labelledby="guide-heading" hidden>
             <h2 tabindex="-1" id="guide-heading">
                 <span class="lang-fi">Ohjeita sivuston käyttämiseen</span>
                 <span class="lang-sv">Anvisningar för användning av webbplatsen</span>
@@ -166,7 +166,7 @@
                 <h2 id="search-name-heading" data-i18n="search.heading">Hae lääke / inhalaattori nimellä</h2>
                 <div class="search-bar">
                     <input type="search" id="inhaler-name" name="search" placeholder="Hae nimellä..." data-i18n-placeholder="search.placeholder" aria-labelledby="search-name-heading"/>
-                    <button class="btn-clear" data-i18n="search.clear">Tyhjennä</button>
+                    <button id="search-name-clear" class="btn-clear" data-i18n="search.clear">Tyhjennä</button>
                 </div>
                 <div id="search-suggestions" class="result-box">
                 </div>
@@ -224,7 +224,7 @@
                     <option value="" data-i18n="filters.color-option">Valitse väri</option>
                 </select>
 
-                <button class="btn-clear full-width" data-i18n="filters.clear">Tyhjennä suodattimet</button>
+                <button id="search-filter-clear" class="btn-clear full-width" data-i18n="filters.clear">Tyhjennä suodattimet</button>
             </section>
 
             <!-- Results grid and detail view -->
