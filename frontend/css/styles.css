@@ -120,6 +120,13 @@ main {
     background: #fff;
     border-radius: 10px;
     padding: 1.2rem 1.5rem;
+    position: relative;
+    z-index: 2;
+}
+
+#search-suggestions {
+    position: relative;
+    width: 100%;
 }
 
 .search-bar {
@@ -156,14 +163,20 @@ main {
 }
 
 #search-suggestions ul {
-    margin-top: 0.6rem;
-    margin-left: 2.9rem;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    width: auto;
+    margin-top: 0.4rem;
     background: #fff;
     padding: 0.6rem 1rem;
     border: 1px solid #ccc;
     border-radius: 20px;
     font-size: 0.95rem;
     color: #666;
+    z-index: 10;
+    box-sizing: border-box;
 }   
 
 #search-suggestions ul li {
