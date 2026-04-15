@@ -12,15 +12,15 @@ describe("drugClass model", () => {
         expect(results[0]).to.have.property("name");
     });
 
-    it("should create a new drug class with sanitized name", () => {
-        drugClass.create("Test Class!! 123");
+    it("should create a new drug class with name", () => {
+        drugClass.create("Testclass1+Testclass2");
 
         const created = db.prepare(
             "SELECT * FROM drug_class WHERE name = ?"
-        ).get("TestClass123");
+        ).get("Testclass1+Testclass2");
 
         expect(created).to.exist;
-        expect(created.name).to.equal("TestClass123");
+        expect(created.name).to.equal("Testclass1+Testclass2");
     });
 
     it("should edit an existing drug class", () => {
@@ -30,13 +30,13 @@ describe("drugClass model", () => {
             "SELECT id FROM drug_class ORDER BY id DESC LIMIT 1"
         ).get();
 
-        drugClass.edit(created.id, "Edited Class!!");
+        drugClass.edit(created.id, "Edited class");
 
         const edited = db.prepare(
             "SELECT * FROM drug_class WHERE id = ?"
         ).get(created.id);
 
-        expect(edited.name).to.equal("EditedClass");
+        expect(edited.name).to.equal("Edited class");
     });
 
     it("should delete a drug class that is not in use", () => {
