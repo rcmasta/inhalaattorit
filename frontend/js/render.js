@@ -5,8 +5,8 @@ export const resultCountID = "result-count";
 import { getLang, getTranslation } from './lang.js';
 
 const missingImg = "img/missing.png";
-const spacerIconImg = "img/spacerIcon.png";
-const maskIconImg = "img/maskIcon.png";
+const spacerIconImg = "img/tilanjatkeUusi.png";
+const maskIconImg = "img/tilanjatkemaskillaUusi.png";
 const extensionIntakeStyleId = 5;
 
 const inhalerInputTag = "button";

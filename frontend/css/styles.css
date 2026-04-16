@@ -506,14 +506,20 @@ main {
     object-fit: contain;
 }
 
-.card-img .inhaler-image-badge,
-.detail-view-img .inhaler-image-badge {
+.card-img .inhaler-image-badge {
     position: absolute;
     top: 0.65rem;
     right: 0.65rem;
-    width: 3rem;
+    width: 5rem;
     height: auto;
+}
 
+.detail-view-img .inhaler-image-badge {
+    position: absolute;
+    top: 0.65rem;
+    right: 1rem;
+    width: 8rem;
+    height: auto;
 }
 
 .card-info {
