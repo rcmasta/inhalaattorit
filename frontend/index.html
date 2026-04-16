@@ -28,16 +28,17 @@
         </header>
 
         <!-- Guide on how to use the inhaler search -->
-        <aside id="guide-panel" role="complementary" aria-labelledby="guide-heading" hidden>
+        <aside id="guide-panel" class="page-content" role="complementary" aria-labelledby="guide-heading" hidden>
             <h2 tabindex="-1" id="guide-heading">
                 <span class="lang-fi">Ohjeita sivuston käyttämiseen</span>
                 <span class="lang-sv">Anvisningar för användning av webbplatsen</span>
             </h2>
-            <button id="guide-button-close">
+            <button id="guide-button-close" class="btn-clear">
                 <span class="lang-fi">Sulje ohje</span>
                 <span class="lang-sv">Stäng anvisningarna</span>
             </button>
 
+            <!-- Finnish guide -->
             <div class="lang-fi">
                 <p>Sivusto on kehitetty oikean ja turvallisen käytön edistämiseen. Sivusto ei ota kantaa potilaan diagnoosiin eikä siihen mitä lääkeaineita potilaalle pitäisi määrätä, vaan jokainen lääkäri tekee itse hoitopäätöksen perustuen <a href="https://www.kaypahoito.fi/suositukset" target="_blank" rel="noopener noreferrer">Käypä hoito -suosituksiin</a>. Tuotteista on linkit lääketietoihin ja inhalaattorikohtaiset lääkkeenottotekniikan ohjausvideoihin, mikäli tällainen saatavilla.</p>
 
@@ -97,6 +98,7 @@
                 </ul>
             </div>
 
+            <!-- Swedish guide -->
             <div class="lang-sv">
                 <p>Webbplatsen har utvecklats för att främja korrekt och säker användning. Webbplatsen tar inte ställning till patientdiagnoser eller till vilka läkemedel som ska förskrivas till patienter utan varje läkare fattar sina egna vårdbeslut baserat på rekommendationer från <a href="https://www.kaypahoito.fi/sv/rekommendationer" target="_blank" rel="noopener noreferrer">God medicinsk praxis</a>. Vid produkterna finns länkar till läkemedelsinformation och instruktionsvideor om inhalatorspecifik läkemedelsintagsteknik, om sådana finns tillgängliga.</p>
 
@@ -164,7 +166,7 @@
                 <h2 id="search-name-heading" data-i18n="search.heading">Hae lääke / inhalaattori nimellä</h2>
                 <div class="search-bar">
                     <input type="search" id="inhaler-name" name="search" placeholder="Hae nimellä..." data-i18n-placeholder="search.placeholder" aria-labelledby="search-name-heading"/>
-                    <button class="btn-clear" data-i18n="search.clear">Tyhjennä</button>
+                    <button id="search-name-clear" class="btn-clear" data-i18n="search.clear">Tyhjennä</button>
                 </div>
                 <div id="search-suggestions" class="result-box">
                 </div>
@@ -222,7 +224,7 @@
                     <option value="" data-i18n="filters.color-option">Valitse väri</option>
                 </select>
 
-                <button class="btn-clear-filters" data-i18n="filters.clear">Tyhjennä suodattimet</button>
+                <button id="search-filter-clear" class="btn-clear full-width" data-i18n="filters.clear">Tyhjennä suodattimet</button>
             </section>
 
             <!-- Results grid and detail view -->

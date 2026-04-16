@@ -1,12 +1,9 @@
 const db = require('../../config/db');
-const sanitizeName = require('../../utils/sanitizeName');
 
-const stmtEditTL = (id, language, name) => {
-    return db.prepare(
-        `UPDATE active_ingredient_translation SET name = '${name}' ` +
-        `WHERE active_ingredient_id = ${id} AND language = '${language}'`
-    );
-};
+const stmtEditTL = db.prepare(
+    "UPDATE active_ingredient_translation SET name = ? " +
+    "WHERE active_ingredient_id = ? AND language = ?"
+);
 
 class activeIngredient {
     static get = () => {
@@ -37,54 +34,48 @@ class activeIngredient {
     };
 
     static create = db.transaction((fi, sv, drug_class_id) => {
-        fi = sanitizeName(fi);
-        sv = sanitizeName(sv);
-
         const stmtNewActive = db.prepare(
             "INSERT INTO active_ingredient (drug_class_id) " +
-            `VALUES (${drug_class_id})`
+            "VALUES (?)"
         );
 
         // run stmtNewActive and get the id of the new active ingredient
-        const active_ingredient_id = stmtNewActive.run().lastInsertRowid;
+        const active_ingredient_id = stmtNewActive.run(drug_class_id).lastInsertRowid;
 
-        const stmtActiveTranslations = db.prepare(
-            "INSERT INTO active_ingredient_translation (active_ingredient_id, language, name) VALUES" +
-            `(${active_ingredient_id}, 'fi', '${fi}'),` +
-            `(${active_ingredient_id}, 'sv', '${sv}')`
+        const stmtActiveTL = db.prepare(
+            "INSERT INTO active_ingredient_translation (active_ingredient_id, language, name) " + 
+            "VALUES (?, ?, ?)"
         );
-        stmtActiveTranslations.run();
+        stmtActiveTL.run(active_ingredient_id, 'fi', fi);
+        stmtActiveTL.run(active_ingredient_id, 'sv', sv);
 
         console.log(`Added active ingredient (id: ${active_ingredient_id})`);
         return active_ingredient_id; 
     });
 
     static edit = db.transaction((id, fi, sv, drug_class_id) => {
-        fi = sanitizeName(fi);
-        sv = sanitizeName(sv);
-
         const stmtEditActive = db.prepare(
-            `UPDATE active_ingredient SET drug_class_id = ${drug_class_id} ` +
-            `WHERE id = ${id}`
+            "UPDATE active_ingredient SET drug_class_id = ? " +
+            "WHERE id = ?"
         );
 
         // update the drug class id of the active ingredient
-        const resEditActive = stmtEditActive.run();
+        const resEditActive = stmtEditActive.run(drug_class_id, id);
 
         // update the names of the active ingredient 
-        const resEditFi = stmtEditTL(id, 'fi', fi).run();
-        const resEditSv = stmtEditTL(id, 'sv', sv).run();
+        const resEditFi = stmtEditTL.run(fi, id, 'fi');
+        const resEditSv = stmtEditTL.run(sv, id, 'sv');
 
         console.log(`Edited active ingredient (id: ${id})`);
     });
 
     static delete = db.transaction((id) => {
         const stmtDeleteActive = db.prepare(
-            'DELETE FROM active_ingredient ' +
-            `WHERE id = ${id}`
+            "DELETE FROM active_ingredient " +
+            "WHERE id = ?"
         );
 
-        const res = stmtDeleteActive.run();
+        const res = stmtDeleteActive.run(id);
 
         console.log(`Deleted active ingredient (id: ${id})`);
     });

@@ -14,9 +14,9 @@ describe("activeIngredient model", () => {
         expect(results[0]).to.have.property("sv");
     });
 
-    it("should create a new active ingredient with sanitized translations", () => {
-        const fi = "Testi Aines!! 123";
-        const sv = "Test Ingrediens?? 456";
+    it("should create a new active ingredient with translations", () => {
+        const fi = "Testiaine1";
+        const sv = "Test ingredient";
 
         activeIngredient.create(fi, sv, 1);
 
@@ -30,8 +30,8 @@ describe("activeIngredient model", () => {
 
         expect(created.drug_class_id).to.equal(1);
         expect(translations).to.deep.equal([
-            { language: "fi", name: "TestiAines123" },
-            { language: "sv", name: "TestIngrediens456" }
+            { language: "fi", name: "Testiaine1" },
+            { language: "sv", name: "Test ingredient" }
         ]);
     });
 
@@ -42,7 +42,7 @@ describe("activeIngredient model", () => {
             "SELECT id FROM active_ingredient ORDER BY id DESC LIMIT 1"
         ).get();
 
-        activeIngredient.edit(created.id, "Uusi nimi!!", "Nytt namn??", 3);
+        activeIngredient.edit(created.id, "Uusi nimi", "Nytt namn", 3);
 
         const edited = db.prepare(
             "SELECT id, drug_class_id FROM active_ingredient WHERE id = ?"
@@ -54,8 +54,8 @@ describe("activeIngredient model", () => {
 
         expect(edited.drug_class_id).to.equal(3);
         expect(translations).to.deep.equal([
-            { language: "fi", name: "Uusinimi" },
-            { language: "sv", name: "Nyttnamn" }
+            { language: "fi", name: "Uusi nimi" },
+            { language: "sv", name: "Nytt namn" }
         ]);
     });
 

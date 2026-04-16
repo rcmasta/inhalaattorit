@@ -21,6 +21,9 @@ import {
   renderAutoCompleteResults,
 } from "./search.js";
 
+const nameClearID = "search-name-clear";
+const filterClearID = "search-filter-clear";
+
 var currentInhalers = 0;
 var totalInhalers = 0;
 var savedScrollPosition = 0;
@@ -309,11 +312,11 @@ document.addEventListener("DOMContentLoaded", () => {
     .addEventListener("input", updateResults);
 
   // Name search
-  const clearBtn = document.querySelector(".btn-clear");
+  const clearNameBtn = document.getElementById(nameClearID);
   const searchInput = document.getElementById("inhaler-name");
   const resultsBox = document.querySelector(".result-box");
-  if (clearBtn && searchInput && resultsBox) {
-    clearBtn.addEventListener("click", () => {
+  if (clearNameBtn && searchInput && resultsBox) {
+    clearNameBtn.addEventListener("click", () => {
       searchInput.value = "";
       searchInput.focus();
       clearSuggestions(resultsBox);
@@ -337,7 +340,7 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // Clear dropdown filters
-  const clearFiltersBtn = document.querySelector(".btn-clear-filters");
+  const clearFiltersBtn = document.getElementById(filterClearID);
   if (clearFiltersBtn) {
     clearFiltersBtn.addEventListener("click", () => {
       resetMultiSelectFilters();
@@ -360,6 +363,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const backButton = document.getElementById(backButtonID);
   backButton.addEventListener("click", () => {
     setElementVisibility(gridID, true);
+    setElementVisibility(resultCountID, true);
     setElementVisibility(backButtonID, false);
     setElementVisibility(detailID, false);
     updateResults();
