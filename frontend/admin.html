@@ -123,6 +123,7 @@
 
                         <fieldset class="checkbox-group" id="add-ingredients">
                             <legend data-i18n="admin.ingredients">Vaikuttava lääkeaine</legend>
+                            <p class="panel-hint" data-i18n="admin.ingredient-class-note">Lääkeaineryhmä (ICS, LABA…) määritetään kullekin vaikuttavalle lääkeaineelle alempana osiossa "Vaikuttavat lääkeaineet".</p>
                         </fieldset>
 
                         <label for="add-link-db" data-i18n="admin.link-db">Tietokanta-linkki</label>
@@ -206,6 +207,7 @@
                         </table>
                         <form id="drug-class-form" class="management-form">
                             <h4 id="drug-class-form-heading" data-i18n="admin.dc-add">Lisää lääkeaineluokka</h4>
+                            <p class="panel-hint" data-i18n="admin.dc-plus-note">Yhdistelmänimet voi kirjoittaa + -merkillä (esim. ICS+LABA, LAMA+LABA).</p>
                             <div class="management-form-row">
                                 <input type="text" id="dc-name" placeholder="Nimi (esim. ICS)" data-i18n-placeholder="admin.dc-ph" aria-labelledby="drug-class-form-heading" required/>
                                 <button type="submit" class="btn-add" id="dc-submit-btn" data-i18n="admin.btn-add">Lisää</button>
