@@ -5,6 +5,9 @@ export const resultCountID = "result-count";
 import { getLang, getTranslation } from './lang.js';
 
 const missingImg = "img/missing.png";
+const spacerIconImg = "img/tilanjatkeUusi.png";
+const maskIconImg = "img/tilanjatkemaskillaUusi.png";
+const extensionIntakeStyleId = 5;
 
 const inhalerInputTag = "button";
 const inhalerCardTag = "article";
@@ -76,6 +79,22 @@ export function setElementVisibility(elementId, visible) {
  */
 export function getLastFocusedCard() {
     return lastFocusedCard;
+}
+
+/**
+ * Refreshes extension icons on already rendered inhaler cards.
+ */
+export function refreshInhalerCardImageBadges() {
+    const cardImages = document.querySelectorAll(`.${cardImgClass}[data-has-extension="true"]`);
+
+    cardImages.forEach((cardImage) => {
+        const existingBadge = cardImage.querySelector(".inhaler-image-badge");
+        const badgeSrc = cardImage.dataset.iconSrc;
+
+        if (existingBadge && badgeSrc) {
+            existingBadge.src = badgeSrc;
+        }
+    });
 }
 
 /**
@@ -332,7 +351,9 @@ function buildDetailInfoSection(inhaler) {
     appendInfoItem(
         ingredientsSection,
         "",
-        inhaler.active_ingredients.map(ing => ing.name).join(', ')
+        inhaler.active_ingredients
+            .map((ing) => ing.drug_class_name ? `${ing.name} (${ing.drug_class_name})` : ing.name)
+            .join(', ')
     );
 
     detailInfoSection.appendChild(ingredientsSection);
@@ -389,6 +410,12 @@ function buildImageSection(inhaler, isGridView) {
     imageSection.classList.add(isGridView ? cardImgClass : detailImgClass);
     buildImage(inhaler, imageSection, isGridView);
 
+    if (hasExtensionBadge(inhaler)) {
+        imageSection.dataset.hasExtension = "true";
+        imageSection.dataset.iconSrc = getExtensionIconSrc(inhaler);
+        buildExtensionImageBadge(imageSection, inhaler);
+    }
+
     return imageSection;
 }
 
@@ -412,6 +439,45 @@ function buildImage(inhaler, parent, isThumbnail) {
     image.alt = generateAltText(inhaler);
 
     parent.appendChild(image);
+}
+
+/**
+ * Adds the extension icon badge to the card image.
+ * @param {*} parent The parent image section
+ * @param {*} inhaler Inhaler JSON object
+ */
+function buildExtensionImageBadge(parent, inhaler) {
+    const badge = document.createElement(imageTag);
+    badge.classList.add("inhaler-image-badge");
+    badge.src = getExtensionIconSrc(inhaler);
+    badge.alt = "";
+    badge.setAttribute("aria-hidden", "true");
+
+    parent.appendChild(badge);
+}
+
+/**
+ * Returns true when the inhaler uses an extension.
+ * @param {*} inhaler Inhaler JSON object
+ * @returns boolean
+ */
+function hasExtensionBadge(inhaler) {
+    return inhaler.intake_styles.some((style) => style.intake_style_id === extensionIntakeStyleId);
+}
+
+/**
+ * Returns the correct extension icon path based on recommended age.
+ * @param {*} inhaler Inhaler JSON object
+ * @returns string
+ */
+function getExtensionIconSrc(inhaler) {
+    const recommendedAge = Number(inhaler.recommended_min_age);
+
+    if (!Number.isNaN(recommendedAge) && recommendedAge <= 3) {
+        return maskIconImg;
+    }
+
+    return spacerIconImg;
 }
 
 /**

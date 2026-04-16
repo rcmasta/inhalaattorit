@@ -49,7 +49,7 @@ INSERT OR IGNORE INTO intake_style_translation (intake_style_id, language, name)
     (1, 'fi', 'jauhe'),
     (2, 'fi', 'jauhekapseli'),
     (3, 'fi', 'suihke'),
-    (4, 'fi', 'suihke sisäänhengityksen laukaisema'),
+    (4, 'fi', 'suihke sisäänhengityksen laukaisemana'),
     (5, 'fi', 'tilanjatkeella'),
 
     (1, 'sv', 'pulverinhalator'),
