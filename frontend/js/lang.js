@@ -115,6 +115,8 @@ var sv = {
     "admin.btn-edit": "Redigera",
     "admin.btn-delete": "Radera",
     "admin.scroll-hint": "Tips: under inhalatorlistan finns även hanteringen av inhalatormärken, läkemedelsgrupper och aktiva substanser.",
+    "admin.ingredient-class-note": "Läkemedelsgrupp (ICS, LABA…) anges per aktiv substans nedan i sektionen \"Aktiva substanser\".",
+    "admin.dc-plus-note": "Kombinationsnamn kan skrivas med +-tecknet (t.ex. ICS+LABA, LAMA+LABA).",
 
     // Card and detail page
     "card.extension-badge": " + Spacer",
