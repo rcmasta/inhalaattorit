@@ -1,6 +1,6 @@
 const { expect } = require("chai");
 
-const { getUsedFilters } = require("../models/inhalersModel");
+const { getUsedFilters } = require("../src/models/inhalersModel");
 
 
 describe("GET used filters", () => {

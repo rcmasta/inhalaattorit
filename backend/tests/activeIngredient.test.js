@@ -1,6 +1,6 @@
 const { expect } = require("chai");
-const db = require("../config/db");
-const activeIngredient = require("../models/admin/activeIngredient");
+const db = require("../src/db/database");
+const activeIngredient = require("../src/models/admin/activeIngredient");
 
 describe("activeIngredient model", () => {
 

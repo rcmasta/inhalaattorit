@@ -1,7 +1,7 @@
 const Database = require("better-sqlite3");
 const path = require("path");
 const fs = require("fs");
-const { insert_test_med } = require("../config/test_script/insert_test_medicines")
+const { insert_test_med } = require("../../tests/test_script/insert_test_medicines");
 
 const isTest = process.env.NODE_ENV === "test";
 

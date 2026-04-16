@@ -1,4 +1,4 @@
-const db = require("../config/db"); 
+const db = require("../db/database"); 
 
 const getAllInhalers = (lang) => {
     const query = 'SELECT m.* FROM medicine m';

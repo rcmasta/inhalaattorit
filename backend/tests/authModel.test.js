@@ -2,7 +2,7 @@ const { expect } = require("chai");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const fs = require("fs");
-const { getAdmin, verifyPassword, signToken } = require("../models/authModel");
+const { getAdmin, verifyPassword, signToken } = require("../src/models/authModel");
 
 describe("authModel", () => {
 

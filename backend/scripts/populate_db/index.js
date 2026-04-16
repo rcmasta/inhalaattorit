@@ -22,7 +22,7 @@ const runPopulation = (db, filename) => {
 
 // CLI wrapper
 if (require.main === module) {
-    const db = require('../db');
+    const db = require('../../src/db/database');
     const filename = process.argv[2];
     runPopulation(db, filename);
 }

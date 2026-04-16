@@ -5,13 +5,13 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "cross-env NODE_ENV=test mocha src/tests/*.test.js",
+    "test": "cross-env NODE_ENV=test mocha tests/*.test.js",
     "dev": "node --watch server",
-    "test_db": "node src/config/test_script/insert_manual_test.js",
-    "populate_db": "node src/config/populate_db/populateDB.js",
-    "add_admin": "node src/config/admin/addAdmin.js",
-    "change_password": "node src/config/admin/changePassword.js",
-    "delete_admin": "node src/config/admin/deleteAdmin.js"
+    "test_db": "node scripts/test_script/insert_manual_test.js",
+    "populate_db": "node scripts/populate_db/index.js",
+    "add_admin": "node scripts/admin/addAdmin.js",
+    "change_password": "node scripts/admin/changePassword.js",
+    "delete_admin": "node scripts/admin/deleteAdmin.js"
   },
   "keywords": [],
   "author": "",

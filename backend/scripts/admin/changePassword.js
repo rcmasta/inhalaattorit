@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const genPassword = require('./genPassword');
 const args = require('args-parser')(process.argv);
 
-let admins = require('../../../data/admindata/admins.json');
+let admins = require('../../data/admindata/admins.json');
 
 const username = args.username;
 const password = args.password;

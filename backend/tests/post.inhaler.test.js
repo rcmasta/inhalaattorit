@@ -1,6 +1,6 @@
 const { expect } = require("chai");
-const db = require('../config/db');
-const inhalers = require("../models/admin/inhalers");
+const db = require("../src/db/database");
+const inhalers = require("../src/models/admin/inhalers");
 const dbAdd = inhalers.create;
 
 describe("inhalers.create()", () => {
@@ -145,7 +145,7 @@ describe("inhalers.create()", () => {
 
     
     it("should insert and retrieve all fields correctly using testMedicine object via getAllInhalers", () => {
-        const { getAllInhalers } = require("../models/inhalersModel");
+        const { getAllInhalers } = require("../src/models/inhalersModel");
         const testMedicine = {
             name: "Testilääke",
             image_path: "/on",

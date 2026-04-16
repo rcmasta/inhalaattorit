@@ -1,5 +1,5 @@
 const BackendError = require('../../classes/backendError');
-const db = require('../../config/db');
+const db = require('../../db/database');
 
 class filters {
 

@@ -1,4 +1,4 @@
-const db = require('../../config/db');
+const db = require('../../db/database');
 
 const stmtEditTL = db.prepare(
     "UPDATE active_ingredient_translation SET name = ? " +
