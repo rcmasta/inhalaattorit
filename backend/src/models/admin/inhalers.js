@@ -1,4 +1,4 @@
-const db = require('../../config/db');
+const db = require('../../db/database');
 const uploads = require('../../controllers/admin/uploads')
 
 const stmtRemoveDesc = db.prepare(

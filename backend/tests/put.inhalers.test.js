@@ -1,6 +1,6 @@
 const { expect } = require("chai");
-const db = require("../config/db");
-const inhalers = require("../models/admin/inhalers");
+const db = require("../src/db/database");
+const inhalers = require("../src/models/admin/inhalers");
 
 const createTestInhaler = (suffix) => inhalers.create({
     name: `Put Test Inhaler ${suffix}`,

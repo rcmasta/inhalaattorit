@@ -1,6 +1,6 @@
 const { expect } = require("chai");
-const db = require("../config/db");
-const drugClass = require("../models/admin/drugClass");
+const db = require("../src/db/database");
+const drugClass = require("../src/models/admin/drugClass");
 
 describe("drugClass model", () => {
 

@@ -1,8 +1,7 @@
 const { expect } = require("chai");
-const db = require('../config/db');
+const db = require("../src/db/database");
 
-
-const { getAllInhalers } = require("../models/inhalersModel");
+const { getAllInhalers } = require("../src/models/inhalersModel");
 
 
 describe("GET inhalers", () => {

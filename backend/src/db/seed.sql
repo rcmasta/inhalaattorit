@@ -46,17 +46,17 @@ INSERT OR IGNORE INTO intake_style (id) VALUES
     
 
 INSERT OR IGNORE INTO intake_style_translation (intake_style_id, language, name) VALUES
-    (1, 'fi', 'jauhe'),
-    (2, 'fi', 'jauhekapseli'),
-    (3, 'fi', 'suihke'),
-    (4, 'fi', 'suihke sisäänhengityksen laukaisemana'),
-    (5, 'fi', 'tilanjatkeella'),
+    (1, 'fi', 'Jauhe'),
+    (2, 'fi', 'Jauhekapseli'),
+    (3, 'fi', 'Suihke'),
+    (4, 'fi', 'Suihke sisäänhengityksen laukaisemana'),
+    (5, 'fi', 'Tilanjatkeella'),
 
-    (1, 'sv', 'pulverinhalator'),
-    (2, 'sv', 'pulverkapsel'),
-    (3, 'sv', 'drivgasaerosol'),
-    (4, 'sv', 'drivgasaerosol utlöses genom inandning'),
-    (5, 'sv', 'med inhalationsspacer');
+    (1, 'sv', 'Pulverinhalator'),
+    (2, 'sv', 'Pulverkapsel'),
+    (3, 'sv', 'Drivgasaerosol'),
+    (4, 'sv', 'Drivgasaerosol utlöses genom inandning'),
+    (5, 'sv', 'Med inhalationsspacer');
 
 INSERT OR IGNORE INTO drug_class (name) VALUES
     ('ICS'),

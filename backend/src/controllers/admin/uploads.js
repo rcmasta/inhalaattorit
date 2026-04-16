@@ -1,5 +1,5 @@
 const adminModel = require('../../models/admin/adminModel');
-const db = require('../../config/db');
+const db = require('../../db/database');
 const path = require('path');
 const fs = require('fs/promises');
 const { fork } = require("child_process");
