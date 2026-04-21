@@ -145,6 +145,7 @@ var sv = {
     "detail.yes": "Ja",
     "detail.no": "Nej",
     "detail.ingredients": "Aktiva substanser",
+    "detail.colors": "Färger: ",
     "detail.database-link": "Databaslänk",
     "detail.tutorial-link": "Instruktionsvideo"
 };
@@ -175,6 +176,7 @@ var fi = {
     "detail.yes": "Kyllä",
     "detail.no": "Ei",
     "detail.ingredients": "Vaikuttavat lääkeaineet",
+    "detail.colors": "Värit: ",
     "detail.database-link": "Tietokanta-linkki",
     "detail.tutorial-link": "Opetusvideo",
     "filter.dosage-suffix": " krt/pv",

@@ -5,4 +5,10 @@ document.addEventListener("DOMContentLoaded", () => {
     navToggle.addEventListener("click", () => {
         nav.classList.toggle("open");
     });
+
+
+    const yearEl = document.getElementById("current-year");
+    if (yearEl) {
+        yearEl.textContent = new Date().getFullYear();
+    }
 });
