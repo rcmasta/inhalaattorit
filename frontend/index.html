@@ -184,9 +184,19 @@
                 <label for="inhaler-age-select" data-i18n="filters.age">Potilaan ikä (jos alle 18 v.)</label>
                 <input type="number" class="inhaler-filter" name="recommended_min_age" id="inhaler-age-select" data-i18n-placeholder="filters.age-option" min="0" placeholder="Syötä ikä">
 
-                <label for="inhaler-dosage-select" data-i18n="filters.dosage">Annostelu</label>
-                <select class="inhaler-filter" name="times_a_day" id="inhaler-dosage-select">
-                    <option value="" data-i18n="filters.dosage-option">Valitse annostelu</option>
+                <label for="inhaler-active-substance-select" data-i18n="filters.substance">Vaikuttava lääkeaine</label>
+                <select class="inhaler-filter" name="active_ingredients" id="inhaler-active-substance-select">
+                    <option value="" data-i18n="filters.substance-option">Valitse vaikuttava lääkeaine</option>
+                </select>
+
+                <label for="inhaler-drug-group-select" data-i18n="filters.drug-group">Lääkeaineryhmä</label>
+                <select class="inhaler-filter" name="drug_class_name" id="inhaler-drug-group-select">
+                    <option value="" data-i18n="filters.drug-group-option">Valitse lääkeaineryhmä</option>
+                </select>
+
+                <label for="inhaler-type-select" data-i18n="filters.type">Inhalaattori</label>
+                <select class="inhaler-filter" name="inhaler_brand" id="inhaler-type-select">
+                    <option value="" data-i18n="filters.type-option">Valitse inhalaattori</option>
                 </select>
 
                 <label for="inhaler-velocity-select" data-i18n="filters.velocity">Sisäänhengitysnopeus +</label>
@@ -201,29 +211,20 @@
                     <option value="" data-i18n="filters.coordination-option">Valitse koordinaatiokyky</option>
                 </select>
 
-                <label for="inhaler-type-select" data-i18n="filters.type">Inhalaattori</label>
-                <select class="inhaler-filter" name="inhaler_brand" id="inhaler-type-select">
-                    <option value="" data-i18n="filters.type-option">Valitse inhalaattori</option>
+                <label for="inhaler-color-select" data-i18n="filters.color">Väri</label>
+                <select class="inhaler-filter" name="colors" id="inhaler-color-select">
+                    <option value="" data-i18n="filters.color-option">Valitse väri</option>
                 </select>
+ 
 
                 <label for="inhaler-purpose-select" data-i18n="filters.purpose">Käyttötarkoitus</label>
                 <select class="inhaler-filter" name="purpose" id="inhaler-purpose-select">
                     <option value="" data-i18n="filters.purpose-option">Valitse käyttötarkoitus</option>
                 </select>
-
-                <label for="inhaler-drug-group-select" data-i18n="filters.drug-group">Lääkeaineryhmä</label>
-                <select class="inhaler-filter" name="drug_class_name" id="inhaler-drug-group-select">
-                    <option value="" data-i18n="filters.drug-group-option">Valitse lääkeaineryhmä</option>
-                </select>
-
-                <label for="inhaler-active-substance-select" data-i18n="filters.substance">Vaikuttava lääkeaine</label>
-                <select class="inhaler-filter" name="active_ingredients" id="inhaler-active-substance-select">
-                    <option value="" data-i18n="filters.substance-option">Valitse vaikuttava lääkeaine</option>
-                </select>
-
-                <label for="inhaler-color-select" data-i18n="filters.color">Väri</label>
-                <select class="inhaler-filter" name="colors" id="inhaler-color-select">
-                    <option value="" data-i18n="filters.color-option">Valitse väri</option>
+                
+                <label for="inhaler-dosage-select" data-i18n="filters.dosage">Annostelu</label>
+                <select class="inhaler-filter" name="times_a_day" id="inhaler-dosage-select">
+                    <option value="" data-i18n="filters.dosage-option">Valitse annostelu</option>
                 </select>
 
                 <button id="search-filter-clear" class="btn-clear full-width" data-i18n="filters.clear">Tyhjennä suodattimet</button>

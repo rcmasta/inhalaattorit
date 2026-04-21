@@ -204,11 +204,11 @@ function buildDetailView(inhaler) {
     detailView.classList.add(detailClass);
 
     // Create detail view sections
-    const detailImage = buildImageSection(inhaler, false);
-    detailView.appendChild(detailImage);
-
     const detailInfo = buildDetailInfoSection(inhaler);
     detailView.appendChild(detailInfo);
+
+    const detailImage = buildImageSection(inhaler, false);
+    detailView.appendChild(detailImage);
 
     return detailView;
 }
@@ -248,7 +248,7 @@ function buildDetailInfoSection(inhaler) {
     };
 
     // Header from inhaler name
-    const infoHeader = document.createElement("h2");
+    const infoHeader = document.createElement("h1");
     infoHeader.textContent = inhaler.name;
     
     for (const style of inhaler.intake_styles) {
@@ -261,14 +261,21 @@ function buildDetailInfoSection(inhaler) {
         }
     }
     detailInfoSection.appendChild(infoHeader);
-    
-    // Color badge
-    if (inhaler.colors && inhaler.colors.length > 0) {
-        const colorBadge = document.createElement("span");
-        colorBadge.classList.add("inhaler-color-badge");
-        colorBadge.textContent = inhaler.colors.map(c => c.name).join(", ");
-        detailInfoSection.appendChild(colorBadge);
-    }
+
+    // Active ingredients section
+    const ingredientsSection = document.createElement("div");
+    ingredientsSection.classList.add("detail-info-section");
+    appendSectionHeading(ingredientsSection, getTranslation("detail.ingredients"));
+
+    appendInfoItem(
+        ingredientsSection,
+        "",
+        inhaler.active_ingredients
+            .map((ing) => ing.drug_class_name ? `${ing.name} (${ing.drug_class_name})` : ing.name)
+            .join(', ')
+    );
+
+    detailInfoSection.appendChild(ingredientsSection);
 
     // Basic info section
     const basicSection = document.createElement("div");
@@ -343,21 +350,6 @@ function buildDetailInfoSection(inhaler) {
 
     detailInfoSection.appendChild(purposeSection);
 
-    // Active ingredients section
-    const ingredientsSection = document.createElement("div");
-    ingredientsSection.classList.add("detail-info-section");
-    appendSectionHeading(ingredientsSection, getTranslation("detail.ingredients"));
-
-    appendInfoItem(
-        ingredientsSection,
-        "",
-        inhaler.active_ingredients
-            .map((ing) => ing.drug_class_name ? `${ing.name} (${ing.drug_class_name})` : ing.name)
-            .join(', ')
-    );
-
-    detailInfoSection.appendChild(ingredientsSection);
-
     // Description section
     if (inhaler.description != null) {
         const descSection = document.createElement("div");
@@ -368,6 +360,10 @@ function buildDetailInfoSection(inhaler) {
         descSection.appendChild(descContent);
         detailInfoSection.appendChild(descSection);
     }
+
+
+    
+
 
     // Links section
     if (inhaler.links != null) {
@@ -393,6 +389,22 @@ function buildDetailInfoSection(inhaler) {
         }
 
         detailInfoSection.appendChild(linksSection);
+    }
+
+    // Color badge
+    if (inhaler.colors && inhaler.colors.length > 0) {
+        const colorBadge = document.createElement("span");
+        colorBadge.classList.add("inhaler-color-badge");
+
+        const colorLabel = document.createElement("strong");
+        colorLabel.textContent = getTranslation("detail.colors");
+        colorBadge.appendChild(colorLabel);
+
+        const colorValue = document.createElement("span");
+        colorValue.textContent = inhaler.colors.map(c => c.name).join(", ");
+        colorBadge.appendChild(colorValue);
+
+        detailInfoSection.appendChild(colorBadge);
     }
 
         return detailInfoSection;
