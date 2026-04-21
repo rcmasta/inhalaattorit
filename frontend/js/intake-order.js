@@ -1,4 +1,3 @@
-
 const intakeStyleSortOrder = new Map([
   ["jauhe", 0],
   ["suihke sisäänhengityksen laukaisemana", 1],
@@ -12,6 +11,11 @@ const intakeStyleSortOrder = new Map([
   ["pulverkapsel", 4],
 ]);
 
+/**
+ * Normalizes the intake style label for consistent comparison
+ * @param {*} value The intake style label to normalize
+ * @returns {string} The normalized label
+ */
 function normalizeIntakeStyleLabel(value) {
   return String(value || "")
     .trim()
@@ -19,6 +23,11 @@ function normalizeIntakeStyleLabel(value) {
     .toLowerCase();
 }
 
+/**
+ * Gets the sort index for a given intake style label
+ * @param {*} value The intake style label
+ * @returns {number} The sort index
+ */
 function getIntakeStyleSortIndex(value) {
   const normalized = normalizeIntakeStyleLabel(value);
   if (intakeStyleSortOrder.has(normalized)) {
@@ -27,6 +36,11 @@ function getIntakeStyleSortIndex(value) {
   return Number.POSITIVE_INFINITY;
 }
 
+/**
+ * Sorts intake styles for use in a dropdown
+ * @param {*} intakeStyles The array of intake styles to sort
+ * @returns {Array} The sorted array of intake styles
+ */
 export function sortIntakeStylesForDropdown(intakeStyles) {
   if (!Array.isArray(intakeStyles)) return [];
 
