@@ -1,4 +1,6 @@
 import { getFilteredIds } from "./filter.js";
+import { getTranslation } from "./lang.js";
+import { extensionIntakeStyleId } from "./render.js";
 
 function intersectSets(setA, setB) {
   const result = new Set();
@@ -22,7 +24,7 @@ export function getNameFilteredIds(data, name) {
   const idSet = new Set();
   for (const item of data) {
     if (item.name.toLowerCase().includes(name.toLowerCase())) {
-      idSet.add(item.id.toString());
+        idSet.add(item.id.toString());
     }
   }
   return idSet;
@@ -57,7 +59,11 @@ export function renderAutoCompleteResults(resultBox, results, onSelect) {
   results.forEach((item) => {
     const li = document.createElement("li");
     li.dataset.id = item.id;
-    li.textContent = item.name;
+    if (item.intake_styles.some((style) => style.intake_style_id === extensionIntakeStyleId)) {
+      li.textContent = item.name + getTranslation("card.extension-badge");
+    } else {
+      li.textContent = item.name;
+    }
     li.addEventListener("click", () => onSelect(item));
     ul.appendChild(li);
   });
