@@ -313,7 +313,7 @@ function buildDetailInfoSection(inhaler) {
     appendInfoItem(
         ageSection,
         getTranslation("detail.dosage"),
-        inhaler.times_a_day + getTranslation("detail.times-day")
+        inhaler.times_a_day === 0 ? getTranslation("detail.if-necessary") : inhaler.times_a_day + getTranslation("detail.times-day")
     );
 
     detailInfoSection.appendChild(ageSection);

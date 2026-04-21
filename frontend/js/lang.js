@@ -147,7 +147,8 @@ var sv = {
     "detail.ingredients": "Aktiva substanser",
     "detail.colors": "Färger: ",
     "detail.database-link": "Databaslänk",
-    "detail.tutorial-link": "Instruktionsvideo"
+    "detail.tutorial-link": "Instruktionsvideo",
+    "detail.if-necessary": "Vid behov"
 };
 
 var fi = {
@@ -179,6 +180,7 @@ var fi = {
     "detail.colors": "Värit: ",
     "detail.database-link": "Tietokanta-linkki",
     "detail.tutorial-link": "Opetusvideo",
+    "detail.if-necessary": "Tarvittaessa",
     "filter.dosage-suffix": " krt/pv",
     "filter.speed-good": "Hyvä (>30 l/min)",
     "filter.speed-poor": "Huono (≤30 l/min)",
