@@ -20,6 +20,7 @@ import {
   getCombinedFilteredIds,
   renderAutoCompleteResults,
 } from "./search.js";
+import { sortIntakeStylesForDropdown } from "./intake-order.js";
 
 const nameClearID = "search-name-clear";
 const filterClearID = "search-filter-clear";
@@ -239,7 +240,8 @@ function closeAllMultiSelects() {
 function populateFilters(filters) {
   if (!filters) return;
 
-  addOptions("inhaler-form-select", filters.intake_styles);
+  const intakeStyles = sortIntakeStylesForDropdown(filters.intake_styles);
+  addOptions("inhaler-form-select", intakeStyles);
 
   // No longer an select form
   //const ages = filters.recommended_min_age.slice().sort((a, b) => a - b);
@@ -249,7 +251,7 @@ function populateFilters(filters) {
   addOptions(
     "inhaler-dosage-select",
     times,
-    (v) => `${v}${getTranslation("filter.dosage-suffix")}`,
+    times === 0 ? () => getTranslation("filter.if-necessary") : (v) => `${v}${getTranslation("filter.dosage-suffix")}`,
   );
 
   // Boolean: intake speed
@@ -266,7 +268,8 @@ function populateFilters(filters) {
       : getTranslation("filter.coord-poor"),
   );
 
-  addOptions("inhaler-type-select", filters.inhaler_brand);
+  // Sort inhaler brands alphabetically
+  addOptions("inhaler-type-select", filters.inhaler_brand.sort());
 
   // Purpose maps to two boolean fields, hardcoded options
   addOptions("inhaler-purpose-select", ["treatment", "symptomatic"], (v) =>
@@ -276,8 +279,8 @@ function populateFilters(filters) {
   );
 
   addOptions("inhaler-drug-group-select", filters.drug_class_name);
-  addOptions("inhaler-active-substance-select", filters.active_ingredients);
-  addOptions("inhaler-color-select", filters.colors);
+  addOptions("inhaler-active-substance-select", filters.active_ingredients.sort());
+  addOptions("inhaler-color-select", filters.colors.sort());
 }
 
 // Update autocomplete suggestions based on current input

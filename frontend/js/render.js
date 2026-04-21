@@ -7,7 +7,7 @@ import { getLang, getTranslation } from './lang.js';
 const missingImg = "img/missing.png";
 const spacerIconImg = "img/tilanjatkeUusi.png";
 const maskIconImg = "img/tilanjatkemaskillaUusi.png";
-const extensionIntakeStyleId = 5;
+export const extensionIntakeStyleId = 5;
 
 const inhalerInputTag = "button";
 const inhalerCardTag = "article";
@@ -313,7 +313,7 @@ function buildDetailInfoSection(inhaler) {
     appendInfoItem(
         ageSection,
         getTranslation("detail.dosage"),
-        inhaler.times_a_day + getTranslation("detail.times-day")
+        inhaler.times_a_day === 0 ? getTranslation("detail.if-necessary") : inhaler.times_a_day + getTranslation("detail.times-day")
     );
 
     detailInfoSection.appendChild(ageSection);
