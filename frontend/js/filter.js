@@ -6,10 +6,21 @@
  */
 export function getFilteredIds(data, filters) {
     const idSet = new Set();
+    const hasPatientSkillSelection =
+        filters.good_intake_speed !== "" &&
+        filters.good_intake_speed != null &&
+        filters.good_coordination !== "" &&
+        filters.good_coordination != null;
     
     data.forEach(item => {
         var addToSet = true;
+
+        if (hasPatientSkillSelection && !matchesPatientSkills(item, filters)) {
+            addToSet = false;
+        }
+
         for (const [key, value] of Object.entries(filters)) {
+            if (key === "good_intake_speed" || key === "good_coordination") continue;
             if (value === "" || value === null || (Array.isArray(value) && value.length === 0)) continue;
             if (!matchesFilter(item, key, value)) {
                 addToSet = false;
@@ -20,6 +31,20 @@ export function getFilteredIds(data, filters) {
     });
 
     return idSet;
+}
+
+function matchesPatientSkills(item, filters) {
+    const intakeSpeed = Number(filters.good_intake_speed);
+    const coordination = Number(filters.good_coordination);
+
+    if (intakeSpeed === 1 && coordination === 1) {
+        return true;
+    }
+
+    return (
+        item.good_intake_speed === intakeSpeed &&
+        item.good_coordination === coordination
+    );
 }
 
 function matchesFilter(item, key, value) {
@@ -39,11 +64,6 @@ function matchesFilter(item, key, value) {
         if (!item.active_ingredients) return false;
         const drugClassNames = item.active_ingredients.map(ai => ai.drug_class_name);
         return values.every(selectedValue => drugClassNames.includes(selectedValue));
-    }
-
-    // Boolean fields (0/1 in backend)
-    if (key === "good_intake_speed" || key === "good_coordination") {
-        return values.some(selectedValue => item[key] === Number(selectedValue));
     }
 
     // Number fields
