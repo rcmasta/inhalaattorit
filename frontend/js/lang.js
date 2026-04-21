@@ -131,7 +131,7 @@ var sv = {
     "detail.recommended-age": "Rekommenderad åldergräns:",
     "detail.dosage": "Dosering:",
     "detail.years": " år",
-    "detail.times-day": "x gånger per dag",
+    "detail.times-day": " gånger om dagen",
     "detail.requirements": "Krav",
     "detail.intake-speed": "Inandningshastighet:",
     "detail.speed-high": "Bra (>30 l/min)",
