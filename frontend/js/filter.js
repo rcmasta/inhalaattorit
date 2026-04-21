@@ -41,6 +41,26 @@ function matchesPatientSkills(item, filters) {
         return true;
     }
 
+    if (intakeSpeed === 1 && coordination === 0) {
+        return (
+            item.good_intake_speed === 1 &&
+            item.good_coordination === 0
+        ) || (
+            item.good_intake_speed === 0 &&
+            item.good_coordination === 0
+        );
+    }
+
+    if (intakeSpeed === 0 && coordination === 1) {
+        return (
+            item.good_intake_speed === 0 &&
+            item.good_coordination === 1
+        ) || (
+            item.good_intake_speed === 0 &&
+            item.good_coordination === 0
+        );
+    }
+
     return (
         item.good_intake_speed === intakeSpeed &&
         item.good_coordination === coordination

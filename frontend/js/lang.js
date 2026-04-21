@@ -26,7 +26,7 @@ var sv = {
     "filters.age-option": "Ange ålder",
     "filters.dosage": "Dosering",
     "filters.dosage-option": "Välj dosering",
-    "filters.velocity": "Inandningstakt",
+    "filters.velocity": "Inandningstakt +",
     "filters.velocity-option": "Välj inandningstakt",
     "filters.coordination": "Koordinationsförmåga",
     "filters.coordination-option": "Välj koordinationsförmåga",
