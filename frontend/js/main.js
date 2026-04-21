@@ -268,7 +268,8 @@ function populateFilters(filters) {
       : getTranslation("filter.coord-poor"),
   );
 
-  addOptions("inhaler-type-select", filters.inhaler_brand);
+  // Sort inhaler brands alphabetically
+  addOptions("inhaler-type-select", filters.inhaler_brand.sort());
 
   // Purpose maps to two boolean fields, hardcoded options
   addOptions("inhaler-purpose-select", ["treatment", "symptomatic"], (v) =>
@@ -278,8 +279,8 @@ function populateFilters(filters) {
   );
 
   addOptions("inhaler-drug-group-select", filters.drug_class_name);
-  addOptions("inhaler-active-substance-select", filters.active_ingredients);
-  addOptions("inhaler-color-select", filters.colors);
+  addOptions("inhaler-active-substance-select", filters.active_ingredients.sort());
+  addOptions("inhaler-color-select", filters.colors.sort());
 }
 
 // Update autocomplete suggestions based on current input
