@@ -20,6 +20,7 @@ import {
   getCombinedFilteredIds,
   renderAutoCompleteResults,
 } from "./search.js";
+import { sortIntakeStylesForDropdown } from "./intake-order.js";
 
 const nameClearID = "search-name-clear";
 const filterClearID = "search-filter-clear";
@@ -239,7 +240,8 @@ function closeAllMultiSelects() {
 function populateFilters(filters) {
   if (!filters) return;
 
-  addOptions("inhaler-form-select", filters.intake_styles);
+  const intakeStyles = sortIntakeStylesForDropdown(filters.intake_styles);
+  addOptions("inhaler-form-select", intakeStyles);
 
   // No longer an select form
   //const ages = filters.recommended_min_age.slice().sort((a, b) => a - b);
