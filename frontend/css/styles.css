@@ -1040,9 +1040,20 @@ main {
     color: #333;
 }
 
+.panel-table th:nth-child(even),
+.panel-table td:nth-child(even) {
+    background: #f5f7fa;
+}
+
+.panel-actions-cell {
+    vertical-align: middle;
+}
+
 .panel-actions {
     display: flex;
     gap: 0.5rem;
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .btn-edit, .btn-delete {

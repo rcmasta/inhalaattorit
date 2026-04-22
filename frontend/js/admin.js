@@ -83,14 +83,17 @@ function buildManagementRow(id, cellTexts) {
         row.appendChild(td);
     });
     const tdActions = document.createElement("td");
-    tdActions.className = "panel-actions";
+    tdActions.className = "panel-actions-cell";
+    const actionsWrap = document.createElement("div");
+    actionsWrap.className = "panel-actions";
     const editBtn = document.createElement("button");
     editBtn.className = "btn-edit";
     editBtn.textContent = t("Muokkaa");
     const delBtn = document.createElement("button");
     delBtn.className = "btn-delete";
     delBtn.textContent = t("Poista");
-    tdActions.append(editBtn, delBtn);
+    actionsWrap.append(editBtn, delBtn);
+    tdActions.appendChild(actionsWrap);
     row.appendChild(tdActions);
     return row;
 }
@@ -275,7 +278,7 @@ function buildRow(inhaler) {
     if (inhaler.symptomatic_medicine) purposes.push(t("Oirelääke"));
 
     const brandName = inhaler.inhaler_brand ? inhaler.inhaler_brand.name : "-";
-    const styleNames = inhaler.intake_styles && inhaler.intake_styles.length
+        const styleNames = inhaler.intake_styles && inhaler.intake_styles.length
         ? inhaler.intake_styles.map(s => {
             const id = s.intake_style_id || s.id;
             return getTranslatedName("intake_styles", id) || s.name;
@@ -286,7 +289,7 @@ function buildRow(inhaler) {
         inhaler.name || "-",
         brandName,
         styleNames,
-        inhaler.official_min_age != null ? inhaler.official_min_age + t(" v") : "-",
+        inhaler.recommended_min_age != null ? inhaler.recommended_min_age + t(" v") : "-",
         inhaler.times_a_day != null ? inhaler.times_a_day + t(" krt/pv") : "-",
         purposes.length ? purposes.join(", ") : "-"
     ];
@@ -298,14 +301,17 @@ function buildRow(inhaler) {
     });
 
     const tdActions = document.createElement("td");
-    tdActions.className = "panel-actions";
+    tdActions.className = "panel-actions-cell";
+    const actionsWrap = document.createElement("div");
+    actionsWrap.className = "panel-actions";
     const editBtn = document.createElement("button");
     editBtn.className = "btn-edit";
     editBtn.textContent = t("Muokkaa");
     const deleteBtn = document.createElement("button");
     deleteBtn.className = "btn-delete";
     deleteBtn.textContent = t("Poista");
-    tdActions.append(editBtn, deleteBtn);
+    actionsWrap.append(editBtn, deleteBtn);
+    tdActions.appendChild(actionsWrap);
     row.appendChild(tdActions);
 
     return row;

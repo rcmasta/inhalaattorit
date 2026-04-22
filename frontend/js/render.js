@@ -181,13 +181,27 @@ function buildCardInfoSection(inhaler) {
     // If null do not show age
     if (inhaler.recommended_min_age) {
         const infoRecommendedAge = document.createElement(lineTag);
-        infoRecommendedAge.textContent = getTranslation("card.recommended-age") + inhaler.recommended_min_age;
+        infoRecommendedAge.appendChild(
+            document.createTextNode(getTranslation("card.recommended-age"))
+        );
+
+        const ageValue = document.createElement("strong");
+        ageValue.textContent = inhaler.recommended_min_age;
+        infoRecommendedAge.appendChild(ageValue);
+
         cardInfoSection.appendChild(infoRecommendedAge);
-    } 
+    }
 
     const infoActiveIngrediend = document.createElement(lineTag);
     infoActiveIngrediend.style.whiteSpace = "pre-line";
-    infoActiveIngrediend.textContent = getTranslation("card.active-ingredients") + inhaler.active_ingredients.map(ing => ing.name).join(', ');
+    infoActiveIngrediend.appendChild(
+        document.createTextNode(getTranslation("card.active-ingredients"))
+    );
+
+    const ingredientValue = document.createElement("strong");
+    ingredientValue.textContent = inhaler.active_ingredients.map(ing => ing.name).join(", ");
+    infoActiveIngrediend.appendChild(ingredientValue);
+
     cardInfoSection.appendChild(infoActiveIngrediend);
 
     // TODO: Intake and coordination
