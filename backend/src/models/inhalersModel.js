@@ -72,9 +72,9 @@ const getUsedFilters = (lang) => {
     // get all medicine and add all fields to data
     const medicine = getAllInhalers(lang);
     medicine.forEach(med => {
-        if (med.official_min_age) data.official_min_age.add(med.official_min_age);
-        if (med.recommended_min_age) data.recommended_min_age.add(med.recommended_min_age);
-        if (med.times_a_day) data.times_a_day.add(med.times_a_day);
+        if (med.official_min_age != null) data.official_min_age.add(med.official_min_age);
+        if (med.recommended_min_age != null) data.recommended_min_age.add(med.recommended_min_age);
+        if (med.times_a_day != null) data.times_a_day.add(med.times_a_day);
         if (med.inhaler_brand) data.inhaler_brand.add(med.inhaler_brand.name);
 
         med.intake_styles.forEach(style => data.intake_styles.add(style.name));

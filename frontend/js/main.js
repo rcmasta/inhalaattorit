@@ -251,7 +251,10 @@ function populateFilters(filters) {
   addOptions(
     "inhaler-dosage-select",
     times,
-    times === 0 ? () => getTranslation("filter.if-necessary") : (v) => `${v}${getTranslation("filter.dosage-suffix")}`,
+    (v) =>
+      v === 0
+        ? getTranslation("filter.if-necessary")
+        : `${v}${getTranslation("filter.dosage-suffix")}`,
   );
 
   // Boolean: intake speed
