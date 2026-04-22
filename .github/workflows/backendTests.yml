@@ -28,5 +28,7 @@ jobs:
 
     - run: npm i
       working-directory: backend
+    - run: npm run add_admin username=test password=test
+      working-directory: backend
     - run: npm test
       working-directory: backend
