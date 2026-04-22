@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="icon" type="image/x-icon" href="/img/icon.png">
+        <title>Admin — Inhalaattorit.fi</title>
+    </head>
+
+    <body>
+        <!-- Navigation and localisation header -->
+        <header>
+            <div class="header-content">
+                <h1 data-i18n="site.title">Inhalaattorit.fi</h1>
+                <button class="nav-toggle" aria-label="Avaa valikko">&#9776;</button>
+                <nav>
+                    <ul>
+                        <li><a href="/" class="nav-link" data-i18n="nav.front-page">Etusivu</a></li>
+                        <li><a href="tietoa.html" class="nav-link" data-i18n="nav.about">Tietoa sivustosta</a></li>
+                        <li><a href="palaute.html" class="nav-link" data-i18n="nav.feedback">Ota yhteyttä</a></li>
+                        <li><a href="admin.html" class="nav-link" data-i18n="nav.admin">Admin</a></li>
+                        <li><button class="lang-toggle" aria-label="FI - Vaihda kieli">FI</button></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Admin portal -->
+        <main>
+            <!-- Login -->
+            <div class="admin-login" id="login-view">
+                <h2 data-i18n="admin.login-heading">Kirjaudu sisään</h2>
+                <form id="admin-login-form">
+                    <label for="admin-username" data-i18n="admin.username">Käyttäjänimi</label>
+                    <input type="text" id="admin-username" name="username" placeholder="Käyttäjänimi" data-i18n-placeholder="admin.username"/>
+
+                    <label for="admin-password" data-i18n="admin.password">Salasana</label>
+                    <div class="password-field">
+                        <input type="password" id="admin-password" name="password" placeholder="Salasana" data-i18n-placeholder="admin.password"/>
+                        <button type="button" class="btn-show-pw" aria-label="Näytä salasana">&#128065;</button>
+                    </div>
+
+                    <button type="submit" class="btn-login" data-i18n="admin.login-btn">Kirjaudu</button>
+                </form>
+                <p class="forgot-password" data-i18n="admin.forgot-pw">Unohditko salasanan? Ota yhteyttä ylläpitoon.</p>
+            </div>
+
+            <!-- Admin panel -->
+            <div class="admin-panel" id="panel-view" style="display: none;">
+                <div class="panel-header">
+                    <h2 data-i18n="admin.panel-heading">Hallintapaneeli</h2>
+                    <div class="panel-buttons">
+                        <button class="btn-add" data-i18n="admin.add-inhaler">+ Lisää inhalaattori</button>
+                        <button class="btn-logout" data-i18n="admin.logout">Kirjaudu ulos</button>
+                    </div>
+                </div>
+
+                <p class="panel-hint" data-i18n="admin.scroll-hint">Vihje: inhalaattorilistan alapuolelta löydät myös inhalaattorimerkkien, lääkeaineluokkien ja vaikuttavien lääkeaineiden hallinnan.</p>
+
+                <!-- Add inhaler form -->
+                <div class="add-form-wrap" id="add-form" style="display: none;">
+                    <h3 data-i18n="admin.form-heading">Lisää uusi inhalaattori</h3>
+                    <form id="add-inhaler-form">
+                        <label for="add-name" data-i18n="admin.name">Nimi</label>
+                        <input type="text" id="add-name" placeholder="Nimi" data-i18n-placeholder="admin.name" required/>
+
+                        <label for="add-description-fi" data-i18n="admin.desc-fi">Kuvaus (suomi)</label>
+                        <textarea id="add-description-fi" placeholder="Kuvaus suomeksi" data-i18n-placeholder="admin.desc-fi-ph" rows="3"></textarea>
+
+                        <label for="add-description-sv" data-i18n="admin.desc-sv">Kuvaus (ruotsi)</label>
+                        <textarea id="add-description-sv" placeholder="Beskrivning" rows="3"></textarea>
+
+                        <label for="add-min-age" data-i18n="admin.min-age">Virallinen ikäraja (vuotta)</label>
+                        <input type="number" id="add-min-age" min="0"/>
+
+                        <label for="add-rec-age" data-i18n="admin.rec-age">Suositeltu ikäraja (vuotta)</label>
+                        <input type="number" id="add-rec-age" min="0"/>
+
+                        <label for="add-times-day" data-i18n="admin.times-day">Annostelu (kertaa päivässä)</label>
+                        <input type="number" id="add-times-day" min="0"/>
+
+                        <label for="add-intake-speed" data-i18n="admin.intake-speed">Sisäänhengitysnopeus</label>
+                        <select id="add-intake-speed">
+                            <option value="" data-i18n="admin.unknown">Ei tiedossa</option>
+                            <option value="1" data-i18n="admin.speed-good">Hyvä (&gt; 30 l/min)</option>
+                            <option value="0" data-i18n="admin.speed-poor">Huono (&lt; 30 l/min)</option>
+                        </select>
+
+                        <label for="add-coordination" data-i18n="admin.coordination">Koordinaatio</label>
+                        <select id="add-coordination">
+                            <option value="" data-i18n="admin.unknown">Ei tiedossa</option>
+                            <option value="1" data-i18n="admin.good">Hyvä</option>
+                            <option value="0" data-i18n="admin.poor">Huono</option>
+                        </select>
+
+                        <label for="add-treatment" data-i18n="admin.treatment">Hoitava lääke</label>
+                        <select id="add-treatment">
+                            <option value="" data-i18n="admin.unknown">Ei tiedossa</option>
+                            <option value="1" data-i18n="admin.yes">Kyllä</option>
+                            <option value="0" data-i18n="admin.no">Ei</option>
+                        </select>
+
+                        <label for="add-symptomatic" data-i18n="admin.symptomatic">Oirelääke</label>
+                        <select id="add-symptomatic">
+                            <option value="" data-i18n="admin.unknown">Ei tiedossa</option>
+                            <option value="1" data-i18n="admin.yes">Kyllä</option>
+                            <option value="0" data-i18n="admin.no">Ei</option>
+                        </select>
+
+                        <label for="add-brand" data-i18n="admin.brand">Inhalaattori</label>
+                        <select id="add-brand">
+                            <option value="" data-i18n="admin.select">Valitse...</option>
+                        </select>
+
+                        <fieldset class="checkbox-group" id="add-intake-styles">
+                            <legend data-i18n="admin.intake-styles">Lääkemuoto</legend>
+                        </fieldset>
+
+                        <fieldset class="checkbox-group" id="add-colors">
+                            <legend data-i18n="admin.colors">Väri</legend>
+                        </fieldset>
+
+                        <fieldset class="checkbox-group" id="add-ingredients">
+                            <legend data-i18n="admin.ingredients">Vaikuttava lääkeaine</legend>
+                            <p class="panel-hint" data-i18n="admin.ingredient-class-note">Lääkeaineryhmä (ICS, LABA…) määritetään kullekin vaikuttavalle lääkeaineelle alempana osiossa "Vaikuttavat lääkeaineet".</p>
+                        </fieldset>
+
+                        <label for="add-link-db" data-i18n="admin.link-db">Tietokanta-linkki</label>
+                        <input type="url" id="add-link-db" placeholder="https://pharmacafennica.fi/..."/>
+
+                        <label for="add-link-tutorial" data-i18n="admin.link-tutorial">Tutoriaali-linkki</label>
+                        <input type="url" id="add-link-tutorial" placeholder="https://youtube.com/..."/>
+
+                        <label for="add-image" data-i18n="admin.image">Kuva</label>
+                        <div class="image-preview" id="image-preview" style="display:none">
+                            <img id="image-preview-thumb" alt="Nykyinen kuva"/>
+                            <div class="image-preview-info">
+                                <span data-i18n="admin.current-image">Nykyinen kuva</span>
+                                <button type="button" class="btn-delete-image" id="btn-delete-image" data-i18n="admin.delete-image">Poista kuva</button>
+                            </div>
+                        </div>
+                        <input type="file" id="add-image" accept="image/*"/>
+
+                        <div class="add-form-buttons">
+                            <button type="submit" class="btn-add" data-i18n="admin.save">Tallenna</button>
+                            <button type="button" class="btn-cancel" data-i18n="admin.cancel">Peruuta</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Inhaler table -->
+                <div class="panel-table-wrap">
+                    <table class="panel-table">
+                        <thead>
+                            <tr>
+                                <th data-i18n="admin.name">Nimi</th>
+                                <th data-i18n="admin.brand">Inhalaattori</th>
+                                <th data-i18n="admin.intake-styles">Lääkemuoto</th>
+                                <th data-i18n="admin.rec-age">Ikäraja</th>
+                                <th data-i18n="admin.th-dosage">Krt/pv</th>
+                                <th data-i18n="admin.th-purpose">Käyttötarkoitus</th>
+                                <th data-i18n="admin.th-actions">Toiminnot</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Inhaler brands -->
+                <div class="management-section" id="brand-section">
+                    <button class="btn-toggle-section" type="button" data-i18n="admin.brands-heading">Inhalaattorimerkit (Ellipta, Turbuhaler...)</button>
+                    <div class="section-content" style="display:none">
+                        <table class="panel-table management-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="admin.name">Nimi</th>
+                                    <th data-i18n="admin.th-actions">Toiminnot</th>
+                                </tr>
+                            </thead>
+                            <tbody id="brand-tbody"></tbody>
+                        </table>
+                        <form id="brand-form" class="management-form">
+                            <h4 id="brand-form-heading" data-i18n="admin.brand-add">Lisää inhalaattorimerkki</h4>
+                            <div class="management-form-row">
+                                <input type="text" id="brand-name" placeholder="Nimi (esim. Ellipta)" data-i18n-placeholder="admin.brand-ph" aria-labelledby="brand-form-heading" required/>
+                                <button type="submit" class="btn-add" id="brand-submit-btn" data-i18n="admin.btn-add">Lisää</button>
+                                <button type="button" class="btn-cancel" id="brand-cancel-btn" style="display:none" data-i18n="admin.cancel">Peruuta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Drug classes -->
+                <div class="management-section" id="drug-class-section">
+                    <button class="btn-toggle-section" type="button" data-i18n="admin.dc-heading">Lääkeaineluokat (ICS, LABA...)</button>
+                    <div class="section-content" style="display:none">
+                        <table class="panel-table management-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="admin.name">Nimi</th>
+                                    <th data-i18n="admin.th-actions">Toiminnot</th>
+                                </tr>
+                            </thead>
+                            <tbody id="drug-class-tbody"></tbody>
+                        </table>
+                        <form id="drug-class-form" class="management-form">
+                            <h4 id="drug-class-form-heading" data-i18n="admin.dc-add">Lisää lääkeaineluokka</h4>
+                            <p class="panel-hint" data-i18n="admin.dc-plus-note">Yhdistelmänimet voi kirjoittaa + -merkillä (esim. ICS+LABA, LAMA+LABA).</p>
+                            <div class="management-form-row">
+                                <input type="text" id="dc-name" placeholder="Nimi (esim. ICS)" data-i18n-placeholder="admin.dc-ph" aria-labelledby="drug-class-form-heading" required/>
+                                <button type="submit" class="btn-add" id="dc-submit-btn" data-i18n="admin.btn-add">Lisää</button>
+                                <button type="button" class="btn-cancel" id="dc-cancel-btn" style="display:none" data-i18n="admin.cancel">Peruuta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Ingredients -->
+                <div class="management-section" id="ingredient-section">
+                    <button class="btn-toggle-section" type="button" data-i18n="admin.ai-heading">Vaikuttavat lääkeaineet</button>
+                    <div class="section-content" style="display:none">
+                        <table class="panel-table management-table">
+                            <thead>
+                                <tr>
+                                    <th data-i18n="admin.name-primary">Nimi (fi)</th>
+                                    <th data-i18n="admin.name-secondary">Nimi (sv)</th>
+                                    <th data-i18n="admin.class">Luokka</th>
+                                    <th data-i18n="admin.th-actions">Toiminnot</th>
+                                </tr>
+                            </thead>
+                            <tbody id="ingredient-tbody"></tbody>
+                        </table>
+                        <form id="ingredient-form" class="management-form">
+                            <h4 id="ingredient-form-heading" data-i18n="admin.ai-add">Lisää lääkeaine</h4>
+                            <div class="management-form-row">
+                                <input type="text" id="ai-name-fi" placeholder="Nimi (suomi)" data-i18n-placeholder="admin.ai-fi-ph" aria-labelledby="ingredient-form-heading" required/>
+                                <input type="text" id="ai-name-sv" placeholder="Namn (svenska)" data-i18n-placeholder="admin.ai-sv-ph" aria-labelledby="ingredient-form-heading" required/>
+                                <select id="ai-drug-class" required>
+                                    <option value="" data-i18n="admin.class-select">Luokka...</option>
+                                </select>
+                                <button type="submit" class="btn-add" id="ai-submit-btn" data-i18n="admin.btn-add">Lisää</button>
+                                <button type="button" class="btn-cancel" id="ai-cancel-btn" style="display:none" data-i18n="admin.cancel">Peruuta</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>
+                &copy; <span id="current-year"></span> Inhalaattorit.fi |
+                <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a> |
+                <a href="saavutettavuus.html" data-i18n="accessibility.link">Saavutettavuusseloste</a>
+            </p>        
+        </footer>
+        <script src="./js/navigation.js"></script>
+        <script type="module" src="./js/lang.js"></script>
+        <script type="module" src="./js/admin.js"></script>
+        <script type="module" src="./js/privacy-banner.js"></script>
+    </body>
+</html>

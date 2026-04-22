@@ -1,0 +1,40 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "cross-env NODE_ENV=test mocha tests/*.test.js",
+    "dev": "node --watch server",
+    "test_db": "node scripts/test_script/insert_manual_test.js",
+    "populate_db": "node scripts/populate_db/index.js",
+    "add_admin": "node scripts/admin/addAdmin.js",
+    "change_password": "node scripts/admin/changePassword.js",
+    "delete_admin": "node scripts/admin/deleteAdmin.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "args-parser": "^1.3.0",
+    "bcrypt": "^6.0.0",
+    "better-sqlite3": "^12.6.2",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "file-system": "^1.2.9",
+    "jsonwebtoken": "^9.0.3",
+    "mocha": "^11.3.0",
+    "multer": "^2.1.1",
+    "node-cron": "^4.2.1",
+    "openssl-nodejs": "^1.0.5",
+    "sharp": "^0.34.5",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "chai": "^6.2.2",
+    "cross-env": "^10.1.0",
+    "nodemon": "^3.1.11"
+  }
+}

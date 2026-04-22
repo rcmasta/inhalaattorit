@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="icon" type="image/x-icon" href="/img/icon.png">
+        <title>Ota yhteyttä — Inhalaattorit.fi</title>
+        <script>document.documentElement.lang = localStorage.getItem("lang") || "fi";</script>
+    </head>
+
+    <body>
+        <!-- Navigation and localisation header -->
+        <header>
+            <div class="header-content">
+                <h1 data-i18n="site.title">Inhalaattorit.fi</h1>
+                <button class="nav-toggle" aria-label="Avaa valikko">&#9776;</button>
+                <nav>
+                    <ul>
+                        <li><a href="/" class="nav-link" data-i18n="nav.front-page">Etusivu</a></li>
+                        <li><a href="tietoa.html" class="nav-link" data-i18n="nav.about">Tietoa sivustosta</a></li>
+                        <li><a href="palaute.html" class="nav-link" data-i18n="nav.feedback">Ota yhteyttä</a></li>
+                        <li><a href="admin.html" class="nav-link" data-i18n="nav.admin">Admin</a></li>
+                        <li><button class="lang-toggle" aria-label="FI - Vaihda kieli">FI</button></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Contact info -->
+        <main>
+            <section class="page-content lang-fi">
+                <h2>Ota yhteyttä</h2>
+                <p>Haluatko antaa palautetta sivustosta tai ilmoittaa virheestä? Täytä tämä lyhyt Forms kysely: <a href="https://forms.office.com/e/8PCKgzgpZS">Palautekysely Inhalaattorit.fi -sivustosta</a></p>
+            </section>
+
+            <section class="page-content lang-sv">
+                <h2>Kontakt</h2>
+                <p>Vill du ge feedback om webbplatsen eller rapportera ett fel? Fyll i denna korta Forms-enkät: <a href="https://forms.office.com/e/8PCKgzgpZS">Feedbackenkät om webbplatsen Inhalaattorit.fi</a></p>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>
+                &copy; <span id="current-year"></span> Inhalaattorit.fi |
+                <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a> |
+                <a href="saavutettavuus.html" data-i18n="accessibility.link">Saavutettavuusseloste</a>
+            </p>
+        </footer>
+        <script src="./js/navigation.js"></script>
+        <script type="module" src="./js/lang.js"></script>
+        <script type="module" src="./js/privacy-banner.js"></script>
+    </body>
+</html>

@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fi">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="icon" type="image/x-icon" href="/img/icon.png">
+        <title>Inhalaattorit.fi</title>
+        <script>document.documentElement.lang = localStorage.getItem("lang") || "fi";</script>
+    </head>
+
+    <body>
+        <!-- Navigation and localisation header -->
+        <header>
+            <div class="header-content">
+                <h1 data-i18n="site.title">Inhalaattorit.fi</h1>
+                <button class="nav-toggle" aria-label="Avaa valikko">&#9776;</button>
+                <nav>
+                    <ul>
+                        <li><button class="nav-link" id="guide-button-open" data-i18n="nav.guide" aria-expanded="false" aria-controls="guide-panel">Ohje</button></li>
+                        <li><a href="tietoa.html" class="nav-link" data-i18n="nav.about">Tietoa sivustosta</a></li>
+                        <li><a href="palaute.html" class="nav-link" data-i18n="nav.feedback">Ota yhteyttä</a></li>
+                        <li><a href="admin.html" class="nav-link" data-i18n="nav.admin">Admin</a></li>
+                        <li><button class="lang-toggle" aria-label="FI - Vaihda kieli">FI</button></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <!-- Guide on how to use the inhaler search -->
+        <aside id="guide-panel" class="page-content" role="complementary" aria-labelledby="guide-heading" hidden>
+            <h2 tabindex="-1" id="guide-heading">
+                <span class="lang-fi">Ohjeita sivuston käyttämiseen</span>
+                <span class="lang-sv">Anvisningar för användning av webbplatsen</span>
+            </h2>
+            <button id="guide-button-close" class="btn-clear">
+                <span class="lang-fi">Sulje ohje</span>
+                <span class="lang-sv">Stäng anvisningarna</span>
+            </button>
+
+            <!-- Finnish guide -->
+            <div class="lang-fi">
+                <p>Sivusto on kehitetty oikean ja turvallisen käytön edistämiseen. Sivusto ei ota kantaa potilaan diagnoosiin eikä siihen mitä lääkeaineita potilaalle pitäisi määrätä, vaan jokainen lääkäri tekee itse hoitopäätöksen perustuen <a href="https://www.kaypahoito.fi/suositukset" target="_blank" rel="noopener noreferrer">Käypä hoito -suosituksiin</a>. Tuotteista on linkit lääketietoihin ja inhalaattorikohtaiset lääkkeenottotekniikan ohjausvideoihin, mikäli tällainen saatavilla.</p>
+
+                <h3>Lääkemuoto</h3>
+                <ul>
+                    <li><span class="bold">Jauheinhalaattori</span>: lääke hengitetään jauheena suoraan laitteesta omalla sisäänhengityksellä.</li>
+                    <li><span class="bold">Jauhekapseli-inhalaattori</span>: lääke on kapselissa, joka asetetaan laitteeseen ennen käyttöä, minkä jälkeen jauhe hengitetään sisään.</li>
+                    <li><span class="bold">Suihkeinhalaattori</span>: lääke vapautuu suihkeena heti, kun laitetta painetaan; tarvittaessa sitä voidaan käyttää tilanjatkeen kanssa.</li>
+                    <li><span class="bold">Sisäänhengityksellä laukeava suihkeinhalaattori (Autohaler&reg;)</span>: lääke vapautuu automaattisesti sisäänhengityksen alkaessa.</li>
+                    <li><span class="bold">Lääkesumuinhalaattori (Soft Mist Inhalator l. Respimat&reg;)</span>: inhalaattori ladataan, jonka jälkeen laitteen painiketta painamalla hidas annoksen vapautuminen suihkeena; tarvittaessa sitä voidaan käyttää tilanjatkeen kanssa.</li>
+                </ul>
+
+                <h3>Ikä</h3>
+                <ul>
+                    <li><span class="bold">Virallinen ikäraja</span>: lääkevalmistajan ilmoittama hyväksytty käyttöikä</li>
+                    <li><span class="bold">Suositeltu ikä</span>: ikä, jossa lääkkeen ja inhalaattorin käyttö on käytännössä tarkoituksenmukaista potilaan kehitystaso, sisäänhengitysvoima, koordinaatio ja hoitosuositukset huomioon ottaen.</li>
+                </ul>
+
+                <h3>Annostus</h3>
+                <ul>
+                    <li>Annostelu 1 tai 2 kertaa päivässä</li>
+                </ul>
+
+                <h3>Sisäänhengitysnopeus ja koordinaatio</h3>
+                <ul>
+                    <li><span class="bold">Sisäänhengitysnopeus</span> l/min yksikkönä. Raja-arvona 30 l/min. Tämän alle jääville soveltuu paremmin suihkeinhalaattori tilanjatkeella. Mikäli sisäänhengitysnopeus on > 30 l/min voi tämän osalta valita minkä tahansa inhalaattorin.</li>
+                    <li><span class="bold">Koordinaatio</span> terveydenhuollon ammattilaisen arvioimana. Riittääkö kognitio ja esim. käsien koordinaatio inhalaatiolääkkeen ottoon?</li>
+                </ul>
+
+                <h3>Inhalaattori</h3>
+                <ul>
+                    <li>Tuotteiden haku markkinoilla olevan inhalaattorin mukaan</li>
+                </ul>
+
+                <h3>Lääkkeen käyttötarkoitus</h3>
+                <ul>
+                    <li>Hoitava vai tarvittaessa otettava lääke</li>
+                </ul>
+
+                <h3>Lääkeaineryhmä</h3>
+                <ul>
+                    <li><span class="bold">ICS</span>: hengitettävä glukokortikoidi, inhaled corticosteroids</li>
+                    <li><span class="bold">LAMA</span>: pitkävaikutteinen antikolinergi, long acting muscarinic antagonist</li>
+                    <li><span class="bold">LABA</span>: pitkävaikutteinen β2-agonisti, long acting β2-agonist</li>
+                    <li><span class="bold">SABA</span>: lyhytvaikutteinen β2-agonisti, short acting β2-agonist</li>
+                    <li><span class="bold">SAMA</span>: lyhytvaikutteinen antikolinergi, short acting muscarinic antagonist</li>
+                </ul>
+
+                <h3>Vaikuttava aine</h3>
+                <ul>
+                    <li>Lääkkeen vaikuttava/vaikuttavat lääkeaineet</li>
+                </ul>
+
+                <h3>Väri</h3>
+                <ul>
+                    <li>Inhalaattorissa olevat värit, mahdollistaa haun inhalaattorin värin mukaan</li>
+                </ul>
+            </div>
+
+            <!-- Swedish guide -->
+            <div class="lang-sv">
+                <p>Webbplatsen har utvecklats för att främja korrekt och säker användning. Webbplatsen tar inte ställning till patientdiagnoser eller till vilka läkemedel som ska förskrivas till patienter utan varje läkare fattar sina egna vårdbeslut baserat på rekommendationer från <a href="https://www.kaypahoito.fi/sv/rekommendationer" target="_blank" rel="noopener noreferrer">God medicinsk praxis</a>. Vid produkterna finns länkar till läkemedelsinformation och instruktionsvideor om inhalatorspecifik läkemedelsintagsteknik, om sådana finns tillgängliga.</p>
+
+                <h3>Form av läkemedel</h3>
+                <ul>
+                    <li><span class="bold">Pulverinhalator</span>: läkemedlet inhaleras i pulverform direkt från enheten genom egen inandning.</li>
+                    <li><span class="bold">Pulverkapselinhalator</span>: läkemedlet finns i en kapsel som sätts in i enheten före användning, varefter pulvret inhaleras.</li>
+                    <li><span class="bold">Sprayinhalator</span>: läkemedlet frigörs som en spray så snart enheten trycks ned; vid behov kan den användas med en spacer.</li>
+                    <li><span class="bold">Inhalationsaktiverad sprayinhalator (Autohaler&reg;)</span>: läkemedlet frigörs automatiskt när du börjar andas in.</li>
+                    <li><span class="bold">Soft Mist -Inhalator (Respimat&reg;)</span>: inhalatorn laddas, varefter enheten trycks in för att frigöra en långsam dos som en spray; vid behov kan den användas med en spacer.</li>
+                </ul>
+
+                <h3>Ålder</h3>
+                <ul>
+                    <li><span class="bold">Officiell åldersgräns</span>: den av läkemedelstillverkaren meddelade godkända användningsåldern</li>
+                    <li><span class="bold">Rekommenderad ålder</span>: ålder vid vilken användning av läkemedlet och inhalatorn är praktiskt ändamålsenlig, med hänsyn till patientens utvecklingsnivå, inhalationskraft, koordination och behandlingsrekommendationer</li>
+                </ul>
+
+                <h3>Dosering</h3>
+                <ul>
+                    <li>Dosering 1 eller 2 gånger om dagen</li>
+                </ul>
+
+                <h3>Inhalationshastighet och koordination</h3>
+                <ul>
+                    <li><span class="bold">Inhalationshastighet</span> i l/min. Gränsvärde 30 l/min. För dem som ligger under detta värde är en dosinhalator med inhalationsspacer mer lämplig. Om inhalationshastigheten är > 30 l/min kan valfri inhalator användas för detta ändamål.</li>
+                    <li><span class="bold">Koordination</span> enligt vårdpersonalens bedömning. Är kognitionen och exempelvis handkoordinationen tillräcklig för att ta inhalationsmedicin?</li>
+                </ul>
+
+                <h3>Inhalator</h3>
+                <ul>
+                    <li>Sök efter produkter efter inhalatorer som finns på marknaden</li>
+                </ul>
+
+                <h3>Avsedd användning av läkemedlet</h3>
+                <ul>
+                    <li>Läkemedel för behandling eller att tas vid behov</li>
+                </ul>
+
+                <h3>Läkemedelsgrupp</h3>
+                <ul>
+                    <li><span class="bold">ICS</span>: inhalationskortikosteroid, inhaled corticosteroid</li>
+                    <li><span class="bold">LAMA</span>: långverkande antikolinergikum, long acting muscarinic antagonist</li>
+                    <li><span class="bold">LABA</span>: långverkande β2-agonist, long acting β2-agonist</li>
+                    <li><span class="bold">SABA</span>: kortverkande β2-agonist, short acting β2-agonist</li>
+                    <li><span class="bold">SAMA</span>: kortverkande antikolinergikum, short acting muscarinic antagonist</li>
+                </ul>
+
+                <h3>Aktiv substans</h3>
+                <ul>
+                    <li>Den aktiv substansen/aktiva substanserna i läkemedlet</li>
+                </ul>
+
+                <h3>Färg</h3>
+                <ul>
+                    <li>Inhalatorns färger, möjliggör sökning på basen av inhalatorns färg</li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Inhaler search -->
+        <main class="search-main">
+            <!-- Name search -->
+            <section class="search-name">
+                <h2 id="search-name-heading" data-i18n="search.heading">Hae lääke / inhalaattori nimellä</h2>
+                <div class="search-bar">
+                    <input type="search" id="inhaler-name" name="search" placeholder="Hae nimellä..." data-i18n-placeholder="search.placeholder" aria-labelledby="search-name-heading"/>
+                    <button id="search-name-clear" class="btn-clear" data-i18n="search.clear">Tyhjennä</button>
+                </div>
+                <div id="search-suggestions" class="result-box">
+                </div>
+            </section>
+
+            <!-- Selectable filters -->
+            <section class="search-filter">
+                <h2 class="filter-toggle" data-i18n="filters.heading">Suodattimet</h2>
+
+                <label for="inhaler-form-select" data-i18n="filters.form">Lääkemuoto</label>
+                <select class="inhaler-filter" name="intake_styles" id="inhaler-form-select">
+                    <option value="" data-i18n="filters.form-option">Valitse lääkemuoto</option>
+                </select>
+
+                <label for="inhaler-age-select" data-i18n="filters.age">Potilaan ikä (jos alle 18 v.)</label>
+                <input type="number" class="inhaler-filter" name="recommended_min_age" id="inhaler-age-select" data-i18n-placeholder="filters.age-option" min="0" placeholder="Syötä ikä">
+
+                <label for="inhaler-active-substance-select" data-i18n="filters.substance">Vaikuttava lääkeaine</label>
+                <select class="inhaler-filter" name="active_ingredients" id="inhaler-active-substance-select">
+                    <option value="" data-i18n="filters.substance-option">Valitse vaikuttava lääkeaine</option>
+                </select>
+
+                <label for="inhaler-drug-group-select" data-i18n="filters.drug-group">Lääkeaineryhmä</label>
+                <select class="inhaler-filter" name="drug_class_name" id="inhaler-drug-group-select">
+                    <option value="" data-i18n="filters.drug-group-option">Valitse lääkeaineryhmä</option>
+                </select>
+
+                <label for="inhaler-type-select" data-i18n="filters.type">Inhalaattori</label>
+                <select class="inhaler-filter" name="inhaler_brand" id="inhaler-type-select">
+                    <option value="" data-i18n="filters.type-option">Valitse inhalaattori</option>
+                </select>
+
+                <label for="inhaler-velocity-select" data-i18n="filters.velocity">Sisäänhengitysnopeus +</label>
+                <label for="inhaler-coordination-select" data-i18n="filters.coordination">Koordinaatio</label>
+                
+                <select class="inhaler-filter" name="good_intake_speed" id="inhaler-velocity-select">
+                    <option value="" data-i18n="filters.velocity-option">Valitse sisäänhengitysnopeus</option>
+                </select>
+
+                
+                <select class="inhaler-filter" name="good_coordination" id="inhaler-coordination-select">
+                    <option value="" data-i18n="filters.coordination-option">Valitse koordinaatiokyky</option>
+                </select>
+
+                <label for="inhaler-color-select" data-i18n="filters.color">Väri</label>
+                <select class="inhaler-filter" name="colors" id="inhaler-color-select">
+                    <option value="" data-i18n="filters.color-option">Valitse väri</option>
+                </select>
+ 
+
+                <label for="inhaler-purpose-select" data-i18n="filters.purpose">Käyttötarkoitus</label>
+                <select class="inhaler-filter" name="purpose" id="inhaler-purpose-select">
+                    <option value="" data-i18n="filters.purpose-option">Valitse käyttötarkoitus</option>
+                </select>
+                
+                <label for="inhaler-dosage-select" data-i18n="filters.dosage">Annostelu</label>
+                <select class="inhaler-filter" name="times_a_day" id="inhaler-dosage-select">
+                    <option value="" data-i18n="filters.dosage-option">Valitse annostelu</option>
+                </select>
+
+                <button id="search-filter-clear" class="btn-clear full-width" data-i18n="filters.clear">Tyhjennä suodattimet</button>
+            </section>
+
+            <!-- Results grid and detail view -->
+            <section class="results">
+                <h2 data-i18n="results.heading">Inhalaattorit</h2>
+                <p id="result-count" data-i18n="search.counter">Näytetään {current}/{total}</p>
+                <button id="return-to-gridview" hidden>x</button>
+                <section id="results-grid"></section>
+                <section id="detail-view" hidden></section>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>
+                &copy; <span id="current-year"></span> Inhalaattorit.fi |
+                <a href="tietosuoja.html" data-i18n="privacy.link">Tietosuojaseloste</a> |
+                <a href="saavutettavuus.html" data-i18n="accessibility.link">Saavutettavuusseloste</a>
+            </p>
+        </footer>
+        <script src="./js/navigation.js"></script>
+        <script type="module" src="./js/lang.js"></script>
+        <script type="module" src="./js/guide.js"></script>
+        <script type="module" src="./js/main.js"></script>
+        <script type="module" src="./js/privacy-banner.js"></script>
+        <script data-goatcounter="https://kermajuuso.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+    </body>
+</html>
