@@ -26,12 +26,32 @@ function toIdSet(array) {
 }
 
 /**
- * Gets the search name from the input element
- * @param {*} inputElement The input element to get the value from
- * @returns The trimmed value of the input element, or an empty string if the element is null
+ * Normalizes the search name by removing the extension badge if present and trimming whitespace
+ * @param {*} name The search name to normalize
+ * @returns The normalized search name without the extension badge and with trimmed whitespace
+ */
+function normalizeSearchName(name) {
+  if (!name) return "";
+
+  const badge = getTranslation("card.extension-badge");
+  const lowerName = name.toLowerCase();
+  const lowerBadge = badge.toLowerCase();
+
+  if (lowerName.endsWith(lowerBadge)) {
+    return name.slice(0, name.length - badge.length).trim();
+  }
+
+  return name.trim();
+}
+
+/**
+ * Gets the search name from the input element, normalizes it, and returns it
+ * @param {*} inputElement The input element containing the search name
+ * @returns The normalized search name extracted from the input element
  */
 export function getSearchName(inputElement) {
-  return inputElement ? inputElement.value.trim() : "";
+  const raw = inputElement ? inputElement.value.trim() : "";
+  return normalizeSearchName(raw);
 }
 
 /**
@@ -46,7 +66,7 @@ export function getNameFilteredIds(data, name) {
   const idSet = new Set();
   for (const item of data) {
     if (item.name.toLowerCase().includes(name.toLowerCase())) {
-        idSet.add(item.id.toString());
+      idSet.add(item.id.toString());
     }
   }
   return idSet;
@@ -63,6 +83,20 @@ export function getCombinedFilteredIds(data, filters, name) {
   const byFilter = getFilteredIds(data, filters);
   const byName = getNameFilteredIds(data, name);
   return intersectSets(byFilter, byName);
+}
+
+/**
+ * Gets the display name for an inhaler based on whether it has an extension
+ * @param {*} item The inhaler object
+ * @returns The display name for the inhaler
+ */
+export function getSearchDisplayName(item) {
+  const hasExtension = item.intake_styles.some(
+    (style) => style.intake_style_id === extensionIntakeStyleId,
+  );
+  return hasExtension
+    ? item.name + getTranslation("card.extension-badge")
+    : item.name;
 }
 
 /**
@@ -101,11 +135,7 @@ export function renderAutoCompleteResults(resultBox, results, onSelect) {
   results.forEach((item) => {
     const li = document.createElement("li");
     li.dataset.id = item.id;
-    if (item.intake_styles.some((style) => style.intake_style_id === extensionIntakeStyleId)) {
-      li.textContent = item.name + getTranslation("card.extension-badge");
-    } else {
-      li.textContent = item.name;
-    }
+    li.textContent = getSearchDisplayName(item);
     li.addEventListener("click", () => onSelect(item));
     ul.appendChild(li);
   });

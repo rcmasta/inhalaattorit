@@ -1,4 +1,3 @@
-
 import { getFilteredIds } from "./filter.js";
 import { getInhalers, getFilters } from "./api.js";
 import {
@@ -9,7 +8,7 @@ import {
   renderInhalerGrid,
   refreshInhalerCardImageBadges,
   setElementVisibility,
-  getLastFocusedCard
+  getLastFocusedCard,
 } from "./render.js";
 import { getCounterString, getTranslation } from "./lang.js";
 import { openButtonId, closeButtonId, toggleGuidePanel } from "./guide.js";
@@ -19,6 +18,7 @@ import {
   clearSuggestions,
   getCombinedFilteredIds,
   renderAutoCompleteResults,
+  getSearchDisplayName,
 } from "./search.js";
 import { sortIntakeStylesForDropdown } from "./intake-order.js";
 
@@ -54,7 +54,9 @@ function getFilterObject() {
   });
 
   document
-    .querySelectorAll(".search-filter select.inhaler-filter:not(.inhaler-filter-native)")
+    .querySelectorAll(
+      ".search-filter select.inhaler-filter:not(.inhaler-filter-native)",
+    )
     .forEach((select) => {
       filters[select.name] = select.value;
     });
@@ -101,7 +103,9 @@ function addOptions(selectId, values, labelFn) {
 }
 
 function initializeMultiSelectFilters() {
-  const selects = document.querySelectorAll(".search-filter select.inhaler-filter");
+  const selects = document.querySelectorAll(
+    ".search-filter select.inhaler-filter",
+  );
 
   selects.forEach((select) => {
     if (!multiSelectFilterIds.has(select.id)) return;
@@ -172,7 +176,10 @@ function buildMultiSelect(name, placeholder, options) {
 function toggleMultiSelect(targetMultiSelect) {
   document.querySelectorAll(`.${multiSelectClass}`).forEach((multiSelect) => {
     const isTarget = multiSelect === targetMultiSelect;
-    setMultiSelectOpen(multiSelect, isTarget ? !isMultiSelectOpen(multiSelect) : false);
+    setMultiSelectOpen(
+      multiSelect,
+      isTarget ? !isMultiSelectOpen(multiSelect) : false,
+    );
   });
 }
 
@@ -192,9 +199,9 @@ function isMultiSelectOpen(multiSelect) {
 }
 
 function getSelectedMultiSelectValues(multiSelect) {
-  return [...multiSelect.querySelectorAll('input[type="checkbox"]:checked')].map(
-    (checkbox) => checkbox.value,
-  );
+  return [
+    ...multiSelect.querySelectorAll('input[type="checkbox"]:checked'),
+  ].map((checkbox) => checkbox.value);
 }
 
 function updateMultiSelectTrigger(multiSelect) {
@@ -251,10 +258,9 @@ function populateFilters(filters) {
   addOptions(
     "inhaler-dosage-select",
     times,
-    (v) =>
-      v === 0
-        ? getTranslation("filter.if-necessary")
-        : `${v}${getTranslation("filter.dosage-suffix")}`,
+    times === 0
+      ? () => getTranslation("filter.if-necessary")
+      : (v) => `${v}${getTranslation("filter.dosage-suffix")}`,
   );
 
   // Boolean: intake speed
@@ -282,7 +288,10 @@ function populateFilters(filters) {
   );
 
   addOptions("inhaler-drug-group-select", filters.drug_class_name);
-  addOptions("inhaler-active-substance-select", filters.active_ingredients.sort());
+  addOptions(
+    "inhaler-active-substance-select",
+    filters.active_ingredients.sort(),
+  );
   addOptions("inhaler-color-select", filters.colors.sort());
 }
 
@@ -294,7 +303,7 @@ function updateAutoComplete() {
   const name = getSearchName(searchInput);
   const results = autoCompleteSearch(inhalers, name, 5);
   renderAutoCompleteResults(resultBox, results, (item) => {
-    searchInput.value = item.name;
+    searchInput.value = getSearchDisplayName(item);
     clearSuggestions(resultBox);
     updateResults();
   });
@@ -351,7 +360,9 @@ document.addEventListener("DOMContentLoaded", () => {
     clearFiltersBtn.addEventListener("click", () => {
       resetMultiSelectFilters();
       document
-        .querySelectorAll(".search-filter select.inhaler-filter:not(.inhaler-filter-native)")
+        .querySelectorAll(
+          ".search-filter select.inhaler-filter:not(.inhaler-filter-native)",
+        )
         .forEach((select) => (select.selectedIndex = 0));
       document.getElementById("inhaler-age-select").value = "";
       updateResults();
