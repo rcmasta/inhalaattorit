@@ -497,7 +497,8 @@ function hasExtensionBadge(inhaler) {
  * @returns string
  */
 function getExtensionIconSrc(inhaler) {
-    const recommendedAge = Number(inhaler.recommended_min_age);
+    const recommendedAgeValue = inhaler.recommended_min_age;
+    const recommendedAge = recommendedAgeValue == null ? NaN : Number(recommendedAgeValue);
 
     if (!Number.isNaN(recommendedAge) && recommendedAge <= 3) {
         return maskIconImg;
