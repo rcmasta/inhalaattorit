@@ -53,6 +53,7 @@ var sv = {
     "privacy.link": "Dataskyddsbeskrivning",
     "accessibility.link": "Tillgänglighetsutlåtande",
     "search.placeholder": "Sök efter namn...",
+    "velocity-coordination.hint": "Obs! Markera båda alternativen",
 
     // Admin
     "admin.login-heading": "Logga in",

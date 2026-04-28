@@ -179,7 +179,7 @@ function buildCardInfoSection(inhaler) {
     }    
 
     // If null do not show age
-    if (inhaler.recommended_min_age) {
+    if (inhaler.recommended_min_age !== null) {
         const infoRecommendedAge = document.createElement(lineTag);
         infoRecommendedAge.appendChild(
             document.createTextNode(getTranslation("card.recommended-age"))
