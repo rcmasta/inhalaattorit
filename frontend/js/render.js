@@ -25,8 +25,10 @@ const cardImgClass = "card-img";
 const cardInfoClass = "card-info";
 
 const arraySeparator = ", ";
+const spacerMaskMaxAge = 3;
 
 let lastFocusedCard = "";
+let selectedPatientAge = null;
 
 /**
  * Renders given inhalers
@@ -81,6 +83,11 @@ export function getLastFocusedCard() {
     return lastFocusedCard;
 }
 
+export function setSelectedPatientAge(age) {
+    const normalizedAge = age === "" || age == null ? NaN : Number(age);
+    selectedPatientAge = Number.isNaN(normalizedAge) ? null : normalizedAge;
+}
+
 /**
  * Refreshes extension icons on already rendered inhaler cards.
  */
@@ -89,7 +96,8 @@ export function refreshInhalerCardImageBadges() {
 
     cardImages.forEach((cardImage) => {
         const existingBadge = cardImage.querySelector(".inhaler-image-badge");
-        const badgeSrc = cardImage.dataset.iconSrc;
+        const recommendedAgeValue = cardImage.dataset.recommendedAge;
+        const badgeSrc = getExtensionIconSrc(recommendedAgeValue);
 
         if (existingBadge && badgeSrc) {
             existingBadge.src = badgeSrc;
@@ -438,7 +446,7 @@ function buildImageSection(inhaler, isGridView) {
 
     if (hasExtensionBadge(inhaler)) {
         imageSection.dataset.hasExtension = "true";
-        imageSection.dataset.iconSrc = getExtensionIconSrc(inhaler);
+        imageSection.dataset.recommendedAge = inhaler.recommended_min_age ?? "";
         buildExtensionImageBadge(imageSection, inhaler);
     }
 
@@ -497,10 +505,17 @@ function hasExtensionBadge(inhaler) {
  * @returns string
  */
 function getExtensionIconSrc(inhaler) {
-    const recommendedAgeValue = inhaler.recommended_min_age;
+    const recommendedAgeValue = typeof inhaler === "object"
+        ? inhaler.recommended_min_age
+        : inhaler;
     const recommendedAge = recommendedAgeValue == null ? NaN : Number(recommendedAgeValue);
 
-    if (!Number.isNaN(recommendedAge) && recommendedAge <= 3) {
+    if (
+        selectedPatientAge != null &&
+        selectedPatientAge <= spacerMaskMaxAge &&
+        !Number.isNaN(recommendedAge) &&
+        recommendedAge <= spacerMaskMaxAge
+    ) {
         return maskIconImg;
     }
 

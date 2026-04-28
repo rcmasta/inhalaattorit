@@ -7,6 +7,7 @@ import {
   resultCountID,
   renderInhalerGrid,
   refreshInhalerCardImageBadges,
+  setSelectedPatientAge,
   setElementVisibility,
   getLastFocusedCard,
 } from "./render.js";
@@ -75,6 +76,7 @@ function updateResults() {
 
   const name = getSearchName(searchInput);
   const filters = getFilterObject();
+  setSelectedPatientAge(filters.recommended_min_age);
   const filterIds = getCombinedFilteredIds(inhalers, filters, name);
   //const filterIds = getFilteredIds(inhalers, filters);
   const renderTarget = document.getElementById(gridID);
