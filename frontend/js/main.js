@@ -418,6 +418,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Load data
 const [inhalers, filters] = await Promise.all([getInhalers(), getFilters()]);
+inhalers.sort((a, b) => a.name.localeCompare(b.name));
 currentInhalers = totalInhalers = inhalers.length;
 
 populateFilters(filters);
