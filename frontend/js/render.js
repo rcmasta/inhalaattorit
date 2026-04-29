@@ -207,7 +207,7 @@ function buildCardInfoSection(inhaler) {
     );
 
     const ingredientValue = document.createElement("strong");
-    ingredientValue.textContent = inhaler.active_ingredients.map(ing => ing.name).join(", ");
+    ingredientValue.textContent = inhaler.active_ingredients.map((ing) => ing.drug_class_name ? `${ing.name} (${ing.drug_class_name})` : ing.name).join(', ')
     infoActiveIngrediend.appendChild(ingredientValue);
 
     cardInfoSection.appendChild(infoActiveIngrediend);
