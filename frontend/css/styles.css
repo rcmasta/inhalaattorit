@@ -1258,6 +1258,9 @@ footer {
         padding: 0.6rem 1rem;
         font-size: 0.8rem;
     }
+    .detail-view-img .inhaler-image-badge {
+        width: 4rem;
+    }
 }
 
 /* Tablet */
@@ -1275,6 +1278,10 @@ footer {
 
     .detail-view-img {
         min-height: 250px;
+    }
+
+    .detail-view-img .inhaler-image-badge {
+        width: 6rem;
     }
 
     .detail-action-buttons {
@@ -1446,5 +1453,9 @@ footer {
     .card-img {
         max-height: 100%;
         width: auto;
+    }
+
+    .detail-view-img .inhaler-image-badge {
+        width: 4rem;
     }
 }

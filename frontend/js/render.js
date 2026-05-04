@@ -340,8 +340,8 @@ function buildDetailInfoSection(inhaler) {
 
     detailInfoSection.appendChild(ageSection);
 
-    // Requirements section
-    const requirementsSection = document.createElement("div");
+    // Requirements section !!Removed because of confusion!!
+    /* const requirementsSection = document.createElement("div");
     requirementsSection.classList.add("detail-info-section");
     appendSectionHeading(requirementsSection, getTranslation("detail.requirements"));
 
@@ -351,7 +351,7 @@ function buildDetailInfoSection(inhaler) {
     const coordinationText = inhaler.good_coordination === 1 ? getTranslation("detail.coord-good") : getTranslation("detail.coord-normal");
     appendInfoItem(requirementsSection, getTranslation("detail.coordination"), coordinationText);
 
-    detailInfoSection.appendChild(requirementsSection);
+    detailInfoSection.appendChild(requirementsSection); */
 
     // Purpose section
     const purposeSection = document.createElement("div");
