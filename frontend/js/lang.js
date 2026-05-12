@@ -53,6 +53,8 @@ var sv = {
     "privacy.link": "Dataskyddsbeskrivning",
     "accessibility.link": "Tillgänglighetsutlåtande",
     "search.placeholder": "Sök efter namn...",
+    "velocity-coordination.hint": "Obs! Markera båda alternativen",
+    "date.tracker": "Utbudet av inhalatorer på marknaden har uppdaterats: {date}",
 
     // Admin
     "admin.login-heading": "Logga in",
@@ -62,6 +64,7 @@ var sv = {
     "admin.forgot-pw": "Glömt lösenordet? Kontakta administratören.",
     "admin.panel-heading": "Kontrollpanel",
     "admin.add-inhaler": "+ Lägg till inhalator",
+    "admin.update-date": "Uppdatera datum",
     "admin.logout": "Logga ut",
     "admin.form-heading": "Lägg till ny inhalator",
     "admin.name": "Namn",
@@ -149,19 +152,20 @@ var sv = {
     "detail.colors": "Färger: ",
     "detail.database-link": "Databaslänk",
     "detail.tutorial-link": "Instruktionsvideo",
-    "detail.if-necessary": "Vid behov"
+    "detail.if-necessary": "Vid behov",
+    "detail.back-to-results": "Tillbaka"
 };
 
 var fi = {
     "card.extension-badge": " + Tilanjatke",
-    "card.recommended-age": "Suositeltu ikä: ",
+    "card.recommended-age": "Suositeltu ikäraja: ",
     "card.active-ingredients": "Vaikuttavat lääkeaineet:\n",
     "detail.extension-badge": " + Tilanjatke",
     "detail.inhaler": "Inhalaattori:",
     "detail.form": "Lääkemuoto:",
     "detail.age-dosage": "Ikä ja annostelu",
     "detail.official-age": "Virallinen ikäraja:",
-    "detail.recommended-age": "Suositeltu ikä:",
+    "detail.recommended-age": "Suositeltu ikäraja:",
     "detail.dosage": "Annostelu:",
     "detail.years": " vuotta",
     "detail.times-day": "x päivässä",
@@ -182,6 +186,7 @@ var fi = {
     "detail.database-link": "Tietokanta-linkki",
     "detail.tutorial-link": "Opetusvideo",
     "detail.if-necessary": "Tarvittaessa",
+    "detail.back-to-results": "Takaisin",
     "filter.dosage-suffix": " krt/pv",
     "filter.if-necessary": "Tarvittaessa",
     "filter.speed-good": "Hyvä (>30 l/min)",

@@ -1,12 +1,14 @@
 import { getFilteredIds } from "./filter.js";
-import { getInhalers, getFilters } from "./api.js";
+import { getInhalers, getFilters, getLastUpdated } from "./api.js";
 import {
   gridID,
   detailID,
   backButtonID,
   resultCountID,
+  updateDateID,
   renderInhalerGrid,
   refreshInhalerCardImageBadges,
+  setSelectedPatientAge,
   setElementVisibility,
   getLastFocusedCard,
 } from "./render.js";
@@ -46,6 +48,16 @@ function updateCounter() {
   counterEl.textContent = counterStr;
 }
 
+async function updateLastUpdatedDate() {
+  const dateEl = document.getElementById("update-date");
+  if (!dateEl) return;
+
+  const data = await getLastUpdated();
+  if (!data || !data.date) return;
+
+  dateEl.textContent = dateEl.textContent.replace("{date}", data.date);
+}
+
 function getFilterObject() {
   const filters = {};
 
@@ -75,6 +87,7 @@ function updateResults() {
 
   const name = getSearchName(searchInput);
   const filters = getFilterObject();
+  setSelectedPatientAge(filters.recommended_min_age);
   const filterIds = getCombinedFilteredIds(inhalers, filters, name);
   //const filterIds = getFilteredIds(inhalers, filters);
   const renderTarget = document.getElementById(gridID);
@@ -258,9 +271,10 @@ function populateFilters(filters) {
   addOptions(
     "inhaler-dosage-select",
     times,
-    times === 0
-      ? () => getTranslation("filter.if-necessary")
-      : (v) => `${v}${getTranslation("filter.dosage-suffix")}`,
+    (v) =>
+      v === 0
+        ? getTranslation("filter.if-necessary")
+        : `${v}${getTranslation("filter.dosage-suffix")}`,
   );
 
   // Boolean: intake speed
@@ -381,6 +395,7 @@ document.addEventListener("DOMContentLoaded", () => {
   backButton.addEventListener("click", () => {
     setElementVisibility(gridID, true);
     setElementVisibility(resultCountID, true);
+    setElementVisibility(updateDateID, true);
     setElementVisibility(backButtonID, false);
     setElementVisibility(detailID, false);
     updateResults();
@@ -417,12 +432,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Load data
 const [inhalers, filters] = await Promise.all([getInhalers(), getFilters()]);
+inhalers.sort((a, b) => a.name.localeCompare(b.name));
 currentInhalers = totalInhalers = inhalers.length;
 
 populateFilters(filters);
 initializeMultiSelectFilters();
 renderInhalerGrid(inhalers);
 updateCounter();
+updateLastUpdatedDate();
 
 // Save scroll position before navigating to detail view
 document.getElementById(gridID).addEventListener("click", (event) => {

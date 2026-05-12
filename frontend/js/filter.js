@@ -82,8 +82,15 @@ function matchesFilter(item, key, value) {
     // Drug class is nested inside active_ingredients
     if (key === "drug_class_name") {
         if (!item.active_ingredients) return false;
-        const drugClassNames = item.active_ingredients.map(ai => ai.drug_class_name);
-        return values.every(selectedValue => drugClassNames.includes(selectedValue));
+        const selectedDrugClasses = [...new Set(values)];
+        const drugClassNames = [
+            ...new Set(item.active_ingredients.map(ai => ai.drug_class_name)),
+        ];
+
+        return (
+            drugClassNames.length === selectedDrugClasses.length &&
+            selectedDrugClasses.every(selectedValue => drugClassNames.includes(selectedValue))
+        );
     }
 
     // Number fields

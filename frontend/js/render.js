@@ -2,6 +2,7 @@ export const gridID = "results-grid";
 export const detailID = "detail-view";
 export const backButtonID = "return-to-gridview";
 export const resultCountID = "result-count";
+export const updateDateID = "update-date";
 import { getLang, getTranslation } from './lang.js';
 
 const missingImg = "img/missing.png";
@@ -25,8 +26,10 @@ const cardImgClass = "card-img";
 const cardInfoClass = "card-info";
 
 const arraySeparator = ", ";
+const spacerMaskMaxAge = 3;
 
 let lastFocusedCard = "";
+let selectedPatientAge = null;
 
 /**
  * Renders given inhalers
@@ -59,6 +62,7 @@ export function renderInhalerGrid(data) {
     setElementVisibility(detailID, false);
     setTimeout(() => {
         setElementVisibility(resultCountID, true);
+        setElementVisibility(updateDateID, true);
         setElementVisibility(gridID, true);
     }, 0);
 }
@@ -81,6 +85,11 @@ export function getLastFocusedCard() {
     return lastFocusedCard;
 }
 
+export function setSelectedPatientAge(age) {
+    const normalizedAge = age === "" || age == null ? NaN : Number(age);
+    selectedPatientAge = Number.isNaN(normalizedAge) ? null : normalizedAge;
+}
+
 /**
  * Refreshes extension icons on already rendered inhaler cards.
  */
@@ -89,7 +98,8 @@ export function refreshInhalerCardImageBadges() {
 
     cardImages.forEach((cardImage) => {
         const existingBadge = cardImage.querySelector(".inhaler-image-badge");
-        const badgeSrc = cardImage.dataset.iconSrc;
+        const recommendedAgeValue = cardImage.dataset.recommendedAge;
+        const badgeSrc = getExtensionIconSrc(recommendedAgeValue);
 
         if (existingBadge && badgeSrc) {
             existingBadge.src = badgeSrc;
@@ -116,6 +126,7 @@ function renderInhalerDetails(inhaler) {
     setElementVisibility(detailID, true);
     setTimeout(() => {
         setElementVisibility(resultCountID, false);
+        setElementVisibility(updateDateID, false);
         setElementVisibility(gridID, false);    
         document.getElementById(backButtonID).focus();
     }, 0);
@@ -179,7 +190,7 @@ function buildCardInfoSection(inhaler) {
     }    
 
     // If null do not show age
-    if (inhaler.recommended_min_age) {
+    if (inhaler.recommended_min_age !== null) {
         const infoRecommendedAge = document.createElement(lineTag);
         infoRecommendedAge.appendChild(
             document.createTextNode(getTranslation("card.recommended-age"))
@@ -199,7 +210,7 @@ function buildCardInfoSection(inhaler) {
     );
 
     const ingredientValue = document.createElement("strong");
-    ingredientValue.textContent = inhaler.active_ingredients.map(ing => ing.name).join(", ");
+    ingredientValue.textContent = inhaler.active_ingredients.map((ing) => ing.drug_class_name ? `${ing.name} (${ing.drug_class_name})` : ing.name).join(', ')
     infoActiveIngrediend.appendChild(ingredientValue);
 
     cardInfoSection.appendChild(infoActiveIngrediend);
@@ -332,8 +343,8 @@ function buildDetailInfoSection(inhaler) {
 
     detailInfoSection.appendChild(ageSection);
 
-    // Requirements section
-    const requirementsSection = document.createElement("div");
+    // Requirements section !!Removed because of confusion!!
+    /* const requirementsSection = document.createElement("div");
     requirementsSection.classList.add("detail-info-section");
     appendSectionHeading(requirementsSection, getTranslation("detail.requirements"));
 
@@ -343,7 +354,7 @@ function buildDetailInfoSection(inhaler) {
     const coordinationText = inhaler.good_coordination === 1 ? getTranslation("detail.coord-good") : getTranslation("detail.coord-normal");
     appendInfoItem(requirementsSection, getTranslation("detail.coordination"), coordinationText);
 
-    detailInfoSection.appendChild(requirementsSection);
+    detailInfoSection.appendChild(requirementsSection); */
 
     // Purpose section
     const purposeSection = document.createElement("div");
@@ -438,7 +449,7 @@ function buildImageSection(inhaler, isGridView) {
 
     if (hasExtensionBadge(inhaler)) {
         imageSection.dataset.hasExtension = "true";
-        imageSection.dataset.iconSrc = getExtensionIconSrc(inhaler);
+        imageSection.dataset.recommendedAge = inhaler.recommended_min_age ?? "";
         buildExtensionImageBadge(imageSection, inhaler);
     }
 
@@ -497,9 +508,17 @@ function hasExtensionBadge(inhaler) {
  * @returns string
  */
 function getExtensionIconSrc(inhaler) {
-    const recommendedAge = Number(inhaler.recommended_min_age);
+    const recommendedAgeValue = typeof inhaler === "object"
+        ? inhaler.recommended_min_age
+        : inhaler;
+    const recommendedAge = recommendedAgeValue == null ? NaN : Number(recommendedAgeValue);
 
-    if (!Number.isNaN(recommendedAge) && recommendedAge <= 3) {
+    if (
+        selectedPatientAge != null &&
+        selectedPatientAge <= spacerMaskMaxAge &&
+        !Number.isNaN(recommendedAge) &&
+        recommendedAge <= spacerMaskMaxAge
+    ) {
         return maskIconImg;
     }
 
